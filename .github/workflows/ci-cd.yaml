@@ -113,7 +113,7 @@ jobs:
       - name: Substitute Secrets Action
         uses: faradaytrs/substitute-secrets-action@2.1
         with:
-          input: 'chart/values-${{ matrix.environment }}.json'
+          input: 'chart/values-${{ matrix.environment }}.yaml'
           substitutionRegex: \$\{([A-Z0-9_]+)\}
           substitutionData: ${{ toJSON(secrets) }}
           throwOnDataMissing: false
