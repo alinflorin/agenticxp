@@ -1,22 +1,14 @@
-name: Docker Build and Push
+name: CI/CD
 
 on:
   push:
     branches: [main]
-    paths:
-      - "src/**"
-      - "Dockerfile"
-      - ".github/workflows/docker.yaml"
   pull_request:
     branches: [main]
-    paths:
-      - "src/**"
-      - "Dockerfile"
-      - ".github/workflows/docker.yaml"
   workflow_dispatch:
 
 jobs:
-  docker-build-and-push:
+  docker:
     runs-on: ubuntu-latest
 
     steps:
