@@ -106,6 +106,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Write Kubeconfig to file
+        run: |
+          echo "${{ secrets.KUBECONFIG }}" > kubeconfig.yaml
+
       - name: Setup Tailscale
         uses: tailscale/github-action@v3
         with:
@@ -119,4 +123,8 @@ jobs:
 
       - name: Deploy to ${{ matrix.environment }} environment with Helm
         run: |
-          helm upgrade --install --namespace agenticxp-${{ matrix.environment }} --create-namespace --values chart/values-${{ matrix.environment }}.yaml --version=${{ env.VERSION }} agenticxp ghcr.io/alinflorin/charts/agenticxp
+          helm upgrade --kubeconfig ${{ github.workspace }}/kubeconfig.yaml --install --namespace agenticxp-${{ matrix.environment }} --create-namespace --values chart/values-${{ matrix.environment }}.yaml --version=${{ env.VERSION }} agenticxp ghcr.io/alinflorin/charts/agenticxp
+        
+      - name: Remove kubeconfig file
+        if: always()
+        run: rm -rf ${{ github.workspace }}/kubeconfig.yaml || true
