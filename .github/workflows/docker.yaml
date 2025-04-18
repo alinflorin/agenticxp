@@ -5,10 +5,14 @@ on:
     branches: [main]
     paths:
       - "src/**"
+      - "Dockerfile"
+      - ".github/workflows/docker.yaml"
   pull_request:
     branches: [main]
     paths:
       - "src/**"
+      - "Dockerfile"
+      - ".github/workflows/docker.yaml"
   workflow_dispatch:
 
 jobs:
