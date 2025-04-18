@@ -7,7 +7,7 @@
     "dev-fe": "vite",
     "build-fe": "vite build",
     "build-be": "esbuild src/server.ts --bundle --platform=node --format=cjs --outfile=dist/server/server.cjs",
-    "dev-be": "tsx src/server.ts",
+    "dev-be": "tsx watch src/server.ts",
     "dev": "concurrently \"npm run dev-fe\" \"npm run dev-be\"",
     "build": "concurrently \"npm run build-fe\" \"npm run build-be\""
   },
