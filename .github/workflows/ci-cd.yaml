@@ -123,7 +123,7 @@ jobs:
 
       - name: Deploy to ${{ matrix.environment }} environment with Helm
         run: |
-          helm upgrade --kubeconfig ${{ github.workspace }}/kubeconfig.yaml --install --namespace agenticxp-${{ matrix.environment }} --create-namespace --values chart/values-${{ matrix.environment }}.yaml --version=${{ env.VERSION }} agenticxp ghcr.io/alinflorin/charts/agenticxp
+          helm upgrade --kubeconfig ${{ github.workspace }}/kubeconfig.yaml --install --namespace agenticxp-${{ matrix.environment }} --create-namespace --values chart/values-${{ matrix.environment }}.yaml --version=${{ env.VERSION }} agenticxp oci://ghcr.io/alinflorin/charts/agenticxp
         
       - name: Remove kubeconfig file
         if: always()
