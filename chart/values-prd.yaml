@@ -1,0 +1,11 @@
+ingress:
+  className: "nginx-public"
+  hosts:
+    - host: agenticxp.huna2.com
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls:
+    - secretName: agenticxp-ingress
+      hosts:
+        - agenticxp.huna2.com

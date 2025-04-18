@@ -1,2 +1,13 @@
 image:
   pullPolicy: Always
+ingress:
+  className: "nginx-private"
+  hosts:
+    - host: agenticxp-stg.internal.huna2.com
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls:
+    - secretName: agenticxp-ingress
+      hosts:
+        - agenticxp-stg.internal.huna2.com
