@@ -89,3 +89,29 @@ jobs:
         working-directory: chart
         run: |
           helm push agenticxp-*.tgz oci://ghcr.io/alinflorin/charts
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [docker, helm]
+    strategy:
+      matrix:
+        environment: [stg, uat, prd]
+
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+
+    environment:
+      name: ${{ matrix.environment }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Tailscale
+        uses: tailscale/github-action@v3
+        with:
+          authkey: ${{ secrets.TAILSCALE_KEY }}
+          use-cache: 'true'
+
+      - name: Deploy to ${{ matrix.environment }} environment with Helm
+        run: |
+          helm upgrade --install --namespace agenticxp-${{ matrix.environment }} --create-namespace --values chart/values-${{ matrix.environment }}.yaml --version=${{ env.VERSION }} agenticxp ghcr.io/alinflorin/charts/agenticxp
