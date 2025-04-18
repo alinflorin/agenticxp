@@ -112,6 +112,11 @@ jobs:
           authkey: ${{ secrets.TAILSCALE_KEY }}
           use-cache: 'true'
 
+      - name: Log in to GHCR for Helm
+        run: |
+          echo ${{ secrets.GITHUB_TOKEN }} | helm registry login ghcr.io --username ${{ github.actor }} --password-stdin
+
+
       - name: Deploy to ${{ matrix.environment }} environment with Helm
         run: |
           helm upgrade --install --namespace agenticxp-${{ matrix.environment }} --create-namespace --values chart/values-${{ matrix.environment }}.yaml --version=${{ env.VERSION }} agenticxp ghcr.io/alinflorin/charts/agenticxp
