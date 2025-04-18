@@ -110,6 +110,14 @@ jobs:
         run: |
           echo "${{ secrets.KUBECONFIG }}" > kubeconfig.yaml
 
+      - name: Substitute Secrets Action
+        uses: faradaytrs/substitute-secrets-action@v2.1.0
+        with:
+          input: 'chart/values-${{ matrix.environment }}.json'
+          substitutionRegex: \$\{([A-Z0-9_]+)\}
+          substitutionData: ${{ toJSON(secrets) }}
+          throwOnDataMissing: false
+
       - name: Setup Tailscale
         uses: tailscale/github-action@v3
         with:
