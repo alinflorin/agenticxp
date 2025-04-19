@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { version } from './version';
 
 function App() {
   const [message, setMessage] = useState<string>('');
@@ -22,6 +23,7 @@ function App() {
     <div className="App">
       <h1>React Frontend</h1>
       <p>Message from backend: {message}</p>
+      <p>Version: {version}</p>
     </div>
   );
 }
