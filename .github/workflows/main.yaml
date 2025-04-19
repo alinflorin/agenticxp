@@ -12,7 +12,7 @@ env:
   MAJOR_MINOR: "1.0"
 
 permissions:
-  contents: read
+  contents: write
   packages: write
   id-token: write
 
