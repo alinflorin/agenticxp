@@ -3,11 +3,38 @@ config({
   override: true
 });
 import Fastify from 'fastify';
-import path from 'path';
-import fastifyStatic from '@fastify/static';
-import { existsSync } from 'fs';
-import { stat } from 'fs/promises';
 import { helloRoute } from './api/hello';
+import fs from 'fs';
+import path from 'path';
+import mime from 'mime';
+
+interface FileData {
+  content: Buffer<ArrayBufferLike>;
+  mimeType: string | false;
+}
+
+function scanDirectory(directory: string): { [key: string]: FileData } {
+  const result: { [key: string]: FileData } = {};
+  function readDirRecursively(dir: string): void {
+    const files = fs.readdirSync(dir);
+    files.forEach((file) => {
+      const fullPath = path.join(dir, file);
+      const stats = fs.statSync(fullPath);
+      if (stats.isDirectory()) {
+        readDirRecursively(fullPath);
+      } else {
+        const mimeType = mime.getType(fullPath);
+        const content = fs.readFileSync(fullPath);
+        result[fullPath] = { content, mimeType: mimeType ?? 'application/octet-stream' };
+      }
+    });
+  }
+  readDirRecursively(directory);
+  return result;
+}
+
+const staticFiles = scanDirectory("./dist/client");
+console.log(`Loaded static files: ` + Object.keys(staticFiles));
 
 const fastify = Fastify({
   logger: true,
@@ -16,29 +43,25 @@ const fastify = Fastify({
 // Register API routes
 fastify.register(helloRoute);
 
-// Serve static files from the /dist/client directory
-fastify.register(fastifyStatic, {
-  root: path.resolve('./dist/client'),
-  prefix: '/',
-  wildcard: false, // disables directory listing, necessary
-});
 
-// Handle SPA routing
-fastify.get('/*', async (req, reply) => {
-  const indexFilePath = "./dist/client/index.html";
-  try {
-    // Check if the file exists and is a file
-    if (!existsSync(indexFilePath) || !(await stat(indexFilePath)).isFile()) {
-      reply.status(404).send('SPA not found');
-      return;
-    }
-
-    // Send the index.html file
-    reply.sendFile('./dist/client/index.html');
-  } catch (err) {
-    console.error('Error serving index.html:', err);
-    reply.status(500).send('Internal Server Error');
+// UI
+fastify.get("/*", async (req, res) => {
+  let checkPath = `dist/client${req.url}`;
+  if (!staticFiles[checkPath]) {
+    checkPath = 'dist/client/index.html';
   }
+  if (!staticFiles[checkPath]) {
+    res.status(404).send('SPA Not found');
+    return;
+  }
+  let cc = `public, max-age=31536000, immutable`;
+  if (checkPath === 'dist/client/index.html') {
+    cc = `public, max-age=0, must-revalidate`
+  }
+  res
+    .header('Content-Type', staticFiles[checkPath].mimeType)
+    .header('Cache-Control', cc)
+    .status(200).send(staticFiles[checkPath].content);
 });
 
 const start = async () => {

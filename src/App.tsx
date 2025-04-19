@@ -22,6 +22,7 @@ function App() {
   return (
     <div className="App">
       <h1>React Frontend</h1>
+      <img src="/logo.png" />
       <p>Message from backend: {message}</p>
       <p>Version: {version}</p>
     </div>
