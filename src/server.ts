@@ -1,12 +1,12 @@
-import {config} from 'dotenv';
+import { config } from "dotenv";
 config({
-  override: true
+  override: true,
 });
-import Fastify from 'fastify';
-import { helloRoute } from './api/hello';
-import fs from 'fs';
-import path from 'path';
-import mime from 'mime';
+import Fastify from "fastify";
+import { helloRoute } from "./api/hello";
+import fs from "fs";
+import path from "path";
+import mime from "mime";
 
 interface FileData {
   content: Buffer<ArrayBufferLike>;
@@ -25,7 +25,10 @@ function scanDirectory(directory: string): { [key: string]: FileData } {
       } else {
         const mimeType = mime.getType(fullPath);
         const content = fs.readFileSync(fullPath);
-        result[fullPath] = { content, mimeType: mimeType ?? 'application/octet-stream' };
+        result[fullPath] = {
+          content,
+          mimeType: mimeType ?? "application/octet-stream",
+        };
       }
     });
   }
@@ -33,8 +36,13 @@ function scanDirectory(directory: string): { [key: string]: FileData } {
   return result;
 }
 
-const staticFiles = scanDirectory("./dist/client");
-console.log(`Loaded static files: ` + Object.keys(staticFiles));
+let staticFiles: { [key: string]: FileData } = {};
+try {
+  staticFiles = scanDirectory("./dist/client");
+  console.log(`Loaded static files: ` + Object.keys(staticFiles));
+} catch (err: unknown) {
+  console.error("Error while reading static files", err);
+}
 
 const fastify = Fastify({
   logger: true,
@@ -43,30 +51,30 @@ const fastify = Fastify({
 // Register API routes
 fastify.register(helloRoute);
 
-
 // UI
 fastify.get("/*", async (req, res) => {
   let checkPath = `dist/client${req.url}`;
   if (!staticFiles[checkPath]) {
-    checkPath = 'dist/client/index.html';
+    checkPath = "dist/client/index.html";
   }
   if (!staticFiles[checkPath]) {
-    res.status(404).send('SPA Not found');
+    res.status(404).send("SPA Not found");
     return;
   }
   let cc = `public, max-age=31536000, immutable`;
-  if (checkPath === 'dist/client/index.html') {
-    cc = `public, max-age=0, must-revalidate`
+  if (checkPath === "dist/client/index.html") {
+    cc = `public, max-age=0, must-revalidate`;
   }
   res
-    .header('Content-Type', staticFiles[checkPath].mimeType)
-    .header('Cache-Control', cc)
-    .status(200).send(staticFiles[checkPath].content);
+    .header("Content-Type", staticFiles[checkPath].mimeType)
+    .header("Cache-Control", cc)
+    .status(200)
+    .send(staticFiles[checkPath].content);
 });
 
 const start = async () => {
   try {
-    await fastify.listen({ port: 3000, host: '0.0.0.0' });
+    await fastify.listen({ port: 3000, host: "0.0.0.0" });
     console.log(`Server listening on port 3000`);
   } catch (err) {
     fastify.log.error(err);
