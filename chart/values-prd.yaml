@@ -1,14 +1,14 @@
 ingress:
-  className: "nginx-public"
+  className: "nginx-private"
   hosts:
-    - host: agenticxp.huna2.com
+    - host: agenticxp.internal.huna2.com
       paths:
         - path: /
           pathType: ImplementationSpecific
   tls:
     - secretName: agenticxp-ingress
       hosts:
-        - agenticxp.huna2.com
+        - agenticxp.internal.huna2.com
 
 mongodb:
   storage:
