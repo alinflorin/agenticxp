@@ -128,6 +128,9 @@ jobs:
         category: "/language:${{matrix.language}}"
 
   docker-build:
+    needs: [version]
+    env:
+      VERSION: ${{ needs.version.outputs.VERSION }}
     strategy:
       fail-fast: false
       matrix:
