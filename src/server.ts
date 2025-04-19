@@ -1,3 +1,7 @@
+import {config} from 'dotenv';
+config({
+  override: true
+});
 import Fastify from 'fastify';
 import path from 'path';
 import fastifyStatic from '@fastify/static';
