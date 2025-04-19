@@ -325,8 +325,11 @@ jobs:
       - name: Setup Tailscale
         uses: tailscale/github-action@v3
         with:
-          authkey: ${{ secrets.TAILSCALE_KEY }}
+          oauth-client-id: ${{ secrets.TAILSCALE_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TAISCALE_CLIENT_SECRET }}
           use-cache: "true"
+          tags: tag:mobile
+          version: latest
 
       - name: Log in to GHCR for Helm
         run: |
