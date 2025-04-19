@@ -22,7 +22,7 @@ function App() {
   return (
     <div className="App">
       <h1>React Frontend</h1>
-      <p>Message from backend: {message}</p>
+      <p>Message from backend bro: {message}</p>
       <p>Version: {version}</p>
     </div>
   );
