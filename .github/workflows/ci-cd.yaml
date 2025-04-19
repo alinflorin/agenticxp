@@ -126,6 +126,21 @@ jobs:
         run: |
           echo ${{ secrets.GITHUB_TOKEN }} | helm registry login ghcr.io --username ${{ github.actor }} --password-stdin
 
+      - name: Cache Helm dependencies
+        uses: actions/cache@v3
+        id: cache
+        with:
+          path: chart/charts
+          key: ${{ runner.os }}-helm-deps-${{ hashFiles('chart/Chart.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-helm-deps-
+
+      - name: Download dependencies for Helm chart
+        working-directory: chart
+        if: ${{ steps.cache.outputs.cache-hit != true }}
+        run: |
+          helm dependency build
+
       - name: Package Helm chart
         working-directory: chart
         run: |
