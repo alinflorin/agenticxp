@@ -240,7 +240,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: [docker-merge, helm]
+    needs: [docker-merge, helm, analyze]
     strategy:
       matrix:
         environment: [stg, uat, prd]
