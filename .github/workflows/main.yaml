@@ -48,6 +48,32 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV  # Export for use in other jobs
           echo "Calculated version: $VERSION"
 
+
+  rename-run:
+    name: Rename workflow run
+    needs: version
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Determine new name
+        id: name
+        run: |
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            echo "NAME=PR ${{ github.event.pull_request.title }} - ${{ needs.version.outputs.VERSION }}" >> $GITHUB_OUTPUT
+          else
+            echo "NAME=${{ needs.version.outputs.VERSION }}" >> $GITHUB_OUTPUT
+
+      - name: Rename this workflow run
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          curl -s -X PATCH \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/${{ github.repository }}/actions/runs/$RUN_ID \
+            -d '{"name": "'"${{ steps.name.outputs.NAME }}"'"}'
+
   analyze:
     name: Analyze (${{ matrix.language }})
     # Runner size impacts CodeQL analysis time. To learn more, please see:
