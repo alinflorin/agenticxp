@@ -9,7 +9,7 @@ on:
 
 env:
   REGISTRY_IMAGE: "ghcr.io/alinflorin/agenticxp"
-  VERSION: "1.0.0"
+  MAJOR_MINOR: "1.0"
 
 permissions:
   contents: read
@@ -17,7 +17,37 @@ permissions:
   id-token: write
 
 jobs:
+  version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Important for fetching tags
+
+      - name: Calculate version
+        id: version
+        run: |
+          MAJOR_MINOR=${{ env.MAJOR_MINOR }}
+
+          if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
+            PATCH=0
+          else
+            LAST_TAG=$(git tag --list "v$MAJOR_MINOR.*" --sort=-v:refname | head -n1)
+            if [[ -z "$LAST_TAG" ]]; then
+              PATCH=0
+            else
+              LAST_PATCH=${LAST_TAG##*.}
+              PATCH=$((LAST_PATCH + 1))
+            fi
+          fi
+
+          VERSION="$MAJOR_MINOR.$PATCH"
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "VERSION=$VERSION" >> $GITHUB_ENV  # Export for use in other jobs
+          echo "Calculated version: $VERSION"
+
   analyze:
+    needs: [version]
     name: Analyze (${{ matrix.language }})
     # Runner size impacts CodeQL analysis time. To learn more, please see:
     #   - https://gh.io/recommended-hardware-resources-for-running-codeql
@@ -107,6 +137,7 @@ jobs:
             runs-on: ubuntu-24.04-arm
 
     runs-on: ${{ matrix.runs-on }}
+    needs: [version]
 
     steps:
       - name: Prepare
@@ -189,7 +220,7 @@ jobs:
 
   helm:
     runs-on: ubuntu-latest
-
+    needs: [version]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -237,6 +268,22 @@ jobs:
         working-directory: chart
         run: |
           helm push agenticxp-*.tgz oci://ghcr.io/alinflorin/charts
+
+  set-version:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: [docker-merge, helm, analyze]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create Git tag
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+          git tag v${{ env.VERSION }}
+          git push origin v${{ env.VERSION }}
 
   deploy:
     runs-on: ubuntu-latest
