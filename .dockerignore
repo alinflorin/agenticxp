@@ -149,3 +149,4 @@ chart/
 .github/
 .gitignore
 .gitattributes
+values-temp.yaml

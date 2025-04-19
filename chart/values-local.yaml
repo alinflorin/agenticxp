@@ -3,21 +3,21 @@ image:
 ingress:
   enabled: true
   annotations:
-    cert-manager.io/cluster-issuer: 'letsencrypt'
+    cert-manager.io/cluster-issuer: 'self-signed'
     nginx.ingress.kubernetes.io/ssl-redirect: 'true'
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
-  className: "nginx-private"
+  className: ""
   hosts:
-    - host: agenticxp-stg.internal.huna2.com
+    - host: agenticxp-local.127.0.0.1.nip.io
       paths:
         - path: /
           pathType: ImplementationSpecific
   tls:
     - secretName: agenticxp-ingress
       hosts:
-        - agenticxp-stg.internal.huna2.com
+        - agenticxp-local.127.0.0.1.nip.io
 
 mongodb:
   userDatabase:
