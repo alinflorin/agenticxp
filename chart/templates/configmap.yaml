@@ -7,3 +7,5 @@ metadata:
 data:
   MONGODB_USER: {{ .Values.mongodb.userDatabase.user }}
   MONGODB_DATABASE: {{ .Values.mongodb.userDatabase.name }}
+  MONGODB_HOST: "mongodb"
+  MONGODB_PORT: "27015"
