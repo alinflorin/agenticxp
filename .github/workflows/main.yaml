@@ -19,6 +19,8 @@ permissions:
 jobs:
   version:
     runs-on: ubuntu-latest
+    outputs:
+      VERSION: ${{ steps.version.outputs.VERSION }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -47,7 +49,6 @@ jobs:
           echo "Calculated version: $VERSION"
 
   analyze:
-    needs: [version]
     name: Analyze (${{ matrix.language }})
     # Runner size impacts CodeQL analysis time. To learn more, please see:
     #   - https://gh.io/recommended-hardware-resources-for-running-codeql
@@ -137,7 +138,6 @@ jobs:
             runs-on: ubuntu-24.04-arm
 
     runs-on: ${{ matrix.runs-on }}
-    needs: [version]
 
     steps:
       - name: Prepare
@@ -193,6 +193,9 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - docker-build
+      - version
+    env:
+      VERSION: ${{ needs.version.outputs.VERSION }}
     steps:
       - name: Download digests
         uses: actions/download-artifact@v4
@@ -220,7 +223,9 @@ jobs:
 
   helm:
     runs-on: ubuntu-latest
-    needs: [version]
+    needs: [version, docker-merge]
+    env:
+      VERSION: ${{ needs.version.outputs.VERSION }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -272,7 +277,9 @@ jobs:
   set-version:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-    needs: [docker-merge, helm, analyze]
+    needs: [version, docker-merge, helm]
+    env:
+      VERSION: ${{ needs.version.outputs.VERSION }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -287,7 +294,9 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: [docker-merge, helm, analyze]
+    needs: [docker-merge, helm, version]
+    env:
+      VERSION: ${{ needs.version.outputs.VERSION }}
     strategy:
       matrix:
         environment: [stg, uat, prd]
