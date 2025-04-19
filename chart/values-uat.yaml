@@ -9,3 +9,9 @@ ingress:
     - secretName: agenticxp-ingress
       hosts:
         - agenticxp-uat.internal.huna2.com
+
+mongodb:
+  storage:
+    requestedSize: 10Gi
+  userDatabase:
+    password: '${MONGODB_DATABASE_PASSWORD}'

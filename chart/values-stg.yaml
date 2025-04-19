@@ -11,3 +11,7 @@ ingress:
     - secretName: agenticxp-ingress
       hosts:
         - agenticxp-stg.internal.huna2.com
+
+mongodb:
+  userDatabase:
+    password: '${MONGODB_DATABASE_PASSWORD}'

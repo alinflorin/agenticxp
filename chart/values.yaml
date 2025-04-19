@@ -118,3 +118,14 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+
+mongodb:
+  enabled: true
+  resources: {}
+  storage:
+    requestedSize: 5Gi
+  userDatabase:
+    name: agenticxp
+    user: agenticxp
+    password: ''
