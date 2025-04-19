@@ -333,7 +333,7 @@ jobs:
         uses: tailscale/github-action@v3
         with:
           oauth-client-id: ${{ secrets.TAILSCALE_CLIENT_ID }}
-          oauth-secret: ${{ secrets.TAISCALE_CLIENT_SECRET }}
+          oauth-secret: ${{ secrets.TAILSCALE_CLIENT_SECRET }}
           use-cache: "true"
           tags: tag:mobile
           version: latest
