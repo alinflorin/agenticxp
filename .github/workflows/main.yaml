@@ -31,16 +31,12 @@ jobs:
         run: |
           MAJOR_MINOR=${{ env.MAJOR_MINOR }}
 
-          if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
+          LAST_TAG=$(git tag --list "v$MAJOR_MINOR.*" --sort=-v:refname | head -n1)
+          if [[ -z "$LAST_TAG" ]]; then
             PATCH=0
           else
-            LAST_TAG=$(git tag --list "v$MAJOR_MINOR.*" --sort=-v:refname | head -n1)
-            if [[ -z "$LAST_TAG" ]]; then
-              PATCH=0
-            else
-              LAST_PATCH=${LAST_TAG##*.}
-              PATCH=$((LAST_PATCH + 1))
-            fi
+            LAST_PATCH=${LAST_TAG##*.}
+            PATCH=$((LAST_PATCH + 1))
           fi
 
           VERSION="$MAJOR_MINOR.$PATCH"
