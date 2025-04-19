@@ -135,6 +135,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-helm-deps-
 
+      - name: Add Helm repos
+        working-directory: chart
+        run: |
+          if [ -f "./Chart.lock" ]; then
+            yq --indent 0 '.dependencies | map(["helm", "repo", "add", .name, .repository] | join(" ")) | .[]' "./Chart.lock"  | sh --;
+          fi
+
       - name: Download dependencies for Helm chart
         working-directory: chart
         if: ${{ steps.cache.outputs.cache-hit != true }}
