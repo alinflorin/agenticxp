@@ -20,5 +20,5 @@ roleRef:
   name: dex
 subjects:
 - kind: ServiceAccount
-  name: dex                 # Service account assigned to the dex pod.
+  name: {{ .Values.dex.serviceAccountName }}                 # Service account assigned to the dex pod.
   namespace: {{ .Release.Namespace }}  # The namespace dex is running in.
