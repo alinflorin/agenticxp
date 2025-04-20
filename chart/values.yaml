@@ -166,8 +166,8 @@ dex:
       responseTypes: [ "code" ]
       skipApprovalScreen: true
       alwaysShowLoginScreen: false
-  storage:
-    type: kubernetes
-    config:
-      inCluster: true
-    enablePasswordDB: false
+    storage:
+      type: kubernetes
+      config:
+        inCluster: true
+      enablePasswordDB: false
