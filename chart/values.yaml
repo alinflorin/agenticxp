@@ -57,12 +57,23 @@ service:
 
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
-  enabled: false
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: 'self-signed'
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
   className: ""
-  annotations: {}
-  hosts: []
-  tls: []
-
+  hosts:
+    - host: agenticxp.127.0.0.1.nip.io
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls:
+    - secretName: agenticxp-ingress
+      hosts:
+        - agenticxp.127.0.0.1.nip.io
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -123,3 +134,39 @@ mongodb:
     name: agenticxp
     user: agenticxp
     password: ''
+
+dex:
+  enabled: true
+  ingress:
+    enabled: true
+    hosts:
+      - host: idp.agenticxp.127.0.0.1.nip.io
+        paths:
+          - path: /
+    tls:
+      - secretName: dex-ingress
+        hosts:
+          - idp.agenticxp.127.0.0.1.nip.io
+    annotations:
+      cert-manager.io/cluster-issuer: 'self-signed'
+      nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+    className: ""
+  serviceAccountName: dex
+  config:
+    issuer: 'idp.agenticxp.127.0.0.1.nip.io'
+    connectors: []
+    staticClients:
+      - id: agenticxp
+        public: true
+        name: 'agenticxp'
+        redirectURIs:
+        - 'https://agenticxp.127.0.0.1.nip.io/'
+    oauth2:
+      responseTypes: [ "code" ]
+      skipApprovalScreen: true
+      alwaysShowLoginScreen: false
+  storage:
+    type: kubernetes
+    config:
+      inCluster: true
+    enablePasswordDB: false

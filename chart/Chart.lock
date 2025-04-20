@@ -2,5 +2,8 @@ dependencies:
 - name: mongodb
   repository: https://groundhog2k.github.io/helm-charts/
   version: 0.7.1
-digest: sha256:8de469b0e609f6e50d3cdc38325e241d51743912495f50e1e463ddeeab69604e
-generated: "2025-04-19T12:02:33.987726+03:00"
+- name: dex
+  repository: https://charts.dexidp.io
+  version: 0.23.0
+digest: sha256:164346061a3f44ec71c33c17994a8cccf1347d4f139de07683da7c265adda157
+generated: "2025-04-20T11:32:28.098724+03:00"

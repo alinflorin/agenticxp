@@ -27,3 +27,6 @@ dependencies:
 - name: mongodb
   version: "0.7.1"
   repository: "https://groundhog2k.github.io/helm-charts/"
+- name: dex
+  version: "0.23.0"
+  repository: "https://charts.dexidp.io"

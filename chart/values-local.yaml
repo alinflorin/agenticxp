@@ -1,0 +1,13 @@
+mongodb:
+  userDatabase:
+    password: '${MONGODB_PASSWORD}'
+dex:
+  config:
+    connectors:
+      - type: google
+        id: google
+        name: Google
+        config:
+          clientID: ${GOOGLE_CLIENT_ID}
+          clientSecret: ${GOOGLE_CLIENT_SECRET}
+          redirectURI: https://idp.agenticxp.127.0.0.1.nip.io/callback

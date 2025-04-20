@@ -5,7 +5,13 @@ metadata:
   labels:
     {{- include "agenticxp.labels" . | nindent 4 }}
 data:
+  {{ if .Values.mongodb.enabled }}
   MONGODB_USER: {{ .Values.mongodb.userDatabase.user }}
   MONGODB_DATABASE: {{ .Values.mongodb.userDatabase.name }}
   MONGODB_HOST: "mongodb"
   MONGODB_PORT: "27015"
+  {{- end }}
+  {{ if .Values.dex.enabled }}
+  OIDC_ISSUER: {{ .Values.dex.config.issuer }}
+  OIDC_CLIENT_ID: {{ .Values.dex.config.staticClients.0.id }}
+  {{- end }}

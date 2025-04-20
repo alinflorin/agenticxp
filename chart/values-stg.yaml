@@ -22,3 +22,34 @@ ingress:
 mongodb:
   userDatabase:
     password: '${MONGODB_PASSWORD}'
+
+dex:
+  ingress:
+    hosts:
+      - host: idp.agenticxp-stg.internal.huna2.com
+        paths:
+          - path: /
+    tls:
+      - secretName: dex-ingress
+        hosts:
+          - idp.agenticxp-stg.internal.huna2.com
+    annotations:
+      cert-manager.io/cluster-issuer: 'letsencrypt'
+      nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+    className: "nginx-private"
+  config:
+    issuer: idp.agenticxp-stg.internal.huna2.com
+    connectors:
+      - type: google
+        id: google
+        name: Google
+        config:
+          clientID: ${GOOGLE_CLIENT_ID}
+          clientSecret: ${GOOGLE_CLIENT_SECRET}
+          redirectURI: https://idp.agenticxp-stg.internal.huna2.com/callback
+    staticClients:
+      - id: agenticxp
+        public: true
+        name: 'agenticxp'
+        redirectURIs:
+        - 'https://idp.agenticxp-stg.internal.huna2.com/'
