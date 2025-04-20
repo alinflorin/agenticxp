@@ -1,7 +1,5 @@
 import { config } from "dotenv";
-config({
-  override: true,
-});
+config({ override: true, path: './.env.telepresence' });
 import Fastify from "fastify";
 import { helloRoute } from "./api/hello";
 import fs from "fs";

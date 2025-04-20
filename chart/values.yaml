@@ -64,7 +64,7 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
-  className: ""
+  className: "nginx"
   hosts:
     - host: agenticxp.127.0.0.1.nip.io
       paths:
@@ -151,7 +151,7 @@ dex:
     annotations:
       cert-manager.io/cluster-issuer: 'self-signed'
       nginx.ingress.kubernetes.io/ssl-redirect: 'true'
-    className: ""
+    className: "nginx"
   serviceAccountName: dex
   config:
     issuer: 'idp.agenticxp.127.0.0.1.nip.io'

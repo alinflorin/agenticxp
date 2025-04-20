@@ -152,3 +152,4 @@ dist-ssr
 
 # End of https://www.toptal.com/developers/gitignore/api/dotenv
 values-temp.yaml
+.env.telepresence

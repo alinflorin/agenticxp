@@ -150,3 +150,7 @@ chart/
 .gitignore
 .gitattributes
 values-temp.yaml
+dev-install.sh
+debug.sh
+stop.sh
+.env.telepresence
