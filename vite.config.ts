@@ -11,6 +11,12 @@ export default defineConfig({
     },
   },
   server: {
+    host: "0.0.0.0",
+    allowedHosts: [
+      "agenticxp.127.0.0.1.nip.io",
+      "localhost",
+      "127.0.0.1"
+    ],
     proxy: {
       '/api': {
         target: 'http://localhost:3000',

@@ -1,5 +1,5 @@
 import { config } from "dotenv";
-config({ override: true, path: './.env.telepresence' });
+config({ override: true, path: './.env.local' });
 import Fastify from "fastify";
 import { helloRoute } from "./api/hello";
 import fs from "fs";
@@ -37,6 +37,12 @@ function scanDirectory(directory: string): { [key: string]: FileData } {
 let staticFiles: { [key: string]: FileData } = {};
 try {
   staticFiles = scanDirectory("./dist/client");
+  if (staticFiles["dist/client/index.html"]) {
+    const envVars = `<script>
+      ${Object.keys(process.env).filter(k => k.toLowerCase().startsWith("vite_")).map(x => "window." + x + " = '" + process.env[x] + "';").join(" ")}
+    </script>`;
+    staticFiles["dist/client/index.html"].content = Buffer.from(staticFiles["dist/client/index.html"].content.toString().replaceAll("</head>", `${envVars}</head>`));
+  }
   console.log(`Loaded static files: ` + Object.keys(staticFiles));
 } catch (err: unknown) {
   console.error("Error while reading static files", err);

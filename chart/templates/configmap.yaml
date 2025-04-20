@@ -11,3 +11,5 @@ data:
   MONGODB_PORT: "27015"
   OIDC_CLIENT_ID: {{ (index .Values.dex.config.staticClients 0).id }}
   OIDC_ISSUER: {{ .Values.dex.config.issuer }}
+  VITE_OIDC_CLIENT_ID: {{ (index .Values.dex.config.staticClients 0).id }}
+  VITE_OIDC_ISSUER: {{ .Values.dex.config.issuer }}

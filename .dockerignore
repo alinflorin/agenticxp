@@ -153,4 +153,5 @@ values-temp.yaml
 dev-install.sh
 debug.sh
 stop.sh
-.env.telepresence
+.env.local
+dev-uninstall.sh

@@ -47,7 +47,7 @@ else
 fi
 
 
-telepresence helm install
+telepresence helm install || true
 
 export $(grep -v '^#' .env | xargs)
 
