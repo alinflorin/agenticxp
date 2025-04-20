@@ -29,6 +29,7 @@ dex:
       - host: idp.agenticxp-uat.internal.huna2.com
         paths:
           - path: /
+            pathType: ImplementationSpecific
     tls:
       - secretName: dex-ingress
         hosts:
