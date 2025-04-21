@@ -38,6 +38,10 @@ mkcert idp.agenticxp.127.0.0.1.nip.io
 
 kubectl create namespace agenticxp-local || true
 
+
+kubectl delete secret agenticxp-ingress-tls -n agenticxp-local || true
+kubectl delete secret dex-ingress-tls -n agenticxp-local || true
+
 kubectl create secret generic agenticxp-ingress-tls \
   --from-file=tls.crt=agenticxp.127.0.0.1.nip.io.pem \
   --from-file=tls.key=agenticxp.127.0.0.1.nip.io-key.pem \

@@ -1,3 +1,5 @@
+image:
+  pullPolicy: Always
 mongodb:
   userDatabase:
     password: '${MONGODB_PASSWORD}'

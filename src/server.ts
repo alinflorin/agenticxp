@@ -55,12 +55,9 @@ const fastify = Fastify({
 
 await fastify.register(jwtCheck, {
   audience: process.env.OIDC_CLIENT_ID,
-  jwksUrl: process.env.OIDC_ISSUER + "/keys"
+  jwksUrl: process.env.OIDC_ISSUER + "/keys",
+  logLevel: "debug"
 });
-console.log({
-  audience: process.env.OIDC_CLIENT_ID,
-  jwksUrl: process.env.OIDC_ISSUER + "/keys"
-})
 // Register API routes
 await fastify.register(helloRoute);
 
