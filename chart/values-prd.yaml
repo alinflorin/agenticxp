@@ -13,7 +13,7 @@ ingress:
         - path: /
           pathType: ImplementationSpecific
   tls:
-    - secretName: agenticxp-ingress
+    - secretName: agenticxp-ingress-tls
       hosts:
         - agenticxp.internal.huna2.com
 
@@ -31,7 +31,7 @@ dex:
           - path: /
             pathType: ImplementationSpecific
     tls:
-      - secretName: dex-ingress
+      - secretName: dex-ingress-tls
         hosts:
           - idp.agenticxp.internal.huna2.com
     annotations:
@@ -39,7 +39,7 @@ dex:
       nginx.ingress.kubernetes.io/ssl-redirect: 'true'
     className: "nginx-private"
   config:
-    issuer: idp.agenticxp.internal.huna2.com
+    issuer: https://idp.agenticxp.internal.huna2.com
     connectors:
       - type: google
         id: google
@@ -53,4 +53,5 @@ dex:
         public: true
         name: 'agenticxp'
         redirectURIs:
-        - 'https://idp.agenticxp.internal.huna2.com/'
+        - 'https://agenticxp.internal.huna2.com/authentication/callback'
+        - 'https://agenticxp.internal.huna2.com/authentication/silent-callback'

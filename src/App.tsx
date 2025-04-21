@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
 import { version } from './version';
-import env from './env';
-
-const issuer = env.VITE_OIDC_ISSUER;
 
 function App() {
+  
   const [message, setMessage] = useState<string>('');
 
   useEffect(() => {
@@ -28,7 +26,6 @@ function App() {
       <img src="/logo.png" />
       <p>Message from backend: {message}</p>
       <p>Version: {version}</p>
-      <p>OIDC ISSUER: {issuer}</p>
     </div>
   );
 }

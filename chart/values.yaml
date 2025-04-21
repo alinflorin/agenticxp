@@ -59,7 +59,6 @@ service:
 ingress:
   enabled: true
   annotations:
-    cert-manager.io/cluster-issuer: 'self-signed'
     nginx.ingress.kubernetes.io/ssl-redirect: 'true'
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
@@ -71,7 +70,7 @@ ingress:
         - path: /
           pathType: ImplementationSpecific
   tls:
-    - secretName: agenticxp-ingress
+    - secretName: agenticxp-ingress-tls
       hosts:
         - agenticxp.127.0.0.1.nip.io
 
@@ -145,23 +144,25 @@ dex:
           - path: /
             pathType: ImplementationSpecific
     tls:
-      - secretName: dex-ingress
+      - secretName: dex-ingress-tls
         hosts:
           - idp.agenticxp.127.0.0.1.nip.io
     annotations:
-      cert-manager.io/cluster-issuer: 'self-signed'
       nginx.ingress.kubernetes.io/ssl-redirect: 'true'
     className: "nginx"
   serviceAccountName: dex
   config:
-    issuer: 'idp.agenticxp.127.0.0.1.nip.io'
+    issuer: 'https://idp.agenticxp.127.0.0.1.nip.io'
+    web:
+      allowedOrigins: ['*']
     connectors: []
     staticClients:
       - id: agenticxp
         public: true
         name: 'agenticxp'
         redirectURIs:
-        - 'https://agenticxp.127.0.0.1.nip.io/'
+        - 'https://agenticxp.127.0.0.1.nip.io/authentication/callback'
+        - 'https://agenticxp.127.0.0.1.nip.io/authentication/silent-callback'
     oauth2:
       responseTypes: [ "code" ]
       skipApprovalScreen: true

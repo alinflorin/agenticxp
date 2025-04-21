@@ -16,25 +16,6 @@ fi
 
 helm repo update
 
-# Check if cert-manager namespace exists
-if ! kubectl get namespace cert-manager >/dev/null 2>&1; then
-  echo "Namespace 'cert-manager' not found. Installing cert-manager..."
-  helm install cert-manager jetstack/cert-manager \
-    --namespace cert-manager \
-    --create-namespace \
-    --set installCRDs=true
-else
-  echo "Namespace 'cert-manager' already exists. Skipping installation."
-fi
-
-kubectl apply -f - <<EOF
-apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
-metadata:
-  name: self-signed
-spec:
-  selfSigned: {}
-EOF
 
 # Check if ingress-nginx namespace exists
 if ! kubectl get namespace ingress-nginx >/dev/null 2>&1; then
@@ -48,6 +29,24 @@ fi
 
 
 telepresence helm install || true
+
+
+mkcert -install
+
+mkcert agenticxp.127.0.0.1.nip.io
+mkcert idp.agenticxp.127.0.0.1.nip.io
+
+kubectl create namespace agenticxp-local || true
+
+kubectl create secret tls agenticxp-ingress-tls \
+  --cert=agenticxp.127.0.0.1.nip.io.pem \
+  --key=agenticxp.127.0.0.1.nip.io-key.pem \
+  -n agenticxp-local || true
+kubectl create secret tls dex-ingress-tls \
+  --cert=idp.agenticxp.127.0.0.1.nip.io.pem \
+  --key=idp.agenticxp.127.0.0.1.nip.io-key.pem \
+  -n agenticxp-local || true
+rm -rf ./*.pem
 
 export $(grep -v '^#' .env | xargs)
 
