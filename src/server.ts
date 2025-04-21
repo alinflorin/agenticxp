@@ -61,11 +61,10 @@ try {
     const fastify = Fastify({
       logger: true,
     });
-
     await fastify.register(jwtCheck, {
       audience: process.env.OIDC_CLIENT_ID,
-      jwksUrl: process.env.OIDC_ISSUER + "/keys",
-      logLevel: "debug",
+      issuer: process.env.OIDC_ISSUER,
+      jwksUrl: process.env.OIDC_ISSUER_INTERNAL + "/keys"
     });
     // Register API routes
     await fastify.register(helloRoute);

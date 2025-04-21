@@ -27,6 +27,57 @@ else
   echo "Namespace 'ingress-nginx' already exists. Skipping installation."
 fi
 
+# Check if cert-manager namespace exists
+if ! kubectl get namespace cert-manager >/dev/null 2>&1; then
+  echo "Namespace 'cert-manager' not found. Installing cert-manager..."
+  helm install cert-manager jetstack/cert-manager \
+    --namespace cert-manager \
+    --create-namespace \
+    --set crds.enabled=true
+
+
+else
+  echo "Namespace 'cert-manager' already exists. Skipping installation."
+fi
+
+kubectl apply -f - <<EOF
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: self-signed-issuer
+spec:
+  selfSigned: {}
+EOF
+
+kubectl apply -n cert-manager -f - <<EOF
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: my-root-ca
+  namespace: cert-manager
+spec:
+  isCA: true
+  commonName: my-root-ca
+  secretName: my-root-ca
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  issuerRef:
+    name: self-signed-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
+EOF
+
+kubectl apply -f - <<EOF
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: my-root-ca-issuer
+spec:
+  ca:
+    secretName: my-root-ca
+EOF
+
 
 telepresence helm install || true
 
