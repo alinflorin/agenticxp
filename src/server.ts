@@ -59,7 +59,9 @@ try {
 (async () => {
   try {
     const fastify = Fastify({
-      logger: true,
+      logger: {
+        level: "warn"
+      },
     });
     await fastify.register(jwtCheck, {
       audience: process.env.OIDC_CLIENT_ID,
