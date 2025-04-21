@@ -1,0 +1,16 @@
+{
+    "recommendations": [
+        "lokalise.i18n-ally",
+        "mikestead.dotenv",
+        "dsznajder.es7-react-js-snippets",
+        "dbaeumer.vscode-eslint",
+        "tim-koehler.helm-intellisense",
+        "github.vscode-github-actions",
+        "ecmel.vscode-html-css",
+        "christian-kohler.npm-intellisense",
+        "christian-kohler.path-intellisense",
+        "esbenp.prettier-vscode",
+        "vitest.explorer",
+        "redhat.vscode-yaml"
+    ]
+}
