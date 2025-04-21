@@ -151,7 +151,8 @@ chart/
 .gitattributes
 values-temp.yaml
 dev-install.sh
-debug.sh
-stop.sh
+start-telepresence.sh
+stop-telepresence.sh
 .env.local
 dev-uninstall.sh
+.vscode

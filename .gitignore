@@ -65,7 +65,7 @@ Temporary Items
 *.icloud
 
 ### VisualStudioCode ###
-.vscode/*
+
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
@@ -125,8 +125,7 @@ dist-ssr
 *.local
 
 # Editor directories and files
-.vscode/*
-!.vscode/extensions.json
+
 .idea
 .DS_Store
 *.suo
