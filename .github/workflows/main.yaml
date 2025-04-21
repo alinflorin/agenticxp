@@ -48,7 +48,7 @@ jobs:
   rename-run:
     needs: version
     runs-on: ubuntu-latest
-    if: always()
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     steps:
       - name: Update the summary
         run: |
