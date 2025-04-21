@@ -48,7 +48,7 @@ jobs:
   rename-run:
     needs: version
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    if: always()
     steps:
       - name: Update the summary
         run: |
@@ -67,6 +67,7 @@ jobs:
           echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
 
   analyze:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     name: Analyze (${{ matrix.language }})
     runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
     permissions:
