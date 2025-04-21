@@ -1,11 +1,11 @@
 import { config } from "dotenv";
 config({ override: true, path: "./.env.local" });
 import Fastify from "fastify";
-import { helloRoute } from "./api/hello";
 import fs from "fs";
 import path from "path";
 import mime from "mime";
 import jwtCheck from "fastify-jwt-jwks";
+import registerApiRoutes from "./api/routes";
 
 interface FileData {
   content: Buffer<ArrayBufferLike>;
@@ -69,7 +69,7 @@ try {
       jwksUrl: process.env.OIDC_ISSUER_INTERNAL + "/keys"
     });
     // Register API routes
-    await fastify.register(helloRoute);
+    await registerApiRoutes(fastify);
 
     // UI
     fastify.get("/*", async (req, res) => {
