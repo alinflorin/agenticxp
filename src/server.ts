@@ -5,6 +5,7 @@ import { helloRoute } from "./api/hello";
 import fs from "fs";
 import path from "path";
 import mime from "mime";
+import jwtCheck from 'fastify-jwt-jwks';
 
 interface FileData {
   content: Buffer<ArrayBufferLike>;
@@ -44,16 +45,24 @@ try {
     staticFiles["dist/client/index.html"].content = Buffer.from(staticFiles["dist/client/index.html"].content.toString().replaceAll("</head>", `${envVars}</head>`));
   }
   console.log(`Loaded static files: ` + Object.keys(staticFiles));
-} catch (err: unknown) {
-  console.error("Error while reading static files", err);
+} catch {
+  console.error("Error while reading static files");
 }
 
 const fastify = Fastify({
   logger: true,
 });
 
+await fastify.register(jwtCheck, {
+  audience: process.env.OIDC_CLIENT_ID,
+  jwksUrl: process.env.OIDC_ISSUER + "/keys"
+});
+console.log({
+  audience: process.env.OIDC_CLIENT_ID,
+  jwksUrl: process.env.OIDC_ISSUER + "/keys"
+})
 // Register API routes
-fastify.register(helloRoute);
+await fastify.register(helloRoute);
 
 // UI
 fastify.get("/*", async (req, res) => {
@@ -86,4 +95,4 @@ const start = async () => {
   }
 };
 
-start();
+await start();

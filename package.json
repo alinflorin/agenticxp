@@ -15,6 +15,7 @@
     "@axa-fr/react-oidc": "^7.25.9",
     "dotenv": "^16.5.0",
     "fastify": "^5.3.2",
+    "fastify-jwt-jwks": "^2.0.2",
     "mime": "^4.0.7",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"

@@ -1,7 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-// src/api/hello.ts
-export async function helloRoute(fastify: any) {
-    fastify.get('/api/hello', async () => {
-      return { message: 'Hello from Fastify!!!' };
-    });
-  }
+import { FastifyInstance, FastifyPluginAsync } from "fastify";
+
+export const helloRoute: FastifyPluginAsync = (
+  fastify: FastifyInstance
+): Promise<void> => {
+  fastify.get("/api/hello", {preValidation: fastify.authenticate}, async () => {
+    return { message: "Hello from Fastify!!!" };
+  });
+
+  return Promise.resolve();
+};
+
+export default helloRoute;
