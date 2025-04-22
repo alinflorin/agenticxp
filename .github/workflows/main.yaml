@@ -199,7 +199,7 @@ jobs:
         working-directory: ${{ runner.temp }}/digests
         run: |
           docker buildx imagetools create \
-            -t ${{ env.REGISTRY_IMAGE }}:${{ env.VERSION }} \
+            -t ${{ env.REGISTRY_IMAGE }}:${{ env.VERSION }} -t ${{ env.REGISTRY_IMAGE }}:latest \
             $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
 
   helm:

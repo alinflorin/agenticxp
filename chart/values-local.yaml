@@ -1,5 +1,6 @@
 image:
   pullPolicy: Always
+  tag: "latest"
 mongodb:
   userDatabase:
     password: '${MONGODB_PASSWORD}'
