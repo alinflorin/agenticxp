@@ -1,3 +1,9 @@
 {
-    
+  "ui": {
+    "header": {
+      "logout": "Ieșire",
+      "login": "Autentificare",
+      "language": "Limbă"
+    }
+  }
 }

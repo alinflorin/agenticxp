@@ -1,3 +1,9 @@
 {
-    
+  "ui": {
+    "header": {
+      "logout": "Logout",
+      "login": "Login",
+      "language": "Language"
+    }
+  }
 }
