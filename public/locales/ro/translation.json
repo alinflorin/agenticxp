@@ -3,7 +3,13 @@
     "header": {
       "logout": "Ieșire",
       "login": "Autentificare",
-      "language": "Limbă"
+      "language": "Limbă",
+      "theme": "Temă",
+      "themes": {
+        "system": "Sistem",
+        "light": "Luminoasă",
+        "dark": "Întunecată"
+      }
     }
   }
 }

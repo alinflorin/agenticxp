@@ -8,10 +8,10 @@ import {
   MenuSelectionDetails,
 } from "@chakra-ui/react";
 import { User } from "oidc-client-ts";
-import { useColorModeValue } from "@/theming/color-mode";
 import { useTranslation } from "react-i18next";
 import { useCallback } from "react";
 import { LuChevronRight } from "react-icons/lu";
+import { useColorModeValue } from "@/hooks/useColorModeValue";
 
 export interface HeaderProps {
   user: User | undefined;
@@ -20,6 +20,8 @@ export interface HeaderProps {
   currentLanguageCode: string;
   supportedLanguages: readonly string[];
   onLanguageChanged: (newLng: string) => void;
+  currentTheme: string;
+  onThemeChanged: (newTheme: string) => void;
 }
 
 export default function Header(props: HeaderProps) {
@@ -57,7 +59,7 @@ export default function Header(props: HeaderProps) {
         </Text>
 
         <Flex alignItems={"center"} gap={2}>
-          <Menu.Root closeOnSelect={true} onSelect={menuItemSelected}>
+          <Menu.Root positioning={{ slide: false }} onSelect={menuItemSelected}>
             <Menu.Trigger>
               <Avatar.Root cursor="pointer">
                 <Avatar.Fallback name={props.user?.profile.name} />
@@ -66,7 +68,10 @@ export default function Header(props: HeaderProps) {
             <Portal>
               <Menu.Positioner>
                 <Menu.Content>
-                  <Menu.Root onSelect={(d) => props.onLanguageChanged(d.value)}>
+                  <Menu.Root
+                    positioning={{ slide: false }}
+                    onSelect={(d) => props.onLanguageChanged(d.value)}
+                  >
                     <Menu.TriggerItem justifyContent={"space-between"}>
                       {t("ui.header.language")} <LuChevronRight />
                     </Menu.TriggerItem>
@@ -86,6 +91,50 @@ export default function Header(props: HeaderProps) {
                               {l}
                             </Menu.Item>
                           ))}
+                        </Menu.Content>
+                      </Menu.Positioner>
+                    </Portal>
+                  </Menu.Root>
+                  <Menu.Root
+                    positioning={{ slide: false }}
+                    onSelect={(d) => props.onThemeChanged(d.value)}
+                  >
+                    <Menu.TriggerItem justifyContent={"space-between"}>
+                      {t("ui.header.theme")} <LuChevronRight />
+                    </Menu.TriggerItem>
+                    <Portal>
+                      <Menu.Positioner>
+                        <Menu.Content>
+                          <Menu.Item
+                            fontWeight={
+                              "system" === props.currentTheme
+                                ? "bold"
+                                : "normal"
+                            }
+                            value="system"
+                          >
+                            {t("ui.header.themes.system")}
+                          </Menu.Item>
+                          <Menu.Item
+                            fontWeight={
+                              "light" === props.currentTheme
+                                ? "bold"
+                                : "normal"
+                            }
+                            value="light"
+                          >
+                            {t("ui.header.themes.light")}
+                          </Menu.Item>
+                          <Menu.Item
+                            fontWeight={
+                              "dark" === props.currentTheme
+                                ? "bold"
+                                : "normal"
+                            }
+                            value="dark"
+                          >
+                            {t("ui.header.themes.dark")}
+                          </Menu.Item>
                         </Menu.Content>
                       </Menu.Positioner>
                     </Portal>
