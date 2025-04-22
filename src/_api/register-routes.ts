@@ -1,5 +1,5 @@
 import { FastifyInstance } from "fastify";
-import helloRoute from "./hello";
+import helloRoute from "./routes/hello";
 
 export default async function registerApiRoutes(
   fastify: FastifyInstance

@@ -5,7 +5,7 @@ import fs from "fs";
 import path from "path";
 import mime from "mime";
 import jwtCheck from "fastify-jwt-jwks";
-import registerApiRoutes from "./api/routes";
+import registerApiRoutes from "./_api/register-routes";
 
 interface FileData {
   content: Buffer<ArrayBufferLike>;
@@ -75,6 +75,11 @@ try {
     fastify.get("/*", async (req, res) => {
       let checkPath = `dist/client${req.url}`;
       if (!staticFiles[checkPath]) {
+        // is it a file?
+        if (checkPath.split("/")[checkPath.split("/").length - 1].split(".").length >= 2) {
+          res.status(404).send("Not found");
+          return;
+        }
         checkPath = "dist/client/index.html";
       }
       if (!staticFiles[checkPath]) {
