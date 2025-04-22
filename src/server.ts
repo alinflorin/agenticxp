@@ -102,6 +102,15 @@ try {
       }
     };
 
+    process.on('SIGTERM', async () => {
+      try {
+        await fastify.close();
+      } catch (err: unknown) {
+        console.error(err);
+      }
+      process.exit(0);
+    });
+
     await start();
   } catch (err: unknown) {
     console.error(err);
