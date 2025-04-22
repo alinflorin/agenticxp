@@ -149,6 +149,7 @@ dex:
         hosts:
           - idp.agenticxp.127.0.0.1.nip.io
     annotations:
+      cert-manager.io/cluster-issuer: 'my-root-ca-issuer'
       nginx.ingress.kubernetes.io/ssl-redirect: 'true'
     className: "nginx"
   serviceAccountName: dex
@@ -162,8 +163,7 @@ dex:
         public: true
         name: 'agenticxp'
         redirectURIs:
-        - 'https://agenticxp.127.0.0.1.nip.io/authentication/callback'
-        - 'https://agenticxp.127.0.0.1.nip.io/authentication/silent-callback'
+        - 'https://agenticxp.127.0.0.1.nip.io'
     oauth2:
       responseTypes: [ "code" ]
       skipApprovalScreen: true

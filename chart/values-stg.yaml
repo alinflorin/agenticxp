@@ -51,5 +51,4 @@ dex:
         public: true
         name: 'agenticxp'
         redirectURIs:
-        - 'https://agenticxp-stg.internal.huna2.com/authentication/callback'
-        - 'https://agenticxp-stg.internal.huna2.com/authentication/silent-callback'
+        - 'https://agenticxp-stg.internal.huna2.com'
