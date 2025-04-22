@@ -12,6 +12,8 @@ import { useTranslation } from "react-i18next";
 import { useCallback } from "react";
 import { LuChevronRight } from "react-icons/lu";
 import { useColorModeValue } from "@/hooks/useColorModeValue";
+import { languages } from "@/constants/languages";
+import { toCapitalCase } from "@/helpers/string-helpers";
 
 export interface HeaderProps {
   user: User | undefined;
@@ -88,7 +90,7 @@ export default function Header(props: HeaderProps) {
                               key={l}
                               value={l}
                             >
-                              {l}
+                              {toCapitalCase(languages[l].nativeName)}
                             </Menu.Item>
                           ))}
                         </Menu.Content>
@@ -117,9 +119,7 @@ export default function Header(props: HeaderProps) {
                           </Menu.Item>
                           <Menu.Item
                             fontWeight={
-                              "light" === props.currentTheme
-                                ? "bold"
-                                : "normal"
+                              "light" === props.currentTheme ? "bold" : "normal"
                             }
                             value="light"
                           >
@@ -127,9 +127,7 @@ export default function Header(props: HeaderProps) {
                           </Menu.Item>
                           <Menu.Item
                             fontWeight={
-                              "dark" === props.currentTheme
-                                ? "bold"
-                                : "normal"
+                              "dark" === props.currentTheme ? "bold" : "normal"
                             }
                             value="dark"
                           >
