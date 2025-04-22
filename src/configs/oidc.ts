@@ -9,6 +9,13 @@ export const oidcConfig: AuthProviderProps = {
   authority: env.VITE_OIDC_ISSUER,
   userStore: new WebStorageStateStore({ store: window.localStorage }),
   onSigninCallback: (): void => {
-    window.history.replaceState({}, document.title, window.location.pathname);
+    const pp = sessionStorage.getItem("pp");
+    if (pp) {
+      sessionStorage.removeItem("pp");
+      window.location.replace(pp);
+    } else {
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
   },
+  automaticSilentRenew: true,
 };
