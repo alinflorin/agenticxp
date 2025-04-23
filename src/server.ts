@@ -73,7 +73,7 @@ try {
 
     // UI
     fastify.get("/*", async (req, res) => {
-      let checkPath = `dist/client${req.url}`;
+      let checkPath = `dist/client${req.url.split("?")[0]}`;
       if (!staticFiles[checkPath]) {
         // is it a file?
         if (checkPath.split("/")[checkPath.split("/").length - 1].split(".").length >= 2) {
