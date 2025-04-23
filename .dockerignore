@@ -156,3 +156,4 @@ stop-telepresence.sh
 .env.local
 dev-uninstall.sh
 .vscode
+.editorconfig

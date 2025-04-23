@@ -11,6 +11,7 @@
         "christian-kohler.path-intellisense",
         "esbenp.prettier-vscode",
         "vitest.explorer",
-        "redhat.vscode-yaml"
+        "redhat.vscode-yaml",
+        "editorconfig.editorconfig"
     ]
 }
