@@ -8,6 +8,8 @@ import { useTranslation } from "react-i18next";
 import Loading from "./components/Loading";
 import { useColorMode } from "./hooks/useColorMode";
 import { Toaster } from "./components/Toaster";
+import useStore from "./hooks/useStore";
+import userStore from "./stores/user-store";
 
 export default function App() {
   const {
@@ -16,6 +18,8 @@ export default function App() {
     signinRedirect,
     isLoading: authIsLoading,
   } = useAuth();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_, setUserFromStore] = useStore(userStore);
   const { i18n, ready: translationReady } = useTranslation();
   const [allLoaded, setAllLoaded] = useState(false);
   const { setColorMode, theme } = useColorMode();
@@ -25,6 +29,14 @@ export default function App() {
       setAllLoaded(true);
     }
   }, [translationReady, authIsLoading]);
+
+
+  useEffect(() => {
+    if (authIsLoading) {
+        return;
+    }
+    setUserFromStore(user || undefined);
+  }, [user, setUserFromStore, authIsLoading]);
 
   const logout = useCallback(() => {
     (async () => {
