@@ -7,6 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Loading from "./components/Loading";
 import { useColorMode } from "./hooks/useColorMode";
+import { Toaster } from "./components/Toaster";
 
 export default function App() {
   const {
@@ -76,6 +77,7 @@ export default function App() {
         <Outlet />
       </Box>
       <Footer />
+      <Toaster />
     </Flex>
   );
 }
