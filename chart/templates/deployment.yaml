@@ -52,14 +52,50 @@ spec:
             {{- toYaml .Values.readinessProbe | nindent 12 }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          {{- with .Values.volumeMounts }}
+        - name: opa
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "openpolicyagent/opa:{{ .Values.opa.image.tag }}"
+          imagePullPolicy: {{ .Values.opa.image.pullPolicy }}
+          args:
+            - 'run'
+            - '--server'
+            - '--config-file=/config/opa-config.yaml'
+            - '--addr=0.0.0.0:8081'
+            - '--diagnostic-addr=0.0.0.0:8082'
+            - '/policy'
+          ports:
+            - name: opahttp
+              containerPort: 8081
+              protocol: TCP
+            - name: opadiag
+              containerPort: 8082
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: opadiag
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: opadiag
           volumeMounts:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-      {{- with .Values.volumes }}
+            - name: opa-config
+              mountPath: /config
+              readOnly: true
+            - name: opa-policy
+              mountPath: /policy
+              readOnly: true
+          resources:
+            {{- toYaml .Values.opa.resources | nindent 12 }}
+
       volumes:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+        - name: opa-config
+          configMap:
+            name: {{ include "agenticxp.fullname" . }}-opa-config
+        - name: opa-policy
+          configMap:
+            name: {{ include "agenticxp.fullname" . }}-opa-policy
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

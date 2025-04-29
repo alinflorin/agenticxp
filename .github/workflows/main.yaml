@@ -10,6 +10,7 @@ on:
 env:
   REGISTRY_IMAGE: "ghcr.io/alinflorin/agenticxp"
   MAJOR_MINOR: "1.0"
+  OPA_VERSION: "1.3.0"
 
 permissions:
   contents: write
@@ -202,9 +203,40 @@ jobs:
             -t ${{ env.REGISTRY_IMAGE }}:${{ env.VERSION }} -t ${{ env.REGISTRY_IMAGE }}:latest \
             $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
 
+  rego:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Cache OPA binary
+        id: cache-opa
+        uses: actions/cache@v3
+        with:
+          path: ~/.opa
+          key: opa-${{ env.OPA_VERSION }}
+
+      - name: Download OPA binary if not cached
+        if: steps.cache-opa.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ~/.opa
+          curl -sSL -o ~/.opa/opa https://openpolicyagent.org/downloads/v${OPA_VERSION}/opa_linux_amd64_static
+          chmod +x ~/.opa/opa
+
+      - name: Add OPA to PATH
+        run: echo "${HOME}/.opa" >> $GITHUB_PATH
+
+      - name: Lint with opa fmt
+        run: opa fmt --check-result ./chart/policies
+              
+      - name: Static analysis with opa check
+        run: opa check ./chart/policies
+
+      - name: Run OPA tests
+        run: opa test --exit-zero-on-skipped ./chart/policies
   helm:
     runs-on: ubuntu-latest
-    needs: [version]
+    needs: [version, rego]
     env:
       VERSION: ${{ needs.version.outputs.VERSION }}
     steps:
