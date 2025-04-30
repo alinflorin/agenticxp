@@ -1,3 +1,5 @@
+env: uat
+
 ingress:
   enabled: true
   annotations:

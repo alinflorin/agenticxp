@@ -4,8 +4,8 @@ import Fastify from "fastify";
 import fs from "fs";
 import path from "path";
 import mime from "mime";
-import jwtCheck from "fastify-jwt-jwks";
 import registerApiRoutes from "./_api/register-routes";
+import opaMiddleware from "./_api/middlewares/opa-middleware";
 
 interface FileData {
   content: Buffer<ArrayBufferLike>;
@@ -63,13 +63,6 @@ try {
         level: "warn"
       },
     });
-    await fastify.register(jwtCheck, {
-      audience: process.env.OIDC_CLIENT_ID,
-      issuer: process.env.OIDC_ISSUER,
-      jwksUrl: process.env.OIDC_ISSUER_INTERNAL + "/keys"
-    });
-    // Register API routes
-    await registerApiRoutes(fastify);
 
     // UI
     fastify.get("/*", async (req, res) => {
@@ -96,6 +89,12 @@ try {
         .status(200)
         .send(staticFiles[checkPath].content);
     });
+
+
+    opaMiddleware(fastify);
+    
+    // Register API routes
+    await registerApiRoutes(fastify);
 
     const start = async () => {
       try {

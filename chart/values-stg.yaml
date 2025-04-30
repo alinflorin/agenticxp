@@ -1,3 +1,4 @@
+env: stg
 ingress:
   enabled: true
   annotations:

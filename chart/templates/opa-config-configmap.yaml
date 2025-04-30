@@ -8,3 +8,11 @@ data:
   opa-config.yaml: |
     decision_logs:
       console: true
+    labels:
+      env: ${ENV}
+      app: agenticxp
+    caching:
+      inter_query_builtin_cache:
+        max_size_bytes: 10000000
+        forced_eviction_threshold_percentage: 70
+        stale_entry_eviction_period_seconds: 3600

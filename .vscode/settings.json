@@ -2,5 +2,12 @@
     "i18n-ally.localesPaths": [
         "public/locales"
     ],
-    "i18n-ally.keystyle": "nested"
+    "i18n-ally.keystyle": "nested",
+    "opa.roots": [
+        "${workspaceFolder}/chart/policies"
+    ],
+    "opa.env": {
+        "ENV": "local",
+        "OIDC_ISSUER_INTERNAL": "http://dex.agenticxp-local:5556"
+    }
 }

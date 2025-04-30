@@ -1,13 +1,10 @@
-import axios from "axios";
 import { FastifyInstance, FastifyPluginAsync } from "fastify";
 
 export const helloRoute: FastifyPluginAsync = (
   fastify: FastifyInstance
 ): Promise<void> => {
-  fastify.get("/api/hello", {preValidation: fastify.authenticate}, async () => {
-    const opaTest = await axios.post('http://localhost:8081/v1/data/main/authz', {input: {}});
-    console.log(opaTest.data);
-    return { message: "Hello from Fastifyxxx!!!" };
+  fastify.get("/api/hello", async () => {
+    return { message: "Hello from Fastifyyyyyyy!!!" };
   });
 
   return Promise.resolve();

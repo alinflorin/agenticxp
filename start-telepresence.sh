@@ -3,4 +3,4 @@
 set -e
 
 telepresence connect --namespace agenticxp-local || true
-telepresence replace agenticxp --container agenticxp --port 5173:http --env-file .env.local --to-pod 8081 || true
+telepresence replace agenticxp --container agenticxp --port 5173:http --env-file .env.local --to-pod 8181 || true

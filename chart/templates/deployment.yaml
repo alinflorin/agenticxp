@@ -61,15 +61,18 @@ spec:
             - 'run'
             - '--server'
             - '--config-file=/config/opa-config.yaml'
-            - '--addr=0.0.0.0:8081'
-            - '--diagnostic-addr=0.0.0.0:8082'
+            - '--addr=0.0.0.0:8181'
+            - '--diagnostic-addr=0.0.0.0:8182'
             - '/policy'
+          envFrom:
+            - configMapRef:
+                name: {{ include "agenticxp.fullname" . }}
           ports:
             - name: opahttp
-              containerPort: 8081
+              containerPort: 8181
               protocol: TCP
             - name: opadiag
-              containerPort: 8082
+              containerPort: 8182
               protocol: TCP
           livenessProbe:
             httpGet:

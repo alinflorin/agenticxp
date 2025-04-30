@@ -12,6 +12,7 @@
         "esbenp.prettier-vscode",
         "vitest.explorer",
         "redhat.vscode-yaml",
-        "editorconfig.editorconfig"
+        "editorconfig.editorconfig",
+        "tsandall.opa"
     ]
 }
