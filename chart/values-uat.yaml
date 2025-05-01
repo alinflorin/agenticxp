@@ -1,5 +1,5 @@
+admins: '${APP_ADMINS}'
 env: uat
-
 ingress:
   enabled: true
   annotations:

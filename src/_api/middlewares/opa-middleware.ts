@@ -11,7 +11,11 @@ export interface OpaInput {
 }
 
 export interface OpaAllowResponse {
-    result: boolean;
+    result: {
+        allow: boolean;
+        is_admin: boolean;
+        user: unknown;
+    }
 }
 
 export default function opaMiddleware(fastify: FastifyInstance) {
@@ -30,8 +34,6 @@ export default function opaMiddleware(fastify: FastifyInstance) {
                 },
             };
 
-            console.log(opaInput);
-
             try {
                 const response = await axios.post<OpaAllowResponse>(
                     "http://localhost:8181/v1/data/com/huna2/agenticxp/allow",
@@ -42,7 +44,9 @@ export default function opaMiddleware(fastify: FastifyInstance) {
                     }
                 );
 
-                if (!response.data?.result) {
+                console.log(response.data);
+
+                if (!response.data?.result?.allow) {
                     reply.code(403).send({ message: "Forbidden by policy" });
                     return;
                 }

@@ -1,3 +1,4 @@
+admins: '${APP_ADMINS}'
 env: stg
 ingress:
   enabled: true

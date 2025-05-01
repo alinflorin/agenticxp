@@ -9,5 +9,6 @@ data:
     {
         "idp": {
             "issuerInternalUrl": "http://{{ include "agenticxp.fullname" . }}-dex:5556"
-        }
+        },
+        "adminEmails": ["root@root.root"{{- $admins := split "," .Values.admins -}}{{- range $i, $e := $admins }}{{- if $i }}, {{ end }}"{{ $e }}"{{- end }}]
     }

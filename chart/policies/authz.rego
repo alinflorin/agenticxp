@@ -1,18 +1,16 @@
-package com.huna2.agenticxp
+package com.huna2.agenticxp.authz
 
 default allow = false
+default is_admin = false
+default user = null
 
 # Public authorization rule
 allow if {
-    user_is_logged_in
+    user
+    user.email
 }
 
-user_is_logged_in if {
-  user_from_token
-  user_from_token.email
-}
-
-user_from_token = u if {
+user = u if {
   input.headers.authorization
   rawToken := substring(input.headers.authorization, 7, -1)
   decodedToken := io.jwt.decode(rawToken)
@@ -30,4 +28,9 @@ user_from_token = u if {
   now := time.now_ns() / 1000000000
   now < exp
   u := decodedToken[1]
+}
+
+is_admin if {
+  some s in data.adminEmails
+  s == user.email
 }
