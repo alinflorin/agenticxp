@@ -8,32 +8,26 @@ allow if {
 }
 
 user_is_logged_in if {
-  token_is_present
-  rawToken := extract_token(input.headers.authorization)
-  decodedToken := decode_token_parts(rawToken)
+  user_from_token
+  user_from_token.email
+}
+
+user_from_token = u if {
+  input.headers.authorization
+  rawToken := substring(input.headers.authorization, 7, -1)
+  decodedToken := io.jwt.decode(rawToken)
   kid := decodedToken[0].kid
-
-}
-
-token_is_present if {
-    input.headers.authorization
-    startswith(input.headers.authorization, "Bearer ")
-}
-
-extract_token(header) = extracted if {
-    extracted := substring(header, 7, -1)
-}
-
-decode_token_parts(token) = decodedToken if {
-    decodedToken := io.jwt.decode(token)
-}
-
-get_jwks(kid) = jwks if {
-    jwks := http.send({
+  jwks := http.send({
         "url": sprintf("%s/keys?kid=%s", [data.idp.issuerInternalUrl, kid]),
         "cache": true,
         "method": "GET",
         "force_cache": true,
         "force_cache_duration_seconds": 3600
     }).raw_body
+  signatureOk := io.jwt.verify_rs256(rawToken, jwks)
+  signatureOk
+  exp := decodedToken[1].exp
+  now := time.now_ns() / 1000000000
+  now < exp
+  u := decodedToken[1]
 }
