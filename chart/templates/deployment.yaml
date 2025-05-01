@@ -47,9 +47,13 @@ spec:
               containerPort: {{ .Values.service.port }}
               protocol: TCP
           livenessProbe:
-            {{- toYaml .Values.livenessProbe | nindent 12 }}
+            httpGet:
+              path: /health
+              port: http
           readinessProbe:
-            {{- toYaml .Values.readinessProbe | nindent 12 }}
+            httpGet:
+              path: /health
+              port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
         - name: opa
@@ -60,6 +64,7 @@ spec:
           args:
             - 'run'
             - '--server'
+            - '--ignore=.*'
             - '--config-file=/config/opa-config.yaml'
             - '--addr=0.0.0.0:8181'
             - '--diagnostic-addr=0.0.0.0:8182'
@@ -89,6 +94,9 @@ spec:
             - name: opa-policy
               mountPath: /policy
               readOnly: true
+            - name: opa-data
+              mountPath: /extdata
+              readOnly: true
           resources:
             {{- toYaml .Values.opa.resources | nindent 12 }}
 
@@ -99,6 +107,9 @@ spec:
         - name: opa-policy
           configMap:
             name: {{ include "agenticxp.fullname" . }}-opa-policy
+        - name: opa-data
+          configMap:
+            name: {{ include "agenticxp.fullname" . }}-opa-data
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
