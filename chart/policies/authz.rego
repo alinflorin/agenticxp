@@ -4,7 +4,6 @@ default allow = false
 default is_admin = false
 default user = null
 
-# Public authorization rule
 allow if {
     user
     user.email

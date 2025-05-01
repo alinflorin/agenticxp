@@ -6,6 +6,7 @@ import path from "path";
 import mime from "mime";
 import helloRoute from "./_api/routes/hello";
 import opaMiddleware from "./_api/middlewares/opa-middleware";
+import userProfileRoute from "./_api/routes/user-profile";
 
 interface FileData {
     content: Buffer<ArrayBufferLike>;
@@ -98,6 +99,7 @@ try {
 
         opaMiddleware(fastify);
         await fastify.register(helloRoute);
+        await fastify.register(userProfileRoute);
 
         const start = async () => {
             try {

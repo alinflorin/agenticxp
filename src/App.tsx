@@ -10,6 +10,8 @@ import { useColorMode } from "./hooks/useColorMode";
 import { Toaster } from "./components/Toaster";
 import useStore from "./hooks/useStore";
 import userStore from "./stores/user-store";
+import userProfileStore from "./stores/user-profile-store";
+import userProfileService from "./services/user-profile-service";
 
 export default function App() {
   const {
@@ -20,6 +22,7 @@ export default function App() {
   } = useAuth();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setUserFromStore] = useStore(userStore);
+  const [userProfile, setUserProfile] = useStore(userProfileStore);
   const { i18n, ready: translationReady } = useTranslation();
   const [allLoaded, setAllLoaded] = useState(false);
   const { setColorMode, theme } = useColorMode();
@@ -36,7 +39,15 @@ export default function App() {
         return;
     }
     setUserFromStore(user || undefined);
-  }, [user, setUserFromStore, authIsLoading]);
+    if (user) {
+        (async () => {
+            const up = await userProfileService.getProfile();
+            setUserProfile(up);
+        })();
+    } else {
+        setUserProfile(undefined);
+    }
+  }, [user, setUserProfile, setUserFromStore, authIsLoading]);
 
   const logout = useCallback(() => {
     (async () => {
@@ -84,6 +95,7 @@ export default function App() {
         user={user || undefined}
         currentTheme={theme || "system"}
         onThemeChanged={changeTheme}
+        userProfile={userProfile}
       />
       <Box p={4} flex="auto" minH={0} overflow="auto">
         <Outlet />

@@ -1,5 +1,6 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
 import axios from "axios";
+import { User } from "../models/user";
 
 export interface OpaInput {
     input: {
@@ -14,7 +15,7 @@ export interface OpaAllowResponse {
     result: {
         allow: boolean;
         is_admin: boolean;
-        user: unknown;
+        user: User;
     }
 }
 
@@ -36,7 +37,7 @@ export default function opaMiddleware(fastify: FastifyInstance) {
 
             try {
                 const response = await axios.post<OpaAllowResponse>(
-                    "http://localhost:8181/v1/data/com/huna2/agenticxp/allow",
+                    "http://localhost:8181/v1/data/com/huna2/agenticxp/authz",
                     opaInput,
                     {
                         headers: { "Content-Type": "application/json" },
@@ -44,12 +45,21 @@ export default function opaMiddleware(fastify: FastifyInstance) {
                     }
                 );
 
-                console.log(response.data);
-
                 if (!response.data?.result?.allow) {
                     reply.code(403).send({ message: "Forbidden by policy" });
                     return;
                 }
+
+                const user: User = {
+                    email: response.data.result.user.email,
+                    email_verified: response.data.result.user.email_verified,
+                    name: response.data.result.user.name,
+                    sub: response.data.result.user.sub,
+                    is_admin: response.data.result.is_admin
+                };
+
+                request.user = user;
+                
 
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
             } catch (err: any) {
