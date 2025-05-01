@@ -1,5 +1,5 @@
 {
     "idp": {
-        "issuerInternalUrl": "http://dex.agenticxp-local:5556"
+        "issuerInternalUrl": "https://agenticxp-dex:5556"
     }
 }

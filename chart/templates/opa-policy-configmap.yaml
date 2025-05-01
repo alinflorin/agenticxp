@@ -5,4 +5,4 @@ metadata:
   labels:
     {{- include "agenticxp.labels" . | nindent 4 }}
 data:
-{{ (.Files.Glob "policies/rego/*.rego").AsConfig | indent 2 }}
+{{ (.Files.Glob "policies/*.rego").AsConfig | indent 2 }}
