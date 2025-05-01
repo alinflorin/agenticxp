@@ -37,7 +37,7 @@ export default function opaMiddleware(fastify: FastifyInstance) {
 
             try {
                 const response = await axios.post<OpaAllowResponse>(
-                    "http://localhost:8181/v1/data/com/huna2/agenticxp/authz",
+                    "http://localhost:8181/v1/data/com/huna2/agenticxp",
                     opaInput,
                     {
                         headers: { "Content-Type": "application/json" },
