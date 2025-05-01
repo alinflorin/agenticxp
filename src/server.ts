@@ -4,8 +4,8 @@ import Fastify from "fastify";
 import fs from "fs";
 import path from "path";
 import mime from "mime";
-import registerApiRoutes from "./_api/register-routes";
-// import opaMiddleware from "./_api/middlewares/opa-middleware";
+import helloRoute from "./_api/routes/hello";
+import opaMiddleware from "./_api/middlewares/opa-middleware";
 
 interface FileData {
     content: Buffer<ArrayBufferLike>;
@@ -64,6 +64,10 @@ try {
             },
         });
 
+        fastify.get("/health", async (_, res) => {
+            res.send({ healthy: true });
+        });
+
         // UI
         fastify.get("/*", async (req, res) => {
             let checkPath = `dist/client${req.url.split("?")[0]}`;
@@ -92,14 +96,8 @@ try {
                 .send(staticFiles[checkPath].content);
         });
 
-        fastify.get("/health", async (req, res) => {
-            res.send({ healthy: true });
-        });
-
-        // opaMiddleware(fastify);
-
-        // Register API routes
-        await registerApiRoutes(fastify);
+        opaMiddleware(fastify);
+        await fastify.register(helloRoute);
 
         const start = async () => {
             try {

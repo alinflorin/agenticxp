@@ -18,6 +18,9 @@ export default function opaMiddleware(fastify: FastifyInstance) {
     fastify.addHook(
         "preHandler",
         async (request: FastifyRequest, reply: FastifyReply) => {
+            if (!request.url.toLowerCase().startsWith("/api")) {
+                return;
+            }
             const opaInput: OpaInput = {
                 input: {
                     method: request.method,
@@ -26,6 +29,8 @@ export default function opaMiddleware(fastify: FastifyInstance) {
                     body: request.body,
                 },
             };
+
+            console.log(opaInput);
 
             try {
                 const response = await axios.post<OpaAllowResponse>(
