@@ -21,7 +21,7 @@ user := u if {
 		"force_cache": true,
 		"force_cache_duration_seconds": 3600,
 	}).raw_body
-	signature_ok := io.jwt.verify_rs256(rawToken, jwks)
+	signature_ok := io.jwt.verify_rs256(raw_token, jwks)
 	signature_ok
 	exp := decoded_token[1].exp
 	now := time.now_ns() / 1000000000
