@@ -11,6 +11,7 @@ data:
     labels:
       env: ${ENV}
       app: agenticxp
+      appVersion: "{{ .Chart.AppVersion }}"
     caching:
       inter_query_builtin_cache:
         max_size_bytes: 10000000

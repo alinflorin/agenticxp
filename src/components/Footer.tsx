@@ -1,3 +1,5 @@
+import { version } from "@/version";
+
 export default function Footer() {
-    return <div>footer</div>
+    return <div>v{version}</div>
 }
