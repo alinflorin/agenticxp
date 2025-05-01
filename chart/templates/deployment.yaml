@@ -92,10 +92,11 @@ spec:
               mountPath: /config
               readOnly: true
             - name: opa-policy
-              mountPath: /policy
+              mountPath: /policy/rego
               readOnly: true
             - name: opa-data
-              mountPath: /extdata
+              mountPath: /policy/data.json
+              subPath: data.json
               readOnly: true
           resources:
             {{- toYaml .Values.opa.resources | nindent 12 }}
