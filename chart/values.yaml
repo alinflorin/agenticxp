@@ -153,7 +153,7 @@ dex:
     oauth2:
       responseTypes: [ "code" ]
       skipApprovalScreen: true
-      alwaysShowLoginScreen: false
+      alwaysShowLoginScreen: true
     storage:
       type: kubernetes
       config:
