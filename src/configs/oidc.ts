@@ -18,4 +18,5 @@ export const oidcConfig: AuthProviderProps = {
     }
   },
   automaticSilentRenew: true,
+  loadUserInfo: true
 };

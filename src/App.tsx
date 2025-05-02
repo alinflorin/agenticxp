@@ -16,8 +16,9 @@ import userProfileService from "./services/user-profile-service";
 export default function App() {
   const {
     user,
-    signoutRedirect,
+    removeUser,
     signinRedirect,
+    signinSilent,
     isLoading: authIsLoading,
   } = useAuth();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -38,6 +39,16 @@ export default function App() {
     if (authIsLoading) {
         return;
     }
+    if (user && user.expired) {
+        (async () => {
+            try {
+                await signinSilent();
+            } catch {
+                // ignored
+            }
+        })();
+        return;
+    }
     setUserFromStore(user || undefined);
     if (user) {
         (async () => {
@@ -47,13 +58,13 @@ export default function App() {
     } else {
         setUserProfile(undefined);
     }
-  }, [user, setUserProfile, setUserFromStore, authIsLoading]);
+  }, [user, setUserProfile, setUserFromStore, authIsLoading, signinSilent]);
 
   const logout = useCallback(() => {
     (async () => {
-      await signoutRedirect();
+      await removeUser();
     })();
-  }, [signoutRedirect]);
+  }, [removeUser]);
 
   const login = useCallback(() => {
     (async () => {
