@@ -307,7 +307,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: [docker-merge, helm, version]
+    needs: [docker-merge, helm, version, set-version]
     env:
       VERSION: ${{ needs.version.outputs.VERSION }}
     strategy:
