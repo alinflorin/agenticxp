@@ -15,6 +15,7 @@ export default defineConfig({
     host: "0.0.0.0",
     allowedHosts: [
       "agenticxp.127.0.0.1.nip.io",
+      "agenticxp-stg.internal.huna2.com",
       "localhost",
       "127.0.0.1"
     ],

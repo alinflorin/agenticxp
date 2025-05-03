@@ -14,105 +14,111 @@ import userProfileStore from "./stores/user-profile-store";
 import userProfileService from "./services/user-profile-service";
 
 export default function App() {
-  const {
-    user,
-    removeUser,
-    signinRedirect,
-    signinSilent,
-    isLoading: authIsLoading,
-  } = useAuth();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_, setUserFromStore] = useStore(userStore);
-  const [userProfile, setUserProfile] = useStore(userProfileStore);
-  const { i18n, ready: translationReady } = useTranslation();
-  const [allLoaded, setAllLoaded] = useState(false);
-  const { setColorMode, theme } = useColorMode();
+    const {
+        user,
+        removeUser,
+        signinRedirect,
+        signinSilent,
+        isLoading: authIsLoading,
+    } = useAuth();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [_, setUserFromStore] = useStore(userStore);
+    const [userProfile, setUserProfile] = useStore(userProfileStore);
+    const { i18n, ready: translationReady } = useTranslation();
+    const [allLoaded, setAllLoaded] = useState(false);
+    const { setColorMode, theme } = useColorMode();
 
-  useEffect(() => {
-    if (translationReady && !authIsLoading) {
-      setAllLoaded(true);
-    }
-  }, [translationReady, authIsLoading]);
+    useEffect(() => {
+        if (translationReady && !authIsLoading) {
+            setAllLoaded(true);
+        }
+    }, [translationReady, authIsLoading]);
 
-
-  useEffect(() => {
-    if (authIsLoading) {
-        return;
-    }
-    if (user && user.expired) {
+    const logout = useCallback(() => {
         (async () => {
-            try {
-                await signinSilent();
-            } catch {
-                // ignored
-            }
+            await removeUser();
         })();
-        return;
-    }
-    setUserFromStore(user || undefined);
-    if (user) {
+    }, [removeUser]);
+
+    useEffect(() => {
+        if (user && user.expired) {
+            (async () => {
+                try {
+                    const result = await signinSilent();
+                    if (!result) {
+                        logout();
+                    }
+                } catch (e: unknown) {
+                    console.error(e);
+                    logout();
+                }
+            })();
+            return;
+        }
+        setUserFromStore(user || undefined);
+        if (user && !user.expired) {
+            (async () => {
+                const up = await userProfileService.getProfile();
+                setUserProfile(up);
+            })();
+        } else {
+            setUserProfile(undefined);
+        }
+    }, [
+        user,
+        setUserProfile,
+        setUserFromStore,
+        signinSilent,
+        logout,
+    ]);
+
+    const login = useCallback(() => {
         (async () => {
-            const up = await userProfileService.getProfile();
-            setUserProfile(up);
+            await signinRedirect();
         })();
-    } else {
-        setUserProfile(undefined);
+    }, [signinRedirect]);
+
+    const changeLanguage = useCallback(
+        (newLng: string) => {
+            (async () => {
+                await i18n.changeLanguage(newLng);
+            })();
+        },
+        [i18n]
+    );
+
+    const changeTheme = useCallback(
+        (newTheme: string) => {
+            setColorMode(newTheme);
+            localStorage.setItem("theme", newTheme);
+        },
+        [setColorMode]
+    );
+
+    if (!allLoaded) {
+        return <Loading />;
     }
-  }, [user, setUserProfile, setUserFromStore, authIsLoading, signinSilent]);
 
-  const logout = useCallback(() => {
-    (async () => {
-      await removeUser();
-    })();
-  }, [removeUser]);
-
-  const login = useCallback(() => {
-    (async () => {
-      await signinRedirect();
-    })();
-  }, [signinRedirect]);
-
-  const changeLanguage = useCallback(
-    (newLng: string) => {
-      (async () => {
-        await i18n.changeLanguage(newLng);
-      })();
-    },
-    [i18n]
-  );
-
-  const changeTheme = useCallback(
-    (newTheme: string) => {
-      setColorMode(newTheme);
-      localStorage.setItem("theme", newTheme);
-    },
-    [setColorMode]
-  );
-
-  if (!allLoaded) {
-    return <Loading />;
-  }
-
-  return (
-    <Flex flexDirection="column" w="100%" h="100%">
-      <Header
-        onLoginClicked={login}
-        onLogoutClicked={logout}
-        currentLanguageCode={i18n.language}
-        supportedLanguages={(
-          i18n.options.supportedLngs as readonly string[]
-        ).filter((x) => x !== "cimode")}
-        onLanguageChanged={changeLanguage}
-        user={user || undefined}
-        currentTheme={theme || "system"}
-        onThemeChanged={changeTheme}
-        userProfile={userProfile}
-      />
-      <Box p={4} flex="auto" minH={0} overflow="auto">
-        <Outlet />
-      </Box>
-      <Footer />
-      <Toaster />
-    </Flex>
-  );
+    return (
+        <Flex flexDirection="column" w="100%" h="100%">
+            <Header
+                onLoginClicked={login}
+                onLogoutClicked={logout}
+                currentLanguageCode={i18n.language}
+                supportedLanguages={(
+                    i18n.options.supportedLngs as readonly string[]
+                ).filter((x) => x !== "cimode")}
+                onLanguageChanged={changeLanguage}
+                user={user || undefined}
+                currentTheme={theme || "system"}
+                onThemeChanged={changeTheme}
+                userProfile={userProfile}
+            />
+            <Box p={4} flex="auto" minH={0} overflow="auto">
+                <Outlet />
+            </Box>
+            <Footer />
+            <Toaster />
+        </Flex>
+    );
 }
