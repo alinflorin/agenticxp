@@ -1,4 +1,4 @@
-import { User } from "./_api/models/user";
+import { User } from "./models/user";
 
 declare module "fastify" {
     interface FastifyRequest {

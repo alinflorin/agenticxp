@@ -1,10 +1,10 @@
 import './loadEnv';
 import Fastify from "fastify";
-import helloRoute from "./_api/routes/hello";
-import opaMiddleware from "./_api/middlewares/opa-middleware";
-import userProfileRoute from "./_api/routes/user-profile";
-import spaRoute from "./_api/routes/spa";
-import healthRoute from "./_api/routes/health";
+import helloRoute from "./routes/hello";
+import opaMiddleware from "./middlewares/opa-middleware";
+import userProfileRoute from "./routes/user-profile";
+import spaRoute from "./routes/spa";
+import healthRoute from "./routes/health";
 
 (async () => {
     try {
