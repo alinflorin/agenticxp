@@ -23,7 +23,7 @@ mongodb:
   storage:
     requestedSize: 25Gi
   settings:
-    rootPassword: '${MONGODB_PASSWORD}'
+    rootPassword: '${MONGODB_ROOT_PASSWORD}'
   userDatabase:
     password: '${MONGODB_PASSWORD}'
 
