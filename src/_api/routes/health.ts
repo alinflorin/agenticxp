@@ -1,12 +1,11 @@
 import { FastifyInstance, FastifyPluginAsync } from "fastify";
-import db from "../services/mongodb";
+// import db from "../services/mongodb";
 
 export const healthRoute: FastifyPluginAsync = (
     fastify: FastifyInstance
 ): Promise<void> => {
     fastify.get("/health", async (_, res) => {
-        const x = await db.stats();
-        console.log(x);
+        // await db.stats();
         res.send({ healthy: true });
     });
 
