@@ -1,5 +1,4 @@
-import { config } from "dotenv";
-config({ override: true, path: "./.env.local" });
+import './loadEnv';
 import Fastify from "fastify";
 import helloRoute from "./_api/routes/hello";
 import opaMiddleware from "./_api/middlewares/opa-middleware";

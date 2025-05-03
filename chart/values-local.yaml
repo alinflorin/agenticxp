@@ -3,6 +3,8 @@ image:
   pullPolicy: Always
   tag: "latest"
 mongodb:
+  settings:
+    rootPassword: '${MONGODB_PASSWORD}'
   userDatabase:
     password: '${MONGODB_PASSWORD}'
 dex:

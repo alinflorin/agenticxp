@@ -20,6 +20,8 @@ ingress:
         - agenticxp-stg.internal.huna2.com
 
 mongodb:
+  settings:
+    rootPassword: '${MONGODB_PASSWORD}'
   userDatabase:
     password: '${MONGODB_PASSWORD}'
 

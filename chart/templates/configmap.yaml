@@ -8,7 +8,7 @@ data:
   MONGODB_USER: {{ .Values.mongodb.userDatabase.user }}
   MONGODB_DATABASE: {{ .Values.mongodb.userDatabase.name }}
   MONGODB_HOST: "{{ include "agenticxp.fullname" . }}-mongodb"
-  MONGODB_PORT: "27015"
+  MONGODB_PORT: "27017"
   OIDC_CLIENT_ID: {{ (index .Values.dex.config.staticClients 0).id }}
   OIDC_ISSUER: {{ .Values.dex.config.issuer }}
   OIDC_ISSUER_INTERNAL: "http://{{ include "agenticxp.fullname" . }}-dex:5556"

@@ -22,6 +22,8 @@ ingress:
 mongodb:
   storage:
     requestedSize: 25Gi
+  settings:
+    rootPassword: '${MONGODB_PASSWORD}'
   userDatabase:
     password: '${MONGODB_PASSWORD}'
 

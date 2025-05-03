@@ -116,6 +116,9 @@ mongodb:
   resources: {}
   storage:
     requestedSize: 5Gi
+    settings:
+      rootUsername: root
+      rootPassword: ''
   userDatabase:
     name: agenticxp
     user: agenticxp
