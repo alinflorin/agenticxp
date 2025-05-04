@@ -51,7 +51,6 @@ console.log("Is Dev: ", isDev);
             initOAuth: {
                 appName: "agenticxp",
                 clientId: "agenticxp",
-                usePkceWithAuthorizationCodeGrant: true,
                 scopes: ["openid", "profile", "email", "offline_access"],
                 scopeSeparator: " ",
             },
