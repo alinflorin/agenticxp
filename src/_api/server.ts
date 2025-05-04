@@ -5,6 +5,8 @@ import opaMiddleware from "./middlewares/opa-middleware";
 import userProfileRoute from "./routes/user-profile";
 import spaRoute from "./routes/spa";
 import healthRoute from "./routes/health";
+import swagger from '@fastify/swagger';
+import swaggerUi from '@fastify/swagger-ui';
 
 (async () => {
     try {
@@ -13,13 +15,26 @@ import healthRoute from "./routes/health";
                 level: "warn",
             },
         });
+
+        await fastify.register(swagger);
+        await fastify.register(swaggerUi, {
+            routePrefix: '/swagger',
+            initOAuth: {
+                appName: 'agenticxp-swagger',
+                clientId: 'agenticxp',
+                usePkceWithAuthorizationCodeGrant: true,
+                scopes: ['openid', 'profile', 'email', 'offline_access'],
+                scopeSeparator: " "
+            }
+          });
+
         opaMiddleware(fastify);
 
 
         await fastify.register(healthRoute);
-        await fastify.register(spaRoute);
         await fastify.register(userProfileRoute);
         await fastify.register(helloRoute);
+        await fastify.register(spaRoute);
 
         const start = async () => {
             try {
