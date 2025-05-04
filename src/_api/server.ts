@@ -8,6 +8,10 @@ import healthRoute from "./routes/health";
 import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
 import { version } from "@/version";
+import path from "path";
+
+const isDev = process.argv[process.argv.length - 1].endsWith(".ts");
+console.log("Is Dev: ", isDev);
 
 (async () => {
     try {
@@ -28,17 +32,22 @@ import { version } from "@/version";
                         OpenID: {
                             type: "openIdConnect",
                             openIdConnectUrl:
-                                process.env.OIDC_ISSUER + "/.well-known/openid-configuration",
+                                process.env.OIDC_ISSUER +
+                                "/.well-known/openid-configuration",
                         },
                     },
                 },
-                security: [
-                    { OpenID: [] },
-                ],
+                security: [{ OpenID: [] }],
             },
         });
+
         await fastify.register(swaggerUi, {
             routePrefix: "/swagger",
+            baseDir: isDev ? undefined : path.resolve("./dist/server/swagger"),
+            logo: {
+                content: "",
+                type: "",
+            },
             initOAuth: {
                 appName: "agenticxp",
                 clientId: "agenticxp",
