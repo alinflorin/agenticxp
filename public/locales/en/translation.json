@@ -10,33 +10,36 @@
     },
     "validation": {
         "agent": {
-            "nameIsRequired": "",
-            "connectionIsRequired": "",
-            "connectionIsInvalid": "",
-            "modelIsRequired": "",
-            "systemPromptIsRequired": ""
+            "nameIsRequired": "Agent name is required.",
+            "connectionIsRequired": "A connection is required for the agent.",
+            "connectionIsInvalid": "The specified connection for the agent is invalid.",
+            "modelIsRequired": "A model must be selected for the agent.",
+            "systemPromptIsRequired": "A system prompt is required for the agent."
         },
         "chat": {
-            "titleIsRequired": "",
-            "agentIsRequired": "",
-            "agentIsInvalid": ""
+            "titleIsRequired": "Chat title is required.",
+            "agentIsRequired": "An agent must be assigned to the chat.",
+            "agentIsInvalid": "The selected agent is invalid."
         },
         "connection": {
-            "nameIsRequired": "",
-            "apiBaseUrlIsRequired": "",
-            "apiBaseUrlIsInvalid": ""
+            "nameIsRequired": "Connection name is required.",
+            "apiBaseUrlIsRequired": "API base URL is required.",
+            "apiBaseUrlIsInvalid": "API base URL is invalid."
         },
         "message": {
-            "sourceIsRequired": "",
-            "chatIsRequired": "",
-            "chatIsInvalid": "",
-            "contentIsRequired": ""
+            "sourceIsRequired": "Message source is required.",
+            "chatIsRequired": "Chat reference is required for the message.",
+            "chatIsInvalid": "Chat reference is invalid.",
+            "contentIsRequired": "Message content cannot be empty."
         },
-        "toolParameter": { "nameIsRequired": "", "typeIsRequired": "" },
+        "toolParameter": {
+            "nameIsRequired": "Tool parameter name is required.",
+            "typeIsRequired": "Tool parameter type is required."
+        },
         "tool": {
-            "mcpServerIsRequired": "",
-            "mcpServerIsInvalid": "",
-            "nameIsRequired": ""
+            "mcpServerIsRequired": "MCP server address is required.",
+            "mcpServerIsInvalid": "MCP server address is invalid.",
+            "nameIsRequired": "Tool name is required."
         }
     }
 }

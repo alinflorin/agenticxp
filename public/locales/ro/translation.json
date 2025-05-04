@@ -14,33 +14,36 @@
     },
     "validation": {
         "agent": {
-            "nameIsRequired": "",
-            "connectionIsRequired": "",
-            "connectionIsInvalid": "",
-            "modelIsRequired": "",
-            "systemPromptIsRequired": ""
+            "nameIsRequired": "Numele agentului este obligatoriu.",
+            "connectionIsRequired": "Este necesară o conexiune pentru agent.",
+            "connectionIsInvalid": "Conexiunea specificată pentru agent este invalidă.",
+            "modelIsRequired": "Trebuie selectat un model pentru agent.",
+            "systemPromptIsRequired": "Promptul de sistem este obligatoriu pentru agent."
         },
         "chat": {
-            "titleIsRequired": "",
-            "agentIsRequired": "",
-            "agentIsInvalid": ""
+            "titleIsRequired": "Titlul conversației este obligatoriu.",
+            "agentIsRequired": "Este necesar un agent pentru conversație.",
+            "agentIsInvalid": "Agentul selectat este invalid."
         },
         "connection": {
-            "nameIsRequired": "",
-            "apiBaseUrlIsRequired": "",
-            "apiBaseUrlIsInvalid": ""
+            "nameIsRequired": "Numele conexiunii este obligatoriu.",
+            "apiBaseUrlIsRequired": "URL-ul de bază al API-ului este obligatoriu.",
+            "apiBaseUrlIsInvalid": "URL-ul de bază al API-ului este invalid."
         },
         "message": {
-            "sourceIsRequired": "",
-            "chatIsRequired": "",
-            "chatIsInvalid": "",
-            "contentIsRequired": ""
+            "sourceIsRequired": "Sursa mesajului este obligatorie.",
+            "chatIsRequired": "Mesajul trebuie să fie asociat cu o conversație.",
+            "chatIsInvalid": "Conversația asociată este invalidă.",
+            "contentIsRequired": "Conținutul mesajului nu poate fi gol."
         },
-        "toolParameter": { "nameIsRequired": "", "typeIsRequired": "" },
+        "toolParameter": {
+            "nameIsRequired": "Numele parametrului este obligatoriu.",
+            "typeIsRequired": "Tipul parametrului este obligatoriu."
+        },
         "tool": {
-            "mcpServerIsRequired": "",
-            "mcpServerIsInvalid": "",
-            "nameIsRequired": ""
+            "mcpServerIsRequired": "Adresa serverului MCP este obligatorie.",
+            "mcpServerIsInvalid": "Adresa serverului MCP este invalidă.",
+            "nameIsRequired": "Numele uneltei este obligatoriu."
         }
     }
 }
