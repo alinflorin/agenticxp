@@ -57,7 +57,7 @@ console.log("Is Dev: ", isDev);
         });
 
         opaMiddleware(fastify);
-
+        
         await fastify.register(healthRoute);
         await fastify.register(userProfileRoute);
         await fastify.register(helloRoute);
