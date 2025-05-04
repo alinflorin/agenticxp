@@ -140,6 +140,11 @@ dex:
     annotations:
       cert-manager.io/cluster-issuer: 'my-root-ca-issuer'
       nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+      nginx.ingress.kubernetes.io/enable-cors: "true"
+      nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+      nginx.ingress.kubernetes.io/cors-allow-methods: "*"
+      nginx.ingress.kubernetes.io/cors-allow-headers: "*"
+      nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
     className: "nginx"
   serviceAccountName: dex
   config:

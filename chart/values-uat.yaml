@@ -41,6 +41,11 @@ dex:
     annotations:
       cert-manager.io/cluster-issuer: 'letsencrypt'
       nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+      nginx.ingress.kubernetes.io/enable-cors: "true"
+      nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+      nginx.ingress.kubernetes.io/cors-allow-methods: "*"
+      nginx.ingress.kubernetes.io/cors-allow-headers: "*"
+      nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
     className: "nginx-private"
   config:
     issuer: https://idp.agenticxp-uat.internal.huna2.com
