@@ -21,6 +21,7 @@ export default function App() {
         signinSilent,
         isLoading: authIsLoading,
     } = useAuth();
+    const [userProfileLoaded, setUserProfileLoaded] = useState(false);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [_, setUserFromStore] = useStore(userStore);
     const [userProfile, setUserProfile] = useStore(userProfileStore);
@@ -29,10 +30,10 @@ export default function App() {
     const { setColorMode, theme } = useColorMode();
 
     useEffect(() => {
-        if (translationReady && !authIsLoading) {
+        if (translationReady && !authIsLoading && userProfileLoaded) {
             setAllLoaded(true);
         }
-    }, [translationReady, authIsLoading]);
+    }, [translationReady, authIsLoading, userProfileLoaded]);
 
     const logout = useCallback(() => {
         (async () => {
@@ -41,6 +42,9 @@ export default function App() {
     }, [removeUser]);
 
     useEffect(() => {
+        if (authIsLoading) {
+            return;
+        }
         if (user && user.expired) {
             (async () => {
                 try {
@@ -57,19 +61,28 @@ export default function App() {
         }
         setUserFromStore(user || undefined);
         if (user && !user.expired) {
+            setUserProfileLoaded(false);
             (async () => {
+                try {
                 const up = await userProfileService.getProfile();
                 setUserProfile(up);
+                setUserProfileLoaded(true);
+                } catch {
+                    setUserProfileLoaded(true);
+                }
             })();
         } else {
             setUserProfile(undefined);
+            setUserProfileLoaded(true);
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
         user,
         setUserProfile,
         setUserFromStore,
         signinSilent,
         logout,
+        setUserProfileLoaded
     ]);
 
     const login = useCallback(() => {

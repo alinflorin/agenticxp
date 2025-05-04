@@ -15,7 +15,7 @@ import { LuChevronRight } from "react-icons/lu";
 import { useColorModeValue } from "@/hooks/useColorModeValue";
 import { languages } from "@/constants/languages";
 import { toCapitalCase } from "@/helpers/string-helpers";
-import { UserProfile } from "@/dto/user-profile";
+import { UserProfile } from "@/shared-models/user-profile";
 
 export interface HeaderProps {
     user: User | undefined;

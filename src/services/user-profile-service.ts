@@ -1,4 +1,4 @@
-import { UserProfile } from "@/dto/user-profile";
+import { UserProfile } from "@/shared-models/user-profile";
 import axios from "axios";
 
 export const userProfileService = {

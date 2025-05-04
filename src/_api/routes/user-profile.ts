@@ -1,5 +1,5 @@
 import { FastifyInstance, FastifyPluginAsync } from "fastify";
-import { UserProfile } from "@/dto/user-profile";
+import { UserProfile } from "@/shared-models/user-profile";
 
 export const userProfileRoute: FastifyPluginAsync = (
     fastify: FastifyInstance
