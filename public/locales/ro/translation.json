@@ -1,16 +1,46 @@
 {
-  "ui": {
-    "header": {
-      "logout": "Ieșire",
-      "login": "Autentificare",
-      "language": "Limbă",
-      "theme": "Temă",
-      "themes": {
-        "system": "Sistem",
-        "light": "Luminoasă",
-        "dark": "Întunecată"
-      }
+    "ui": {
+        "header": {
+            "logout": "Ieșire",
+            "login": "Autentificare",
+            "language": "Limbă",
+            "theme": "Temă",
+            "themes": {
+                "system": "Sistem",
+                "light": "Luminoasă",
+                "dark": "Întunecată"
+            }
+        }
+    },
+    "validation": {
+        "agent": {
+            "nameIsRequired": "",
+            "connectionIsRequired": "",
+            "connectionIsInvalid": "",
+            "modelIsRequired": "",
+            "systemPromptIsRequired": ""
+        },
+        "chat": {
+            "titleIsRequired": "",
+            "agentIsRequired": "",
+            "agentIsInvalid": ""
+        },
+        "connection": {
+            "nameIsRequired": "",
+            "apiBaseUrlIsRequired": "",
+            "apiBaseUrlIsInvalid": ""
+        },
+        "message": {
+            "sourceIsRequired": "",
+            "chatIsRequired": "",
+            "chatIsInvalid": "",
+            "contentIsRequired": ""
+        },
+        "toolParameter": { "nameIsRequired": "", "typeIsRequired": "" },
+        "tool": {
+            "mcpServerIsRequired": "",
+            "mcpServerIsInvalid": "",
+            "nameIsRequired": ""
+        }
     }
-  },
-  "validation": {}
 }

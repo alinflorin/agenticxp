@@ -1,16 +1,42 @@
 {
-  "ui": {
-    "header": {
-      "logout": "Logout",
-      "login": "Login",
-      "language": "Language",
-      "theme": "Theme",
-      "themes": {
-        "system": "System",
-        "light": "Light",
-        "dark": "Dark"
-      }
+    "ui": {
+        "header": {
+            "logout": "Logout",
+            "login": "Login",
+            "language": "Language",
+            "theme": "Theme",
+            "themes": { "system": "System", "light": "Light", "dark": "Dark" }
+        }
+    },
+    "validation": {
+        "agent": {
+            "nameIsRequired": "",
+            "connectionIsRequired": "",
+            "connectionIsInvalid": "",
+            "modelIsRequired": "",
+            "systemPromptIsRequired": ""
+        },
+        "chat": {
+            "titleIsRequired": "",
+            "agentIsRequired": "",
+            "agentIsInvalid": ""
+        },
+        "connection": {
+            "nameIsRequired": "",
+            "apiBaseUrlIsRequired": "",
+            "apiBaseUrlIsInvalid": ""
+        },
+        "message": {
+            "sourceIsRequired": "",
+            "chatIsRequired": "",
+            "chatIsInvalid": "",
+            "contentIsRequired": ""
+        },
+        "toolParameter": { "nameIsRequired": "", "typeIsRequired": "" },
+        "tool": {
+            "mcpServerIsRequired": "",
+            "mcpServerIsInvalid": "",
+            "nameIsRequired": ""
+        }
     }
-  },
-  "validation": {}
 }
