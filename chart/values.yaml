@@ -153,6 +153,7 @@ dex:
         name: 'agenticxp'
         redirectURIs:
         - 'https://agenticxp.127.0.0.1.nip.io'
+        - 'https://agenticxp.127.0.0.1.nip.io/swagger/static/oauth2-redirect.html'
     oauth2:
       responseTypes: [ "code" ]
       skipApprovalScreen: true

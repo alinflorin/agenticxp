@@ -56,3 +56,4 @@ dex:
         name: 'agenticxp'
         redirectURIs:
         - 'https://agenticxp-stg.internal.huna2.com'
+        - 'https://agenticxp-stg.internal.huna2.com/swagger/static/oauth2-redirect.html'

@@ -1,12 +1,13 @@
-import './loadEnv';
+import "./loadEnv";
 import Fastify from "fastify";
 import helloRoute from "./routes/hello";
 import opaMiddleware from "./middlewares/opa-middleware";
 import userProfileRoute from "./routes/user-profile";
 import spaRoute from "./routes/spa";
 import healthRoute from "./routes/health";
-import swagger from '@fastify/swagger';
-import swaggerUi from '@fastify/swagger-ui';
+import swagger from "@fastify/swagger";
+import swaggerUi from "@fastify/swagger-ui";
+import { version } from "@/version";
 
 (async () => {
     try {
@@ -16,20 +17,38 @@ import swaggerUi from '@fastify/swagger-ui';
             },
         });
 
-        await fastify.register(swagger);
+        await fastify.register(swagger, {
+            openapi: {
+                info: {
+                    title: "AgenticXP API",
+                    version: version,
+                },
+                components: {
+                    securitySchemes: {
+                        OpenID: {
+                            type: "openIdConnect",
+                            openIdConnectUrl:
+                                process.env.OIDC_ISSUER + "/.well-known/openid-configuration",
+                        },
+                    },
+                },
+                security: [
+                    { OpenID: [] },
+                ],
+            },
+        });
         await fastify.register(swaggerUi, {
-            routePrefix: '/swagger',
+            routePrefix: "/swagger",
             initOAuth: {
-                appName: 'agenticxp-swagger',
-                clientId: 'agenticxp',
+                appName: "agenticxp",
+                clientId: "agenticxp",
                 usePkceWithAuthorizationCodeGrant: true,
-                scopes: ['openid', 'profile', 'email', 'offline_access'],
-                scopeSeparator: " "
-            }
-          });
+                scopes: ["openid", "profile", "email", "offline_access"],
+                scopeSeparator: " ",
+            },
+        });
 
         opaMiddleware(fastify);
-
 
         await fastify.register(healthRoute);
         await fastify.register(userProfileRoute);
