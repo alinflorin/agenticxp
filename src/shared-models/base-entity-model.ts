@@ -1,7 +1,7 @@
 export interface BaseEntityModel {
     _id?: string;
-    createdDate?: Date;
-    updatedDate?: Date;
+    createdDate?: string;
+    updatedDate?: string;
     createdBy?: string;
     updatedBy?: string;
 }

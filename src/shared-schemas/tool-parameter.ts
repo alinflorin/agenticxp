@@ -6,7 +6,6 @@ export const toolParameterSchema: ObjectSchema<ToolParameter> = yup.object({
         .string()
         .required("ui.toolParameter.nameIsRequired")
         .label("ui.toolParameter.name")
-        .default("get_weather")
         .example("get_weather"),
     type: yup
         .string()
@@ -16,16 +15,14 @@ export const toolParameterSchema: ObjectSchema<ToolParameter> = yup.object({
             "ui.toolParameter.typeIsInvalid"
         )
         .label("ui.toolParameter.type")
-        .default("string")
         .example("string"),
-    description: yup.string().optional().label("ui.toolParameter.description").default("Some description").example("Some description"),
+    description: yup.string().optional().label("ui.toolParameter.description").example("Some description"),
     required: yup
         .boolean()
         .required("ui.toolParameter.requiredIsRequired")
         .label("ui.toolParameter.required")
-        .default(true)
         .example(true),
-    defaultValue: yup.mixed().optional().label("ui.toolParameter.defaultValue").default("default").example("default"),
-});
+    defaultValue: yup.mixed().optional().label("ui.toolParameter.defaultValue").example("default"),
+}).required();
 
 export default toolParameterSchema;

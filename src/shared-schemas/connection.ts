@@ -8,16 +8,14 @@ export const connectionSchema: ObjectSchema<Connection> =
             .string()
             .required("ui.connection.nameIsRequired")
             .label("ui.connection.name")
-            .default("New Connection")
             .example("New Connection"),
         apiBaseUrl: yup
             .string()
             .required("ui.connection.apiBaseUrlIsRequired")
             .url("ui.connection.apiBaseUrlIsInvalid")
             .label("ui.connection.apiBaseUrl")
-            .default("https://api.openai.com/v1")
             .example("https://api.openai.com/v1"),
-        apiKey: yup.string().optional().label("ui.connection.apiKey").default("sk-xxxxx").example("sk-xxxxx"),
+        apiKey: yup.string().optional().label("ui.connection.apiKey").example("sk-xxxxx"),
     });
 
 export default connectionSchema;

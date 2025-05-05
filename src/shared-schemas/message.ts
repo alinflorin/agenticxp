@@ -12,20 +12,17 @@ export const messageSchema: ObjectSchema<Message> = baseEntityModelSchema.shape(
                 "ui.message.sourceIsInvalid"
             )
             .label("ui.message.source")
-            .default("human")
             .example("human"),
         chatId: yup
             .string()
             .required("ui.message.chatIsRequired")
             .matches(/^[a-f\d]{24}$/i, "ui.message.chatIsInvalid")
             .label("ui.message.chat")
-            .default("chat-id")
             .example("chat-id"),
         content: yup
             .string()
             .required("ui.message.contentIsRequired")
             .label("ui.message.content")
-            .default("Hi there")
             .example("Hi there"),
     }
 );
