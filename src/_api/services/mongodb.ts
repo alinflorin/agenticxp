@@ -8,7 +8,8 @@ const mongoClient = new MongoClient(
             username: process.env.MONGODB_USER,
             password: process.env.MONGODB_PASSWORD,
         },
-        authSource: process.env.MONGODB_DATABASE
+        authSource: process.env.MONGODB_DATABASE,
+        ignoreUndefined: true
     }
 );
 
