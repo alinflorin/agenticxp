@@ -1,4 +1,5 @@
-import connectionValidator from "@/shared-validators/connection-validator";
+import connectionSchema from "@/shared-schemas/connection";
+
 import { FastifyInstance, FastifyPluginAsync } from "fastify";
 
 export const connectionsRoute: FastifyPluginAsync = (
@@ -7,7 +8,7 @@ export const connectionsRoute: FastifyPluginAsync = (
 
   fastify.post("/api/connections", {
     schema: {
-        body: connectionValidator
+        body: connectionSchema
     }
   }, async () => {
     return { message: "Hello from 22222!!!" };

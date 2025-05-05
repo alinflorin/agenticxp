@@ -10,9 +10,7 @@
                 "light": "Luminoasă",
                 "dark": "Întunecată"
             }
-        }
-    },
-    "validation": {
+        },
         "agent": {
             "nameIsRequired": "Numele agentului este obligatoriu.",
             "connectionIsRequired": "Este necesară o conexiune pentru agent.",

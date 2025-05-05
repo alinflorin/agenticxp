@@ -1,5 +1,5 @@
 import "./loadEnv";
-import "./extendYup";
+import "../extendYup";
 import Fastify from "fastify";
 import helloRoute from "./routes/hello";
 import opaMiddleware from "./middlewares/opa-middleware";
