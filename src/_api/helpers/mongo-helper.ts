@@ -31,7 +31,7 @@ export const toModel = <TSource extends BaseEntity, TTarget extends BaseEntityMo
     } as TTarget;
     const sourceKeys = Object.keys(source);
     const targetKeys = Object.keys(target);
-    const inSourceNotInTargetKeys = sourceKeys.filter(x => !targetKeys.includes(x));
+    const inSourceNotInTargetKeys = sourceKeys.filter(x => !targetKeys.includes(x) && x !== 'isDeleted');
     for (const k of inSourceNotInTargetKeys) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (target as any)[k] = (source as any)[k];

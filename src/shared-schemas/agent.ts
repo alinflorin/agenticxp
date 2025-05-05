@@ -26,13 +26,19 @@ export const agentSchema: ObjectSchema<Agent> = baseEntityModelSchema.shape({
         .required("ui.agent.systemPromptIsRequired")
         .label("ui.agent.systemPrompt")
         .example("You are a..."),
-    params: modelParamsValidator.optional().label("ui.agent.params"),
+    params: modelParamsValidator
+        .optional()
+        .label("ui.agent.params"),
     streaming: yup
         .boolean()
         .required("ui.agent.streamingIsRequired")
         .label("ui.agent.streaming")
         .example(true),
-    tools: yup.array(toolSchema).optional().label("ui.agent.tools").example([]),
+    tools: yup
+        .array(toolSchema)
+        .optional()
+        .label("ui.agent.tools")
+        .example([]),
 });
 
 export default agentSchema;
