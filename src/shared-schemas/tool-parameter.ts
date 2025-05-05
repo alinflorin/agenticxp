@@ -7,8 +7,7 @@ export const toolParameterSchema: ObjectSchema<ToolParameter> = yup
             .string()
             .required("ui.toolParameter.nameIsRequired")
             .label("ui.toolParameter.name")
-            .example("get_weather")
-            .default(null),
+            .example("get_weather"),
         type: yup
             .string()
             .required("ui.toolParameter.typeIsRequired")
@@ -17,8 +16,7 @@ export const toolParameterSchema: ObjectSchema<ToolParameter> = yup
                 "ui.toolParameter.typeIsInvalid"
             )
             .label("ui.toolParameter.type")
-            .example("string")
-            .default(null),
+            .example("string"),
         description: yup
             .string()
             .optional()
@@ -28,14 +26,12 @@ export const toolParameterSchema: ObjectSchema<ToolParameter> = yup
             .boolean()
             .required("ui.toolParameter.requiredIsRequired")
             .label("ui.toolParameter.required")
-            .example(true)
-            .default(null),
+            .example(true),
         defaultValue: yup
             .mixed()
             .optional()
             .label("ui.toolParameter.defaultValue")
-            .example("default")
-            .default(null),
+            .example("default"),
     })
     .required();
 

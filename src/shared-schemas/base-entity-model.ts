@@ -6,32 +6,27 @@ export const baseEntityModelSchema: ObjectSchema<BaseEntityModel> = yup
             .string()
             .optional()
             .label("ui.baseEntityModel.createdDate")
-            .example(new Date().toISOString())
-            .default(null),
+            .example(new Date().toISOString()),
         createdBy: yup
             .string()
             .optional()
             .label("ui.baseEntityModel.createdBy")
-            .example("system")
-            .default(null),
+            .example("system"),
         updatedBy: yup
             .string()
             .optional()
             .label("ui.baseEntityModel.updatedBy")
-            .example("system")
-            .default(null),
+            .example("system"),
         updatedDate: yup
             .string()
             .optional()
             .label("ui.baseEntityModel.updatedDate")
-            .example(new Date().toISOString())
-            .default(null),
+            .example(new Date().toISOString()),
         _id: yup
             .string()
             .optional()
             .label("ui.baseEntityModel.id")
-            .example("id-here")
-            .default(null),
+            .example("id-here"),
     })
     .required();
 export default baseEntityModelSchema;

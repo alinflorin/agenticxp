@@ -9,8 +9,7 @@ export const mcpServerSchema: ObjectSchema<McpServer> =
             .required()
             .oneOf(["stdio", "sse"])
             .label("ui.mcpServer.type")
-            .example("sse")
-            .default(null),
+            .example("sse"),
         command: yup
             .string()
             .when("type", (type, schema) =>
@@ -19,12 +18,10 @@ export const mcpServerSchema: ObjectSchema<McpServer> =
                           .required("ui.mcpServer.commandIsRequired")
                           .label("ui.mcpServer.command")
                           .example("npx -y @modelcontextprotocol/server-memory")
-                          .default(null)
                     : schema
                           .optional()
                           .label("ui.mcpServer.command")
                           .example("npx -y @modelcontextprotocol/server-memory")
-                          .default(null)
             ),
         envVars: yup
             .object()
@@ -39,8 +36,7 @@ export const mcpServerSchema: ObjectSchema<McpServer> =
                 return undefined;
             })
             .label("ui.mcpServer.envVars")
-            .example({ SOME_ENV: "value" })
-            .default(null),
+            .example({ SOME_ENV: "value" }),
         sseUrl: yup
             .string()
             .when("type", (type, schema) =>
@@ -50,12 +46,10 @@ export const mcpServerSchema: ObjectSchema<McpServer> =
                           .url("ui.mcpServer.sseUrlIsInvalid")
                           .label("ui.mcpServer.sseUrl")
                           .example("https://n8n.internal.huna2.com/mcp/all/sse")
-                          .default(null)
                     : schema
                           .optional()
                           .label("ui.mcpServer.sseUrl")
                           .example("https://n8n.internal.huna2.com/mcp/all/sse")
-                          .default(null)
             ),
         sseApiHeaderAuth: yup
             .string()
@@ -65,12 +59,10 @@ export const mcpServerSchema: ObjectSchema<McpServer> =
                           .optional()
                           .label("ui.mcpServer.sseApiHeaderAuth")
                           .example("Bearer some-key")
-                          .default(null)
                     : schema
                           .notRequired()
                           .label("ui.mcpServer.sseApiHeaderAuth")
                           .example("Bearer some-key")
-                          .default(null)
             ),
     });
 
