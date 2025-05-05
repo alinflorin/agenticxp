@@ -1,4 +1,5 @@
 import "./loadEnv";
+import "./extendYup";
 import Fastify from "fastify";
 import helloRoute from "./routes/hello";
 import opaMiddleware from "./middlewares/opa-middleware";
@@ -9,6 +10,15 @@ import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
 import { version } from "@/version";
 import path from "path";
+import connectionsRoute from "./routes/connections";
+import {
+    type YupTypeProvider,
+    jsonSchemaTransformer,
+    createValidatorCompiler,
+    defaultYupValidatorCompilerOptions,
+    createSerializerCompiler
+} from "fastify-type-provider-yup";
+
 
 const isDev = process.argv[process.argv.length - 1].endsWith(".ts");
 console.log("Is Dev: ", isDev);
@@ -19,7 +29,11 @@ console.log("Is Dev: ", isDev);
             logger: {
                 level: "warn",
             },
-        });
+        }).withTypeProvider<YupTypeProvider>();
+
+        fastify.setValidatorCompiler(createValidatorCompiler({...defaultYupValidatorCompilerOptions}));
+        fastify.setSerializerCompiler(createSerializerCompiler({...defaultYupValidatorCompilerOptions}));
+
 
         await fastify.register(swagger, {
             openapi: {
@@ -39,6 +53,7 @@ console.log("Is Dev: ", isDev);
                 },
                 security: [{ OpenID: [] }],
             },
+            transform: jsonSchemaTransformer,
         });
 
         await fastify.register(swaggerUi, {
@@ -47,6 +62,15 @@ console.log("Is Dev: ", isDev);
             logo: {
                 content: "",
                 type: "",
+            },
+            uiConfig: {
+                persistAuthorization: true,
+                deepLinking: false,
+                docExpansion: "list",
+                syntaxHighlight: {
+                    activate: true,
+                },
+                tryItOutEnabled: true,
             },
             initOAuth: {
                 appName: "agenticxp",
@@ -57,10 +81,11 @@ console.log("Is Dev: ", isDev);
         });
 
         opaMiddleware(fastify);
-        
+
         await fastify.register(healthRoute);
         await fastify.register(userProfileRoute);
         await fastify.register(helloRoute);
+        await fastify.register(connectionsRoute);
         await fastify.register(spaRoute);
 
         const start = async () => {

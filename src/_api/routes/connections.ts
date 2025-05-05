@@ -1,11 +1,13 @@
+import connectionValidator from "@/shared-validators/connection-validator";
 import { FastifyInstance, FastifyPluginAsync } from "fastify";
 
-export const helloRoute: FastifyPluginAsync = (
+export const connectionsRoute: FastifyPluginAsync = (
   fastify: FastifyInstance
 ): Promise<void> => {
-  fastify.get("/api/hello", {
+
+  fastify.post("/api/connections", {
     schema: {
-        hide: true
+        body: connectionValidator
     }
   }, async () => {
     return { message: "Hello from 22222!!!" };
@@ -14,4 +16,4 @@ export const helloRoute: FastifyPluginAsync = (
   return Promise.resolve();
 };
 
-export default helloRoute;
+export default connectionsRoute;

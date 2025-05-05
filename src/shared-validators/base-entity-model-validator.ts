@@ -6,5 +6,5 @@ export const baseEntityModelValidator: ObjectSchema<BaseEntityModel> = yup.objec
     updatedBy: yup.string().optional(),
     updatedDate: yup.date().optional(),
     _id: yup.string().optional()
-});
+}).required();
 export default baseEntityModelValidator;

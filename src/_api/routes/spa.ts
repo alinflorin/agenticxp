@@ -26,7 +26,7 @@ try {
 export const spaRoute: FastifyPluginAsync = (
     fastify: FastifyInstance
 ): Promise<void> => {
-    fastify.get("/*", async (req, res) => {
+    fastify.get("/*", { schema: { hide: true } }, async (req, res) => {
         let checkPath = `dist/client${req.url.split("?")[0]}`;
         if (!staticFiles[checkPath]) {
             // is it a file?
