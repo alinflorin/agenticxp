@@ -8,18 +8,21 @@ export const toolSchema: ObjectSchema<Tool> = yup.object({
         .required("ui.tool.mcpServerIsRequired")
         .matches(/^[a-f\d]{24}$/i, "ui.tool.mcpServerIsInvalid")
         .label("ui.tool.mcpServer")
-        .example("mcp-server-id"),
+        .example("mcp-server-id")
+        .default(null),
     name: yup
         .string()
         .required("ui.tool.nameIsRequired")
         .label("ui.tool.name")
-        .example("get_weather"),
+        .example("get_weather")
+        .default(null),
     description: yup.string().optional().label("ui.tool.description").example("Some description"),
     parameters: yup
         .array(toolParameterSchema)
         .optional()
         .label("ui.tool.parameters")
-        .example([]),
+        .example([])
+        .default([]),
 }).required();
 
 export default toolSchema;

@@ -7,12 +7,14 @@ export const chatSchema: ObjectSchema<Chat> = baseEntityModelSchema.shape({
         .string()
         .required("ui.chat.titleIsRequired")
         .label("ui.chat.title")
-        .example("New Chat"),
+        .example("New Chat")
+        .default(null),
     agentId: yup
         .string()
         .required("ui.chat.agentIsRequired")
         .matches(/^[a-f\d]{24}$/i, "ui.chat.agentIsInvalid")
         .label("ui.chat.agent")
-        .example("agent-id"),
+        .example("agent-id")
+        .default(null),
 });
 export default chatSchema;

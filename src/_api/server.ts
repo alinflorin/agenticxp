@@ -13,12 +13,13 @@ import path from "path";
 import connectionsRoute from "./routes/connections";
 import {
     type YupTypeProvider,
-    jsonSchemaTransformer,
+    createJsonSchemaTransformer,
     createValidatorCompiler,
     defaultYupValidatorCompilerOptions,
-    createSerializerCompiler
+    createSerializerCompiler,
 } from "fastify-type-provider-yup";
-
+import { ValidationError } from "yup";
+import { extractErrorResponseFromError, extractErrorResponseFromValidationError } from "./helpers/errors-helper";
 
 const isDev = process.argv[process.argv.length - 1].endsWith(".ts");
 console.log("Is Dev: ", isDev);
@@ -29,11 +30,29 @@ console.log("Is Dev: ", isDev);
             logger: {
                 level: "warn",
             },
+            disableRequestLogging: true
         }).withTypeProvider<YupTypeProvider>();
 
-        fastify.setValidatorCompiler(createValidatorCompiler({...defaultYupValidatorCompilerOptions}));
-        fastify.setSerializerCompiler(createSerializerCompiler({...defaultYupValidatorCompilerOptions}));
+        fastify.setErrorHandler((error, _, reply) => {
+            const statusCode = error.statusCode || 500;
+            let response;
 
+            // check if we have a validation error
+            if (error.validationContext) {
+                const validationError = (<unknown>error) as ValidationError;
+                response = extractErrorResponseFromValidationError(validationError);
+            } else {
+                response = extractErrorResponseFromError(error);
+            }
+            reply.status(statusCode).send(response);
+        });
+
+        fastify.setValidatorCompiler(
+            createValidatorCompiler({ ...defaultYupValidatorCompilerOptions })
+        );
+        fastify.setSerializerCompiler(
+            createSerializerCompiler({ ...defaultYupValidatorCompilerOptions })
+        );
 
         await fastify.register(swagger, {
             openapi: {
@@ -53,7 +72,10 @@ console.log("Is Dev: ", isDev);
                 },
                 security: [{ OpenID: [] }],
             },
-            transform: jsonSchemaTransformer,
+            transform: createJsonSchemaTransformer({
+                resolveOptions: {},
+                skipList: []
+            }),
         });
 
         await fastify.register(swaggerUi, {

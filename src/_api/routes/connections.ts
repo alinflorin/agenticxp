@@ -9,6 +9,7 @@ import buildPagedResponseSchema from "@/shared-schemas/paged-response";
 import pagedRequestSchema from "@/shared-schemas/paged-request";
 import { PagedRequest } from "@/shared-models/paged-request";
 import { PagedResponse } from "@/shared-models/paged-response";
+import errorResponseSchema from "@/shared-schemas/error-response";
 
 export const connectionsRoute: FastifyPluginAsync = (
     fastify: FastifyInstance
@@ -22,6 +23,8 @@ export const connectionsRoute: FastifyPluginAsync = (
                 summary: "List connections of the user",
                 response: {
                     200: buildPagedResponseSchema<Connection>(connectionSchema),
+                    400: errorResponseSchema,
+                    500: errorResponseSchema,
                 },
                 querystring: pagedRequestSchema,
             },
@@ -59,6 +62,8 @@ export const connectionsRoute: FastifyPluginAsync = (
                 body: connectionSchema,
                 response: {
                     200: connectionSchema,
+                    400: errorResponseSchema,
+                    500: errorResponseSchema,
                 },
             },
         },
