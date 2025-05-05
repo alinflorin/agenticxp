@@ -12,36 +12,88 @@
             }
         },
         "agent": {
-            "nameIsRequired": "Numele agentului este obligatoriu.",
-            "connectionIsRequired": "Este necesară o conexiune pentru agent.",
-            "connectionIsInvalid": "Conexiunea specificată pentru agent este invalidă.",
-            "modelIsRequired": "Trebuie selectat un model pentru agent.",
-            "systemPromptIsRequired": "Promptul de sistem este obligatoriu pentru agent."
+            "name": "Nume",
+            "connection": "Conexiune",
+            "model": "Model",
+            "systemPrompt": "Prompt de sistem",
+            "params": "Parametri",
+            "streaming": "Streaming",
+            "tools": "Unelte",
+            "nameIsRequired": "Numele agentului este obligatoriu",
+            "connectionIsRequired": "Conexiunea este obligatorie",
+            "connectionIsInvalid": "Conexiune invalidă",
+            "modelIsRequired": "Modelul este obligatoriu",
+            "systemPromptIsRequired": "Promptul de sistem este obligatoriu",
+            "streamingIsRequired": "Valoarea pentru streaming este obligatorie"
+        },
+        "baseEntityModel": {
+            "createdDate": "Data creării",
+            "createdBy": "Creat de",
+            "updatedBy": "Actualizat de",
+            "updatedDate": "Data actualizării",
+            "id": "ID"
         },
         "chat": {
-            "titleIsRequired": "Titlul conversației este obligatoriu.",
-            "agentIsRequired": "Este necesar un agent pentru conversație.",
-            "agentIsInvalid": "Agentul selectat este invalid."
+            "title": "Titlu",
+            "agent": "Agent",
+            "titleIsRequired": "Titlul conversației este obligatoriu",
+            "agentIsRequired": "Agentul este obligatoriu",
+            "agentIsInvalid": "Agent invalid"
         },
         "connection": {
-            "nameIsRequired": "Numele conexiunii este obligatoriu.",
-            "apiBaseUrlIsRequired": "URL-ul de bază al API-ului este obligatoriu.",
-            "apiBaseUrlIsInvalid": "URL-ul de bază al API-ului este invalid."
+            "name": "Nume",
+            "apiBaseUrl": "URL bază API",
+            "apiKey": "Cheie API",
+            "nameIsRequired": "Numele conexiunii este obligatoriu",
+            "apiBaseUrlIsRequired": "URL-ul de bază API este obligatoriu",
+            "apiBaseUrlIsInvalid": "URL-ul de bază este invalid"
+        },
+        "mcpServer": {
+            "type": "Tip server",
+            "command": "Comandă",
+            "envVars": "Variabile de mediu",
+            "sseUrl": "URL SSE",
+            "sseApiHeaderAuth": "Autorizare antet SSE",
+            "commandIsRequired": "Comanda este obligatorie",
+            "sseUrlIsRequired": "URL-ul SSE este obligatoriu",
+            "sseUrlIsInvalid": "URL SSE invalid",
+            "envVarsMustBeStrings": "Toate variabilele de mediu trebuie să fie șiruri de caractere"
         },
         "message": {
-            "sourceIsRequired": "Sursa mesajului este obligatorie.",
-            "chatIsRequired": "Mesajul trebuie să fie asociat cu o conversație.",
-            "chatIsInvalid": "Conversația asociată este invalidă.",
-            "contentIsRequired": "Conținutul mesajului nu poate fi gol."
+            "source": "Sursă",
+            "chat": "Conversație",
+            "content": "Conținut",
+            "sourceIsRequired": "Sursa mesajului este obligatorie",
+            "sourceIsInvalid": "Sursa mesajului este invalidă",
+            "chatIsRequired": "Conversația este obligatorie",
+            "chatIsInvalid": "Conversație invalidă",
+            "contentIsRequired": "Conținutul mesajului este obligatoriu"
         },
-        "toolParameter": {
-            "nameIsRequired": "Numele parametrului este obligatoriu.",
-            "typeIsRequired": "Tipul parametrului este obligatoriu."
+        "modelParams": {
+            "topP": "Top P",
+            "topK": "Top K",
+            "temperature": "Temperatură",
+            "timeout": "Timp de expirare (secunde)"
         },
         "tool": {
-            "mcpServerIsRequired": "Adresa serverului MCP este obligatorie.",
-            "mcpServerIsInvalid": "Adresa serverului MCP este invalidă.",
-            "nameIsRequired": "Numele uneltei este obligatoriu."
+            "mcpServer": "Server MCP",
+            "name": "Nume unealtă",
+            "description": "Descriere unealtă",
+            "parameters": "Parametri unealtă",
+            "mcpServerIsRequired": "Serverul MCP este obligatoriu",
+            "mcpServerIsInvalid": "Server MCP invalid",
+            "nameIsRequired": "Numele uneltei este obligatoriu"
+        },
+        "toolParameter": {
+            "name": "Nume parametru",
+            "type": "Tip",
+            "description": "Descriere",
+            "required": "Obligatoriu",
+            "defaultValue": "Valoare implicită",
+            "nameIsRequired": "Numele parametrului este obligatoriu",
+            "typeIsRequired": "Tipul parametrului este obligatoriu",
+            "typeIsInvalid": "Tip de parametru invalid",
+            "requiredIsRequired": "Trebuie specificat dacă este obligatoriu"
         }
     }
 }

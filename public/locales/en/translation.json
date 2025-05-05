@@ -8,36 +8,88 @@
             "themes": { "system": "System", "light": "Light", "dark": "Dark" }
         },
         "agent": {
-            "nameIsRequired": "Agent name is required.",
-            "connectionIsRequired": "A connection is required for the agent.",
-            "connectionIsInvalid": "The specified connection for the agent is invalid.",
-            "modelIsRequired": "A model must be selected for the agent.",
-            "systemPromptIsRequired": "A system prompt is required for the agent."
+            "name": "Name",
+            "connection": "Connection",
+            "model": "Model",
+            "systemPrompt": "System Prompt",
+            "params": "Parameters",
+            "streaming": "Streaming",
+            "tools": "Tools",
+            "nameIsRequired": "Agent name is required",
+            "connectionIsRequired": "Connection is required",
+            "connectionIsInvalid": "Invalid connection",
+            "modelIsRequired": "Model is required",
+            "systemPromptIsRequired": "System prompt is required",
+            "streamingIsRequired": "Streaming value is required"
+        },
+        "baseEntityModel": {
+            "createdDate": "Created Date",
+            "createdBy": "Created By",
+            "updatedBy": "Updated By",
+            "updatedDate": "Updated Date",
+            "id": "ID"
         },
         "chat": {
-            "titleIsRequired": "Chat title is required.",
-            "agentIsRequired": "An agent must be assigned to the chat.",
-            "agentIsInvalid": "The selected agent is invalid."
+            "title": "Title",
+            "agent": "Agent",
+            "titleIsRequired": "Chat title is required",
+            "agentIsRequired": "Agent is required",
+            "agentIsInvalid": "Invalid agent"
         },
         "connection": {
-            "nameIsRequired": "Connection name is required.",
-            "apiBaseUrlIsRequired": "API base URL is required.",
-            "apiBaseUrlIsInvalid": "API base URL is invalid."
+            "name": "Name",
+            "apiBaseUrl": "API Base URL",
+            "apiKey": "API Key",
+            "nameIsRequired": "Connection name is required",
+            "apiBaseUrlIsRequired": "API base URL is required",
+            "apiBaseUrlIsInvalid": "Invalid base URL"
+        },
+        "mcpServer": {
+            "type": "Server Type",
+            "command": "Command",
+            "envVars": "Environment Variables",
+            "sseUrl": "SSE URL",
+            "sseApiHeaderAuth": "SSE Header Authorization",
+            "commandIsRequired": "Command is required",
+            "sseUrlIsRequired": "SSE URL is required",
+            "sseUrlIsInvalid": "Invalid SSE URL",
+            "envVarsMustBeStrings": "All environment variables must be strings"
         },
         "message": {
-            "sourceIsRequired": "Message source is required.",
-            "chatIsRequired": "Chat reference is required for the message.",
-            "chatIsInvalid": "Chat reference is invalid.",
-            "contentIsRequired": "Message content cannot be empty."
+            "source": "Source",
+            "chat": "Chat",
+            "content": "Content",
+            "sourceIsRequired": "Message source is required",
+            "sourceIsInvalid": "Invalid message source",
+            "chatIsRequired": "Chat is required",
+            "chatIsInvalid": "Invalid chat",
+            "contentIsRequired": "Message content is required"
         },
-        "toolParameter": {
-            "nameIsRequired": "Tool parameter name is required.",
-            "typeIsRequired": "Tool parameter type is required."
+        "modelParams": {
+            "topP": "Top P",
+            "topK": "Top K",
+            "temperature": "Temperature",
+            "timeout": "Timeout (seconds)"
         },
         "tool": {
-            "mcpServerIsRequired": "MCP server address is required.",
-            "mcpServerIsInvalid": "MCP server address is invalid.",
-            "nameIsRequired": "Tool name is required."
+            "mcpServer": "MCP Server",
+            "name": "Tool Name",
+            "description": "Tool Description",
+            "parameters": "Tool Parameters",
+            "mcpServerIsRequired": "MCP server is required",
+            "mcpServerIsInvalid": "Invalid MCP server",
+            "nameIsRequired": "Tool name is required"
+        },
+        "toolParameter": {
+            "name": "Parameter Name",
+            "type": "Type",
+            "description": "Description",
+            "required": "Required",
+            "defaultValue": "Default Value",
+            "nameIsRequired": "Parameter name is required",
+            "typeIsRequired": "Parameter type is required",
+            "typeIsInvalid": "Invalid parameter type",
+            "requiredIsRequired": "Required flag must be set"
         }
     }
 }
