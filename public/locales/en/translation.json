@@ -90,6 +90,23 @@
             "typeIsRequired": "Parameter type is required",
             "typeIsInvalid": "Invalid parameter type",
             "requiredIsRequired": "Required flag must be set"
+        },
+        "userProfile": {
+            "isAdmin": "Is admin"
+        },
+        "pagedResponse": {
+            "data": "Data",
+            "elementsPerPage": "Elements per page",
+            "totalCount": "Total count",
+            "page": "Page"
+        },
+        "pagedRequest": {
+            "page": "Page",
+            "elementsPerPage": "Elements per page"
+        },
+        "healthResponse": {
+            "healthy": "Healthy",
+            "version": "Version"
         }
     }
 }

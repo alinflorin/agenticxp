@@ -7,10 +7,10 @@ export default function buildPagedResponseSchema<T>(
 ) {
     const schema: ObjectSchema<PagedResponse<T>> = yup
         .object({
-            data: yup.array(typeSchema).required().default([]).example([]),
-            page: yup.number().required().example(1).default(1),
-            elementsPerPage: yup.number().required().example(50).default(50),
-            totalCount: yup.number().required().example(1000),
+            data: yup.array(typeSchema).required().default([]).example([]).label("ui.pagedResponse.data"),
+            page: yup.number().required().example(1).default(1).label("ui.pagedResponse.page"),
+            elementsPerPage: yup.number().required().example(50).default(50).label("ui.pagedResponse.elementsPerPage"),
+            totalCount: yup.number().required().example(1000).label("ui.pagedResponse.totalCount"),
         })
         .required();
     return schema;

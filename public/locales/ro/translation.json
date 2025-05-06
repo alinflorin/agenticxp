@@ -94,6 +94,23 @@
             "typeIsRequired": "Tipul parametrului este obligatoriu",
             "typeIsInvalid": "Tip de parametru invalid",
             "requiredIsRequired": "Trebuie specificat dacă este obligatoriu"
+        },
+        "userProfile": {
+            "isAdmin": "Este administrator"
+        },
+        "pagedResponse": {
+            "data": "Date",
+            "elementsPerPage": "Elemente per pagină",
+            "totalCount": "Număr total",
+            "page": "Pagină"
+        },
+        "pagedRequest": {
+            "page": "Pagină",
+            "elementsPerPage": "Elemente per pagină"
+        },
+        "healthResponse": {
+            "healthy": "Operațional",
+            "version": "Versiune"
         }
     }
 }
