@@ -59,9 +59,6 @@ export const connectionsRoute: FastifyPluginAsync = (
                 page: pagedReq.page,
                 totalCount: totalCount,
             } as PagedResponse<Connection>;
-
-            buildPagedResponseSchema<Connection>(connectionSchema).validateSync(reply);
-
             return reply;
         }
     );
