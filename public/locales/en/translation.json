@@ -42,7 +42,8 @@
             "apiKey": "API Key",
             "nameIsRequired": "Connection name is required",
             "apiBaseUrlIsRequired": "API base URL is required",
-            "apiBaseUrlIsInvalid": "Invalid base URL"
+            "apiBaseUrlIsInvalid": "Invalid base URL",
+            "failed": "Connection failed"
         },
         "mcpServer": {
             "type": "Server Type",

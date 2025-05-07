@@ -46,7 +46,8 @@
             "apiKey": "Cheie API",
             "nameIsRequired": "Numele conexiunii este obligatoriu",
             "apiBaseUrlIsRequired": "URL-ul de bază API este obligatoriu",
-            "apiBaseUrlIsInvalid": "URL-ul de bază este invalid"
+            "apiBaseUrlIsInvalid": "URL-ul de bază este invalid",
+            "failed": "Conexiune nereușită"
         },
         "mcpServer": {
             "type": "Tip server",

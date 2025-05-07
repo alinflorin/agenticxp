@@ -1,5 +1,5 @@
 import { MongoClient } from "mongodb";
-import { ConnectionEntity } from "../models/connection-entity";
+import { ConnectionEntity } from "../models/entities/connection-entity";
 
 const mongoClient = new MongoClient(
     `mongodb://${process.env.MONGODB_HOST}:${process.env.MONGODB_PORT}`,

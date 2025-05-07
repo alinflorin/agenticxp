@@ -2,7 +2,7 @@ import { Connection } from "@/shared-schemas/connection";
 import connectionSchema from "@/shared-schemas/connection";
 
 import { FastifyInstance, FastifyPluginAsync, FastifyError } from "fastify";
-import { ConnectionEntity } from "../models/connection-entity";
+import { ConnectionEntity } from "../models/entities/connection-entity";
 import { connectionsCollection } from "../services/mongodb";
 import buildPagedResponseSchema from "@/shared-schemas/paged-response";
 import pagedRequestSchema from "@/shared-schemas/paged-request";
@@ -10,6 +10,7 @@ import { PagedRequest } from "@/shared-schemas/paged-request";
 import { PagedResponse } from "@/shared-schemas/paged-response";
 import yup from "yup";
 import { ObjectId } from "mongodb";
+import connectionService from "../services/connection-service";
 
 export const connectionsRoute: FastifyPluginAsync = (
     fastify: FastifyInstance
@@ -127,6 +128,18 @@ export const connectionsRoute: FastifyPluginAsync = (
         },
         async (req) => {
             const connectionModel = req.body as Connection;
+
+            const valid = await connectionService.validate(connectionModel);
+            if (!valid) {
+                const err: FastifyError = {
+                    statusCode: 400,
+                    message: "ui.connection.failed",
+                    code: "connection_failed",
+                    name: "Connection Failed",
+                };
+                throw err;
+            }
+
             const connectionEntity: ConnectionEntity = {
                 apiBaseUrl: connectionModel.apiBaseUrl,
                 createdBy: req.user!.email,
@@ -186,6 +199,18 @@ export const connectionsRoute: FastifyPluginAsync = (
                 throw err;
             }
             const connectionModel = req.body as Connection;
+            
+            const valid = await connectionService.validate(connectionModel);
+            if (!valid) {
+                const err: FastifyError = {
+                    statusCode: 400,
+                    message: "ui.connection.failed",
+                    code: "connection_failed",
+                    name: "Connection Failed",
+                };
+                throw err;
+            }
+
             const merged: ConnectionEntity = {
                 ...found,
                 apiBaseUrl: connectionModel.apiBaseUrl,
