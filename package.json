@@ -15,7 +15,7 @@
   "dependencies": {
     "@chakra-ui/react": "^3.17.0",
     "@emotion/react": "^11.14.0",
-    "@fastify/swagger": "^9.5.0",
+    "@fastify/swagger": "^9.5.1",
     "@fastify/swagger-ui": "^5.2.2",
     "@hookform/resolvers": "^5.0.1",
     "@sodaru/yup-to-json-schema": "^2.0.1",
