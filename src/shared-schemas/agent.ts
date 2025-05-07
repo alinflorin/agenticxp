@@ -1,10 +1,9 @@
-import { Agent } from "@/shared-models/agent";
-import yup, { ObjectSchema } from "yup";
+import yup from "yup";
 import baseEntityModelSchema from "./base-entity-model";
 import modelParamsValidator from "./model-params";
 import toolSchema from "./tool";
 
-export const agentSchema: ObjectSchema<Agent> = baseEntityModelSchema.shape({
+export const agentSchema = baseEntityModelSchema.shape({
     name: yup
         .string()
         .required("ui.agent.nameIsRequired")
@@ -42,3 +41,4 @@ export const agentSchema: ObjectSchema<Agent> = baseEntityModelSchema.shape({
 });
 
 export default agentSchema;
+export type Agent = yup.InferType<typeof agentSchema>;

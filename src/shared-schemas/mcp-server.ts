@@ -1,8 +1,7 @@
-import { McpServer } from "@/shared-models/mcp-server";
-import yup, { ObjectSchema } from "yup";
+import yup from "yup";
 import baseEntityModelSchema from "./base-entity-model";
 
-export const mcpServerSchema: ObjectSchema<McpServer> =
+export const mcpServerSchema =
     baseEntityModelSchema.shape({
         type: yup
             .string()
@@ -67,3 +66,4 @@ export const mcpServerSchema: ObjectSchema<McpServer> =
     });
 
 export default mcpServerSchema;
+export type McpServer = yup.InferType<typeof mcpServerSchema>;

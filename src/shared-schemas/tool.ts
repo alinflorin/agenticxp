@@ -1,8 +1,7 @@
-import { Tool } from "@/shared-models/tool";
-import yup, { ObjectSchema } from "yup";
+import yup from "yup";
 import toolParameterSchema from "./tool-parameter";
 
-export const toolSchema: ObjectSchema<Tool> = yup
+export const toolSchema = yup
     .object({
         mcpServerId: yup
             .string()
@@ -29,3 +28,4 @@ export const toolSchema: ObjectSchema<Tool> = yup
     .required();
 
 export default toolSchema;
+export type Tool = yup.InferType<typeof toolSchema>;

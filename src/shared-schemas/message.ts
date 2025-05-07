@@ -1,8 +1,7 @@
-import { Message } from "@/shared-models/message";
-import yup, { ObjectSchema } from "yup";
+import yup from "yup";
 import baseEntityModelSchema from "./base-entity-model";
 
-export const messageSchema: ObjectSchema<Message> = baseEntityModelSchema.shape(
+export const messageSchema = baseEntityModelSchema.shape(
     {
         source: yup
             .string()
@@ -27,3 +26,4 @@ export const messageSchema: ObjectSchema<Message> = baseEntityModelSchema.shape(
     }
 );
 export default messageSchema;
+export type Message = yup.InferType<typeof messageSchema>;

@@ -1,6 +1,5 @@
-import { BaseEntityModel } from "@/shared-models/base-entity-model";
-import yup, { ObjectSchema } from "yup";
-export const baseEntityModelSchema: ObjectSchema<BaseEntityModel> = yup
+import yup from "yup";
+export const baseEntityModelSchema = yup
     .object({
         createdDate: yup
             .string()
@@ -30,3 +29,4 @@ export const baseEntityModelSchema: ObjectSchema<BaseEntityModel> = yup
     })
     .required();
 export default baseEntityModelSchema;
+export type BaseEntityModel = yup.InferType<typeof baseEntityModelSchema>;

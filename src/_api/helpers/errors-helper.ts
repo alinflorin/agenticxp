@@ -1,4 +1,4 @@
-import { ErrorResponse } from "@/shared-models/error-response";
+import { ErrorResponse } from "@/shared-schemas/error-response";
 import { FastifyError } from "fastify";
 import { ValidationError } from "yup";
 

@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { PagedResponse } from "@/shared-models/paged-response";
-import yup, { ObjectSchema } from "yup";
+import yup from "yup";
 
 export default function buildPagedResponseSchema<T>(
-    typeSchema: yup.ISchema<any, yup.AnyObject, any, any>
+    typeSchema: yup.ISchema<T, yup.AnyObject, any, any>
 ) {
-    const schema: ObjectSchema<PagedResponse<T>> = yup
+    const schema = yup
         .object({
             data: yup.array(typeSchema).required().default([]).example([]).label("ui.pagedResponse.data"),
             page: yup.number().required().example(1).default(1).label("ui.pagedResponse.page"),
@@ -15,3 +14,6 @@ export default function buildPagedResponseSchema<T>(
         .required();
     return schema;
 }
+
+export type PagedResponse<T> = yup.InferType<ReturnType<typeof buildPagedResponseSchema<T>>>;
+

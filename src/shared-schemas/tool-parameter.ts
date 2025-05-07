@@ -1,7 +1,6 @@
-import { ToolParameter } from "@/shared-models/tool-parameter";
-import yup, { ObjectSchema } from "yup";
+import yup from "yup";
 
-export const toolParameterSchema: ObjectSchema<ToolParameter> = yup
+export const toolParameterSchema = yup
     .object({
         name: yup
             .string()
@@ -36,3 +35,4 @@ export const toolParameterSchema: ObjectSchema<ToolParameter> = yup
     .required();
 
 export default toolParameterSchema;
+export type ToolParameter = yup.InferType<typeof toolParameterSchema>;

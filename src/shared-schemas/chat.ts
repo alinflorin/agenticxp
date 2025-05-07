@@ -1,8 +1,7 @@
-import { Chat } from "@/shared-models/chat";
-import yup, { ObjectSchema } from "yup";
+import yup from "yup";
 import baseEntityModelSchema from "./base-entity-model";
 
-export const chatSchema: ObjectSchema<Chat> = baseEntityModelSchema.shape({
+export const chatSchema = baseEntityModelSchema.shape({
     title: yup
         .string()
         .required("ui.chat.titleIsRequired")
@@ -16,3 +15,4 @@ export const chatSchema: ObjectSchema<Chat> = baseEntityModelSchema.shape({
         .example("agent-id"),
 });
 export default chatSchema;
+export type Chat = yup.InferType<typeof chatSchema>;

@@ -1,6 +1,6 @@
-import { ModelParams } from "@/shared-models/model-params";
+import { ModelParams } from "@/shared-schemas/model-params";
 import { BaseEntity } from "./base-entity";
-import { Tool } from "@/shared-models/tool";
+import { Tool } from "@/shared-schemas/tool";
 
 export interface AgentEntity extends BaseEntity {
     name: string;

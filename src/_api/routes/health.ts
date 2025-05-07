@@ -1,4 +1,4 @@
-import { HealthResponse } from "@/shared-models/health-response";
+import { HealthResponse } from "@/shared-schemas/health-response";
 import { healthResponseSchema } from "@/shared-schemas/health-response";
 import { version } from "@/version";
 import { FastifyInstance, FastifyPluginAsync } from "fastify";

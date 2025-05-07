@@ -1,8 +1,7 @@
-import { Connection } from "@/shared-models/connection";
-import yup, { ObjectSchema } from "yup";
+import yup from "yup";
 import baseEntityModelValidator from "./base-entity-model";
 
-export const connectionSchema: ObjectSchema<Connection> =
+export const connectionSchema =
     baseEntityModelValidator.shape({
         name: yup
             .string()
@@ -23,3 +22,4 @@ export const connectionSchema: ObjectSchema<Connection> =
     });
 
 export default connectionSchema;
+export type Connection = yup.InferType<typeof connectionSchema>;

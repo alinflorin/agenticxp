@@ -1,7 +1,6 @@
-import yup, { ObjectSchema } from "yup";
-import { UserProfile } from "@/shared-models/user-profile";
+import yup from "yup";
 
-export const userProfileSchema: ObjectSchema<UserProfile> = yup
+export const userProfileSchema = yup
     .object({
         is_admin: yup
             .boolean()
@@ -12,3 +11,4 @@ export const userProfileSchema: ObjectSchema<UserProfile> = yup
     .required();
 
 export default userProfileSchema;
+export type UserProfile = yup.InferType<typeof userProfileSchema>;

@@ -1,6 +1,5 @@
-import { ModelParams } from "@/shared-models/model-params";
-import yup, { ObjectSchema } from "yup";
-export const modelParamsSchema: ObjectSchema<ModelParams> = yup
+import yup from "yup";
+export const modelParamsSchema = yup
     .object({
         topP: yup.number().optional().label("ui.modelParams.topP").example(0.4),
         topK: yup.number().optional().label("ui.modelParams.topK").example(0.4),
@@ -17,3 +16,4 @@ export const modelParamsSchema: ObjectSchema<ModelParams> = yup
     })
     .required();
 export default modelParamsSchema;
+export type ModelParams = yup.InferType<typeof modelParamsSchema>;

@@ -1,4 +1,4 @@
-import { Connection } from "@/shared-models/connection";
+import { Connection } from "@/shared-schemas/connection";
 import connectionSchema from "@/shared-schemas/connection";
 
 import { FastifyInstance, FastifyPluginAsync, FastifyError } from "fastify";
@@ -6,8 +6,8 @@ import { ConnectionEntity } from "../models/connection-entity";
 import { connectionsCollection } from "../services/mongodb";
 import buildPagedResponseSchema from "@/shared-schemas/paged-response";
 import pagedRequestSchema from "@/shared-schemas/paged-request";
-import { PagedRequest } from "@/shared-models/paged-request";
-import { PagedResponse } from "@/shared-models/paged-response";
+import { PagedRequest } from "@/shared-schemas/paged-request";
+import { PagedResponse } from "@/shared-schemas/paged-response";
 import yup from "yup";
 import { ObjectId } from "mongodb";
 
