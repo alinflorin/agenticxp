@@ -233,7 +233,7 @@ export const connectionsRoute: FastifyPluginAsync = (
             return {
                 apiBaseUrl: x.apiBaseUrl,
                 name: x.name,
-                _id: x._id!.toString(),
+                _id: id,
                 apiKey: x.apiKey,
                 createdBy: x.createdBy,
                 createdDate: x.createdDate,
@@ -295,7 +295,7 @@ export const connectionsRoute: FastifyPluginAsync = (
             return {
                 apiBaseUrl: x.apiBaseUrl,
                 name: x.name,
-                _id: x._id!.toString(),
+                _id: id,
                 apiKey: x.apiKey,
                 createdBy: x.createdBy,
                 createdDate: x.createdDate,
