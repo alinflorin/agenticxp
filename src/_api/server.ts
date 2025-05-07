@@ -82,9 +82,11 @@ console.log("Is Dev: ", isDev);
             routePrefix: "/swagger",
             baseDir: isDev ? undefined : path.resolve("./dist/server/swagger"),
             logo: {
-                content: "",
-                type: "",
-            },
+                type: 'image/png',
+                content: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=', 'base64'),
+                href: '/swagger',
+                target: '_self'
+              },
             uiConfig: {
                 persistAuthorization: true,
                 deepLinking: false,
