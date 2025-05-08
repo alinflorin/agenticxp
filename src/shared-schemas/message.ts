@@ -1,8 +1,8 @@
 import yup from "yup";
 import baseEntityModelSchema from "./base-entity-model";
 
-export const messageSchema = baseEntityModelSchema.shape(
-    {
+export const messageSchema = baseEntityModelSchema
+    .shape({
         source: yup
             .string()
             .required("ui.message.sourceIsRequired")
@@ -20,12 +20,15 @@ export const messageSchema = baseEntityModelSchema.shape(
             .string()
             .required("ui.message.contentIsRequired")
             .label("ui.message.content"),
-    }
-).jsonSchema(s => ({...s, default: ({
-        chatId: 'chat-id',
-        content: 'Hi!',
-        source: 'human'
-    } as Message)}));
+    })
+    .jsonSchema((s) => ({
+        ...s,
+        default: {
+            chatId: "chat-id",
+            content: "Hi!",
+            source: "human",
+        } as Message,
+    }));
 
 export default messageSchema;
 export type Message = yup.InferType<typeof messageSchema>;

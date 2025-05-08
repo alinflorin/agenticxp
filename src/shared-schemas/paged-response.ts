@@ -30,9 +30,7 @@ export default function buildPagedResponseSchema<T>(
         .jsonSchema((s) => ({
             ...s,
             default: {
-                data: [
-                    (typeSchema as any).spec.meta.jsonSchema.default
-                ],
+                data: [(typeSchema as any).spec.meta.jsonSchema.default],
                 elementsPerPage: 50,
                 page: 1,
                 totalCount: 1000,

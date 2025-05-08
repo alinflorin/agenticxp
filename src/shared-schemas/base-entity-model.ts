@@ -23,11 +23,11 @@ export const baseEntityModelSchema = yup
     .jsonSchema((s) => ({
         ...s,
         default: {
-            _id: 'the-id',
-            createdBy: 'system',
+            _id: "the-id",
+            createdBy: "system",
             createdDate: new Date().toISOString(),
-            updatedBy: 'system',
-            updatedDate: new Date().toISOString()
+            updatedBy: "system",
+            updatedDate: new Date().toISOString(),
         } as BaseEntityModel,
     }));
 export default baseEntityModelSchema;
