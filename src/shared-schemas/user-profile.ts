@@ -5,10 +5,15 @@ export const userProfileSchema = yup
         is_admin: yup
             .boolean()
             .required("ui.tool.mcpServerIsRequired")
-            .label("ui.userProfile.isAdmin")
-            .example(true)
+            .label("ui.userProfile.isAdmin"),
     })
-    .required();
+    .required()
+    .jsonSchema((s) => ({
+        ...s,
+        default: {
+            is_admin: true,
+        } as UserProfile,
+    }));
 
 export default userProfileSchema;
 export type UserProfile = yup.InferType<typeof userProfileSchema>;

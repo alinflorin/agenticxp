@@ -1,14 +1,13 @@
 import yup from "yup";
 import baseEntityModelSchema from "./base-entity-model";
 
-export const mcpServerSchema =
-    baseEntityModelSchema.shape({
+export const mcpServerSchema = baseEntityModelSchema
+    .shape({
         type: yup
             .string()
             .required()
             .oneOf(["stdio", "sse"])
-            .label("ui.mcpServer.type")
-            .example("sse"),
+            .label("ui.mcpServer.type"),
         command: yup
             .string()
             .when("type", (type, schema) =>
@@ -16,11 +15,7 @@ export const mcpServerSchema =
                     ? schema
                           .required("ui.mcpServer.commandIsRequired")
                           .label("ui.mcpServer.command")
-                          .example("npx -y @modelcontextprotocol/server-memory")
-                    : schema
-                          .optional()
-                          .label("ui.mcpServer.command")
-                          .example("npx -y @modelcontextprotocol/server-memory")
+                    : schema.optional().label("ui.mcpServer.command")
             ),
         envVars: yup
             .object()
@@ -34,8 +29,7 @@ export const mcpServerSchema =
                 }
                 return undefined;
             })
-            .label("ui.mcpServer.envVars")
-            .example({ SOME_ENV: "value" }),
+            .label("ui.mcpServer.envVars"),
         sseUrl: yup
             .string()
             .when("type", (type, schema) =>
@@ -44,26 +38,26 @@ export const mcpServerSchema =
                           .required("ui.mcpServer.sseUrlIsRequired")
                           .url("ui.mcpServer.sseUrlIsInvalid")
                           .label("ui.mcpServer.sseUrl")
-                          .example("https://n8n.internal.huna2.com/mcp/all/sse")
-                    : schema
-                          .optional()
-                          .label("ui.mcpServer.sseUrl")
-                          .example("https://n8n.internal.huna2.com/mcp/all/sse")
+                    : schema.optional().label("ui.mcpServer.sseUrl")
             ),
         sseApiHeaderAuth: yup
             .string()
             .when("type", (type, schema) =>
                 type[0] && type[0] === "sse"
-                    ? schema
-                          .optional()
-                          .label("ui.mcpServer.sseApiHeaderAuth")
-                          .example("Bearer some-key")
+                    ? schema.optional().label("ui.mcpServer.sseApiHeaderAuth")
                     : schema
                           .notRequired()
                           .label("ui.mcpServer.sseApiHeaderAuth")
-                          .example("Bearer some-key")
             ),
-    });
+    })
+    .jsonSchema((s) => ({
+        ...s,
+        default: {
+            type: 'sse',
+            sseApiHeaderAuth: 'Bearer testKey',
+            sseUrl: 'https://n8n.internal.huna2.com/mcp/all/sse'
+        } as McpServer,
+    }));
 
 export default mcpServerSchema;
 export type McpServer = yup.InferType<typeof mcpServerSchema>;

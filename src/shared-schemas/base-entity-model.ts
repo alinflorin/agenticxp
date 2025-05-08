@@ -4,29 +4,31 @@ export const baseEntityModelSchema = yup
         createdDate: yup
             .string()
             .optional()
-            .label("ui.baseEntityModel.createdDate")
-            .example(new Date().toISOString()),
+            .label("ui.baseEntityModel.createdDate"),
         createdBy: yup
             .string()
             .optional()
-            .label("ui.baseEntityModel.createdBy")
-            .example("system"),
+            .label("ui.baseEntityModel.createdBy"),
         updatedBy: yup
             .string()
             .optional()
-            .label("ui.baseEntityModel.updatedBy")
-            .example("system"),
+            .label("ui.baseEntityModel.updatedBy"),
         updatedDate: yup
             .string()
             .optional()
-            .label("ui.baseEntityModel.updatedDate")
-            .example(new Date().toISOString()),
-        _id: yup
-            .string()
-            .optional()
-            .label("ui.baseEntityModel.id")
-            .example("id-here"),
+            .label("ui.baseEntityModel.updatedDate"),
+        _id: yup.string().optional().label("ui.baseEntityModel.id"),
     })
-    .required();
+    .required()
+    .jsonSchema((s) => ({
+        ...s,
+        default: {
+            _id: 'the-id',
+            createdBy: 'system',
+            createdDate: new Date().toISOString(),
+            updatedBy: 'system',
+            updatedDate: new Date().toISOString()
+        } as BaseEntityModel,
+    }));
 export default baseEntityModelSchema;
 export type BaseEntityModel = yup.InferType<typeof baseEntityModelSchema>;

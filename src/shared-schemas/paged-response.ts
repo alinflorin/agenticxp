@@ -6,14 +6,41 @@ export default function buildPagedResponseSchema<T>(
 ) {
     const schema = yup
         .object({
-            data: yup.array(typeSchema).required().default([]).example([]).label("ui.pagedResponse.data"),
-            page: yup.number().required().example(1).default(1).label("ui.pagedResponse.page"),
-            elementsPerPage: yup.number().required().example(50).default(50).label("ui.pagedResponse.elementsPerPage"),
-            totalCount: yup.number().required().example(1000).label("ui.pagedResponse.totalCount"),
+            data: yup
+                .array(typeSchema)
+                .required()
+                .default([])
+                .label("ui.pagedResponse.data"),
+            page: yup
+                .number()
+                .required()
+                .default(1)
+                .label("ui.pagedResponse.page"),
+            elementsPerPage: yup
+                .number()
+                .required()
+                .default(50)
+                .label("ui.pagedResponse.elementsPerPage"),
+            totalCount: yup
+                .number()
+                .required()
+                .label("ui.pagedResponse.totalCount"),
         })
-        .required();
+        .required()
+        .jsonSchema((s) => ({
+            ...s,
+            default: {
+                data: [
+                    (typeSchema as any).spec.meta.jsonSchema.default
+                ],
+                elementsPerPage: 50,
+                page: 1,
+                totalCount: 1000,
+            } as PagedResponse<any>,
+        }));
     return schema;
 }
 
-export type PagedResponse<T> = yup.InferType<ReturnType<typeof buildPagedResponseSchema<T>>>;
-
+export type PagedResponse<T> = yup.InferType<
+    ReturnType<typeof buildPagedResponseSchema<T>>
+>;

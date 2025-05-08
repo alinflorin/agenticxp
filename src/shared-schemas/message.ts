@@ -10,20 +10,22 @@ export const messageSchema = baseEntityModelSchema.shape(
                 ["ai", "human", "system", "tool"],
                 "ui.message.sourceIsInvalid"
             )
-            .label("ui.message.source")
-            .example("human"),
+            .label("ui.message.source"),
         chatId: yup
             .string()
             .required("ui.message.chatIsRequired")
             .matches(/^[a-f\d]{24}$/i, "ui.message.chatIsInvalid")
-            .label("ui.message.chat")
-            .example("chat-id"),
+            .label("ui.message.chat"),
         content: yup
             .string()
             .required("ui.message.contentIsRequired")
-            .label("ui.message.content")
-            .example("Hi there"),
+            .label("ui.message.content"),
     }
-);
+).jsonSchema(s => ({...s, default: ({
+        chatId: 'chat-id',
+        content: 'Hi!',
+        source: 'human'
+    } as Message)}));
+
 export default messageSchema;
 export type Message = yup.InferType<typeof messageSchema>;

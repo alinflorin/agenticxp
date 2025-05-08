@@ -5,8 +5,7 @@ export const toolParameterSchema = yup
         name: yup
             .string()
             .required("ui.toolParameter.nameIsRequired")
-            .label("ui.toolParameter.name")
-            .example("get_weather"),
+            .label("ui.toolParameter.name"),
         type: yup
             .string()
             .required("ui.toolParameter.typeIsRequired")
@@ -14,25 +13,30 @@ export const toolParameterSchema = yup
                 ["string", "number", "boolean", "json", "array"],
                 "ui.toolParameter.typeIsInvalid"
             )
-            .label("ui.toolParameter.type")
-            .example("string"),
+            .label("ui.toolParameter.type"),
         description: yup
             .string()
             .optional()
-            .label("ui.toolParameter.description")
-            .example("Some description"),
+            .label("ui.toolParameter.description"),
         required: yup
             .boolean()
             .required("ui.toolParameter.requiredIsRequired")
-            .label("ui.toolParameter.required")
-            .example(true),
+            .label("ui.toolParameter.required"),
         defaultValue: yup
             .mixed()
             .optional()
-            .label("ui.toolParameter.defaultValue")
-            .example("default"),
+            .label("ui.toolParameter.defaultValue"),
     })
-    .required();
+    .required()
+    .jsonSchema((s) => ({
+        ...s,
+        default: {
+            name: "cityName",
+            required: true,
+            type: "string",
+            description: "The city name",
+        } as ToolParameter,
+    }));
 
 export default toolParameterSchema;
 export type ToolParameter = yup.InferType<typeof toolParameterSchema>;
