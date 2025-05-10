@@ -10,7 +10,7 @@ import pagedRequestSchema, {
 } from "@/shared-schemas/paged-request";
 import yup from "yup";
 import { ObjectId } from "mongodb";
-import { McpServerService } from "../services/mcpServer-service";
+import McpServerService from "../services/mcpServer-service";
 
 export const mcpServersRoute: FastifyPluginAsync = (
     fastify: FastifyInstance

@@ -10,7 +10,7 @@ import { PagedRequest } from "@/shared-schemas/paged-request";
 import { PagedResponse } from "@/shared-schemas/paged-response";
 import yup from "yup";
 import { ObjectId } from "mongodb";
-import connectionService from "../services/connection-service";
+import ConnectionService from "../services/connection-service";
 
 export const connectionsRoute: FastifyPluginAsync = (
     fastify: FastifyInstance
@@ -129,7 +129,7 @@ export const connectionsRoute: FastifyPluginAsync = (
         async (req) => {
             const connectionModel = req.body as Connection;
 
-            const valid = await connectionService.validate(connectionModel);
+            const valid = await new ConnectionService(connectionModel).validate();
             if (!valid) {
                 const err: FastifyError = {
                     statusCode: 400,
@@ -200,7 +200,7 @@ export const connectionsRoute: FastifyPluginAsync = (
             }
             const connectionModel = req.body as Connection;
             
-            const valid = await connectionService.validate(connectionModel);
+            const valid = await new ConnectionService(connectionModel).validate();
             if (!valid) {
                 const err: FastifyError = {
                     statusCode: 400,

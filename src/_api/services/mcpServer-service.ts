@@ -9,13 +9,13 @@ import { EventSource } from "eventsource";
 // define EventSource globally
 globalThis.EventSource = EventSource;
 
-export class McpServerService {
+export default class McpServerService {
     private _client: Client;
     private _transport: Transport;
 
     constructor(private _model: McpServer) {
         this._client = new Client({
-            name: "agenticxp-" + process.env.ENV,
+            name: "agenticxp-" + process.env.ENV + "-" + process.env.HOSTNAME,
             version: version,
         });
         if (this._model.type === "sse") {
