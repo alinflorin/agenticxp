@@ -58,7 +58,8 @@
             "commandIsRequired": "Comanda este obligatorie",
             "sseUrlIsRequired": "URL-ul SSE este obligatoriu",
             "sseUrlIsInvalid": "URL SSE invalid",
-            "envVarsMustBeStrings": "Toate variabilele de mediu trebuie să fie șiruri de caractere"
+            "envVarsMustBeStrings": "Toate variabilele de mediu trebuie să fie șiruri de caractere",
+            "failed": "Conexiunea către serverul MCP nereușită"
         },
         "message": {
             "source": "Sursă",

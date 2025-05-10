@@ -54,7 +54,8 @@
             "commandIsRequired": "Command is required",
             "sseUrlIsRequired": "SSE URL is required",
             "sseUrlIsInvalid": "Invalid SSE URL",
-            "envVarsMustBeStrings": "All environment variables must be strings"
+            "envVarsMustBeStrings": "All environment variables must be strings",
+            "failed": "Connection to MCP server failed"
         },
         "message": {
             "source": "Source",

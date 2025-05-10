@@ -10,6 +10,7 @@ import pagedRequestSchema, {
 } from "@/shared-schemas/paged-request";
 import yup from "yup";
 import { ObjectId } from "mongodb";
+import { McpServerService } from "../services/mcpServer-service";
 
 export const mcpServersRoute: FastifyPluginAsync = (
     fastify: FastifyInstance
@@ -131,6 +132,20 @@ export const mcpServersRoute: FastifyPluginAsync = (
         },
         async (req) => {
             const model = req.body as McpServer;
+
+            const svc = new McpServerService(model);
+            await svc.connect();
+            const valid = await svc.validate();
+            if (!valid) {
+                const err: FastifyError = {
+                    statusCode: 400,
+                    message: "ui.mcpServer.failed",
+                    code: "mcpserver_failed",
+                    name: "Connection to MCP Server failed",
+                };
+                throw err;
+            }
+
             const mcpServerEntity: McpServerEntity = {
                 createdBy: req.user!.email,
                 createdDate: new Date().toISOString(),
@@ -194,6 +209,20 @@ export const mcpServersRoute: FastifyPluginAsync = (
                 throw err;
             }
             const model = req.body as McpServer;
+
+            const svc = new McpServerService(model);
+            await svc.connect();
+            const valid = await svc.validate();
+            
+            if (!valid) {
+                const err: FastifyError = {
+                    statusCode: 400,
+                    message: "ui.mcpServer.failed",
+                    code: "mcpserver_failed",
+                    name: "Connection to MCP Server failed",
+                };
+                throw err;
+            }
 
             const merged: McpServerEntity = {
                 ...found,
