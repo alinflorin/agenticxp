@@ -19,15 +19,17 @@ export const mcpServerSchema = baseEntityModelSchema
             ),
         envVars: yup
             .object()
+            .noUnknown(false)
+            .unknown(true)
             .optional()
-            .test((value) => {
-                if (value == null) return undefined;
+            .test((value: unknown) => {
+                if (!value) return true;
                 if (!Object.values(value).every((v) => typeof v === "string")) {
                     return new yup.ValidationError(
                         "ui.mcpServer.envVarsMustBeStrings"
                     );
                 }
-                return undefined;
+                return true;
             })
             .label("ui.mcpServer.envVars"),
         sseUrl: yup

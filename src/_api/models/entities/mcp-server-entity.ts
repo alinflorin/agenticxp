@@ -4,7 +4,7 @@ export interface McpServerEntity extends BaseEntity {
     userEmail: string;
     type: string;
     command?: string;
-    envVars?: {[key: string]: string};
+    envVars?: object;
     sseUrl?: string;
     sseApiHeaderAuth?: string;
 }

@@ -1,5 +1,6 @@
 import { MongoClient } from "mongodb";
 import { ConnectionEntity } from "../models/entities/connection-entity";
+import { McpServerEntity } from "../models/entities/mcp-server-entity";
 
 const mongoClient = new MongoClient(
     `mongodb://${process.env.MONGODB_HOST}:${process.env.MONGODB_PORT}`,
@@ -16,5 +17,6 @@ const mongoClient = new MongoClient(
 export const db = mongoClient.db(process.env.MONGODB_DATABASE);
 
 export const connectionsCollection = db.collection<ConnectionEntity>("connections");
+export const mcpServersCollection = db.collection<McpServerEntity>("mcpServers");
 
 export default db;

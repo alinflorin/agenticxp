@@ -239,7 +239,7 @@ export const connectionsRoute: FastifyPluginAsync = (
                 createdDate: x.createdDate,
                 updatedBy: x.updatedBy,
                 updatedDate: x.updatedDate,
-            };
+            } as Connection;
         }
     );
 
@@ -301,7 +301,7 @@ export const connectionsRoute: FastifyPluginAsync = (
                 createdDate: x.createdDate,
                 updatedBy: x.updatedBy,
                 updatedDate: x.updatedDate,
-            };
+            } as Connection;
         }
     );
 
