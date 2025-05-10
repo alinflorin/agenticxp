@@ -80,4 +80,8 @@ export default class McpServerService {
     async disconnect() {
         await this._client.close();
     }
+    
+    get id() {
+        return this._model._id;
+    }
 }

@@ -10,7 +10,7 @@ export const toolParameterSchema = yup
             .string()
             .required("ui.toolParameter.typeIsRequired")
             .oneOf(
-                ["string", "number", "boolean", "json", "array"],
+                ["string", "integer", "float", "number", "boolean", "json", "array"],
                 "ui.toolParameter.typeIsInvalid"
             )
             .label("ui.toolParameter.type"),

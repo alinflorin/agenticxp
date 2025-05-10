@@ -63,6 +63,7 @@ export const mcpServerSchema = baseEntityModelSchema
     .jsonSchema((s) => ({
         ...s,
         default: {
+            name: "n8n",
             type: "sse",
             sseApiHeaderAuth: "Bearer testKey",
             sseUrl: "https://n8n.internal.huna2.com/mcp/all/sse"

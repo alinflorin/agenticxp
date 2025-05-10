@@ -21,6 +21,7 @@ import {
 import { ValidationError } from "yup";
 import { extractErrorResponseFromError, extractErrorResponseFromValidationError } from "./helpers/errors-helper";
 import mcpServersRoute from "./routes/mcp-servers";
+import toolsRoute from "./routes/tools";
 
 const isDev = process.argv[process.argv.length - 1].endsWith(".ts");
 console.log("Is Dev: ", isDev);
@@ -112,6 +113,7 @@ console.log("Is Dev: ", isDev);
         await fastify.register(helloRoute);
         await fastify.register(connectionsRoute);
         await fastify.register(mcpServersRoute);
+        await fastify.register(toolsRoute);
         await fastify.register(spaRoute);
 
         const start = async () => {
