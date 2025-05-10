@@ -56,7 +56,8 @@ export const mcpServersRoute: FastifyPluginAsync = (
                             sseUrl: x.sseUrl,
                             updatedBy: x.updatedBy,
                             updatedDate: x.updatedDate,
-                            args: x.args
+                            args: x.args,
+                            name: x.name
                         } as McpServer)
                 ),
                 elementsPerPage: pagedReq.elementsPerPage,
@@ -114,7 +115,8 @@ export const mcpServersRoute: FastifyPluginAsync = (
                 createdDate: x.createdDate,
                 updatedBy: x.updatedBy,
                 updatedDate: x.updatedDate,
-                args: x.args
+                args: x.args,
+                name: x.name
             } as McpServer;
         }
     );
@@ -160,7 +162,8 @@ export const mcpServersRoute: FastifyPluginAsync = (
                 envVars: model.envVars,
                 sseApiHeaderAuth: model.sseApiHeaderAuth,
                 sseUrl: model.sseUrl,
-                args: model.args
+                args: model.args,
+                name: model.name
             };
             await mcpServersCollection.insertOne(mcpServerEntity);
             return {
@@ -172,7 +175,8 @@ export const mcpServersRoute: FastifyPluginAsync = (
                 envVars: mcpServerEntity.envVars,
                 sseApiHeaderAuth: mcpServerEntity.sseApiHeaderAuth,
                 sseUrl: mcpServerEntity.sseUrl,
-                args: mcpServerEntity.args
+                args: mcpServerEntity.args,
+                name: mcpServerEntity.name
             } as McpServer;
         }
     );
@@ -241,7 +245,8 @@ export const mcpServersRoute: FastifyPluginAsync = (
                 updatedBy: req.user!.email,
                 updatedDate: new Date().toISOString(),
                 _id: undefined,
-                args: model.args
+                args: model.args,
+                name: model.name
             };
             
             await mcpServersCollection.replaceOne(
@@ -264,7 +269,8 @@ export const mcpServersRoute: FastifyPluginAsync = (
                 createdDate: x.createdDate,
                 updatedBy: x.updatedBy,
                 updatedDate: x.updatedDate,
-                args: x.args
+                args: x.args,
+                name: x.name
             } as McpServer;
         }
     );
@@ -331,6 +337,7 @@ export const mcpServersRoute: FastifyPluginAsync = (
                 updatedBy: x.updatedBy,
                 args: x.args,
                 updatedDate: x.updatedDate,
+                name: x.name
             } as McpServer;
         }
     );

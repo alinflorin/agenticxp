@@ -3,6 +3,10 @@ import baseEntityModelSchema from "./base-entity-model";
 
 export const mcpServerSchema = baseEntityModelSchema
     .shape({
+        name: yup
+            .string()
+            .required()
+            .label("ui.mcpServer.name"),
         type: yup
             .string()
             .required()
