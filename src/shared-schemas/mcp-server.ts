@@ -17,6 +17,10 @@ export const mcpServerSchema = baseEntityModelSchema
                           .label("ui.mcpServer.command")
                     : schema.optional().label("ui.mcpServer.command")
             ),
+        args: yup
+            .array(yup.string().required())
+            .optional()
+            .label("ui.mcpServer.args"),
         envVars: yup
             .object()
             .noUnknown(false)
@@ -57,7 +61,7 @@ export const mcpServerSchema = baseEntityModelSchema
         default: {
             type: "sse",
             sseApiHeaderAuth: "Bearer testKey",
-            sseUrl: "https://n8n.internal.huna2.com/mcp/all/sse",
+            sseUrl: "https://n8n.internal.huna2.com/mcp/all/sse"
         } as McpServer,
     }));
 

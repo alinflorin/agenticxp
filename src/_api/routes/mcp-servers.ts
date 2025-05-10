@@ -56,6 +56,7 @@ export const mcpServersRoute: FastifyPluginAsync = (
                             sseUrl: x.sseUrl,
                             updatedBy: x.updatedBy,
                             updatedDate: x.updatedDate,
+                            args: x.args
                         } as McpServer)
                 ),
                 elementsPerPage: pagedReq.elementsPerPage,
@@ -113,6 +114,7 @@ export const mcpServersRoute: FastifyPluginAsync = (
                 createdDate: x.createdDate,
                 updatedBy: x.updatedBy,
                 updatedDate: x.updatedDate,
+                args: x.args
             } as McpServer;
         }
     );
@@ -136,6 +138,8 @@ export const mcpServersRoute: FastifyPluginAsync = (
             const svc = new McpServerService(model);
             await svc.connect();
             const valid = await svc.validate();
+            await svc.disconnect();
+            
             if (!valid) {
                 const err: FastifyError = {
                     statusCode: 400,
@@ -156,6 +160,7 @@ export const mcpServersRoute: FastifyPluginAsync = (
                 envVars: model.envVars,
                 sseApiHeaderAuth: model.sseApiHeaderAuth,
                 sseUrl: model.sseUrl,
+                args: model.args
             };
             await mcpServersCollection.insertOne(mcpServerEntity);
             return {
@@ -167,6 +172,7 @@ export const mcpServersRoute: FastifyPluginAsync = (
                 envVars: mcpServerEntity.envVars,
                 sseApiHeaderAuth: mcpServerEntity.sseApiHeaderAuth,
                 sseUrl: mcpServerEntity.sseUrl,
+                args: mcpServerEntity.args
             } as McpServer;
         }
     );
@@ -213,7 +219,8 @@ export const mcpServersRoute: FastifyPluginAsync = (
             const svc = new McpServerService(model);
             await svc.connect();
             const valid = await svc.validate();
-            
+            await svc.disconnect();
+
             if (!valid) {
                 const err: FastifyError = {
                     statusCode: 400,
@@ -234,6 +241,7 @@ export const mcpServersRoute: FastifyPluginAsync = (
                 updatedBy: req.user!.email,
                 updatedDate: new Date().toISOString(),
                 _id: undefined,
+                args: model.args
             };
             
             await mcpServersCollection.replaceOne(
@@ -256,6 +264,7 @@ export const mcpServersRoute: FastifyPluginAsync = (
                 createdDate: x.createdDate,
                 updatedBy: x.updatedBy,
                 updatedDate: x.updatedDate,
+                args: x.args
             } as McpServer;
         }
     );
@@ -320,6 +329,7 @@ export const mcpServersRoute: FastifyPluginAsync = (
                 createdBy: x.createdBy,
                 createdDate: x.createdDate,
                 updatedBy: x.updatedBy,
+                args: x.args,
                 updatedDate: x.updatedDate,
             } as McpServer;
         }

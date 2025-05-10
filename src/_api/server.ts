@@ -29,12 +29,12 @@ console.log("Is Dev: ", isDev);
     try {
         const fastify = Fastify({
             logger: {
-                level: "warn",
-            },
-            disableRequestLogging: true
+                level: "info",
+            }
         }).withTypeProvider<YupTypeProvider>();
 
         fastify.setErrorHandler((error, _, reply) => {
+            fastify.log.error(error);
             const statusCode = error.statusCode || 500;
             let response;
 
