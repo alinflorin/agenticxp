@@ -40,7 +40,9 @@
             "titleIsRequired": "Chat title is required",
             "agentIsRequired": "Agent is required",
             "agentIsInvalid": "Invalid agent",
-            "messagesAreRequired": "Messages are required"
+            "messagesAreRequired": "Messages are required",
+            "reference": "Reference",
+            "referenceIsRequired": "Reference is required"
         },
         "connection": {
             "name": "Name",

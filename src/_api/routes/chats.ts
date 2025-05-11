@@ -54,6 +54,7 @@ export const chatsRoute: FastifyPluginAsync = (
                             updatedBy: x.updatedBy,
                             messages: x.messages,
                             updatedDate: x.updatedDate,
+                            reference: x.reference
                         } as Chat)
                 ),
                 elementsPerPage: pagedReq.elementsPerPage,
@@ -108,7 +109,8 @@ export const chatsRoute: FastifyPluginAsync = (
                 createdDate: x.createdDate,
                 updatedBy: x.updatedBy,
                 updatedDate: x.updatedDate,
-                messages: x.messages
+                messages: x.messages,
+                reference: x.reference
             } as Chat;
         }
     );
@@ -152,7 +154,8 @@ export const chatsRoute: FastifyPluginAsync = (
                 userEmail: req.user!.email,
                 agentId: chatModel.agentId,
                 title: chatModel.title,
-                messages: chatModel.messages
+                messages: chatModel.messages,
+                reference: chatModel.reference
             };
             await chatsCollection.insertOne(chatEntity);
             const x = chatEntity;
@@ -164,7 +167,8 @@ export const chatsRoute: FastifyPluginAsync = (
                 createdDate: x.createdDate,
                 updatedBy: x.updatedBy,
                 updatedDate: x.updatedDate,
-                messages: x.messages
+                messages: x.messages,
+                reference: x.reference
             } as Chat;
         }
     );
@@ -230,7 +234,8 @@ export const chatsRoute: FastifyPluginAsync = (
                 updatedBy: req.user!.email,
                 updatedDate: new Date().toISOString(),
                 _id: undefined,
-                messages: chatModel.messages
+                messages: chatModel.messages,
+                reference: chatModel.reference
             };
 
             await chatsCollection.replaceOne(
@@ -250,7 +255,8 @@ export const chatsRoute: FastifyPluginAsync = (
                 createdDate: x.createdDate,
                 updatedBy: x.updatedBy,
                 updatedDate: x.updatedDate,
-                messages: x.messages
+                messages: x.messages,
+                reference: x.reference
             } as Chat;
         }
     );
@@ -312,7 +318,8 @@ export const chatsRoute: FastifyPluginAsync = (
                 createdDate: x.createdDate,
                 updatedBy: x.updatedBy,
                 updatedDate: x.updatedDate,
-                messages: x.messages
+                messages: x.messages,
+                reference: x.reference
             } as Chat;
         }
     );

@@ -8,6 +8,10 @@ export const chatSchema = baseEntityModelSchema
             .string()
             .required("ui.chat.titleIsRequired")
             .label("ui.chat.title"),
+        reference: yup
+            .string()
+            .required("ui.chat.referenceIsRequired")
+            .label("ui.chat.reference"),
         agentId: yup
             .string()
             .required("ui.chat.agentIsRequired")
@@ -24,6 +28,7 @@ export const chatSchema = baseEntityModelSchema
             title: "New Chat",
             agentId: "agent-id",
             messages: [messageSchema.spec.meta!.jsonSchema.default],
+            reference: "my-reference"
         } as Chat,
     }));
 export default chatSchema;

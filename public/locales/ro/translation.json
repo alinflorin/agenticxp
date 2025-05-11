@@ -44,7 +44,9 @@
             "titleIsRequired": "Titlul conversației este obligatoriu",
             "agentIsRequired": "Agentul este obligatoriu",
             "agentIsInvalid": "Agent invalid",
-            "messagesAreRequired": "Mesajele sunt obligatorii"
+            "messagesAreRequired": "Mesajele sunt obligatorii",
+            "reference": "Referință",
+            "referenceIsRequired": "Referința este obligatorie"
         },
         "connection": {
             "name": "Nume",
