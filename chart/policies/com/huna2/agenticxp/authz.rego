@@ -43,12 +43,19 @@ user := u if {
 	})
 	reply.status_code >= 200
 	reply.status_code < 300
-	u := reply.body
+	get_user_by_key_response := reply.body
 
-	check_api_key_exp(u.expirationTs)
+	check_api_key_exp(get_user_by_key_response)
 
-	u.sub
-	u.email
+	get_user_by_key_response.sub
+	get_user_by_key_response.email
+
+	u := {
+		"sub": get_user_by_key_response.sub,
+		"email": get_user_by_key_response.email,
+		"email_verified": get_user_by_key_response.email_verified,
+		"name": get_user_by_key_response.email,
+	}
 }
 
 check_api_key_exp(u) := e if {
