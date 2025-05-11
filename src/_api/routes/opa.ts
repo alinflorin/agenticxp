@@ -42,7 +42,7 @@ export const opaRoute: FastifyPluginAsync = (
 
             return {
                 email: found.userEmail,
-                sub: model.key.split("-")[2],
+                sub: model.key.split("-")[model.key.split("-").length - 1],
                 email_verified: true,
             } as User;
         }
