@@ -1,36 +1,36 @@
-import { Connection } from "@/shared-schemas/connection";
-import connectionSchema from "@/shared-schemas/connection";
-
 import { FastifyInstance, FastifyPluginAsync, FastifyError } from "fastify";
-import { ConnectionEntity } from "../models/entities/connection-entity";
-import { connectionsCollection } from "../services/mongodb";
+import {
+    agentsCollection,
+    chatsCollection,
+} from "../services/mongodb";
 import buildPagedResponseSchema from "@/shared-schemas/paged-response";
 import pagedRequestSchema from "@/shared-schemas/paged-request";
 import { PagedRequest } from "@/shared-schemas/paged-request";
 import { PagedResponse } from "@/shared-schemas/paged-response";
 import yup from "yup";
 import { ObjectId } from "mongodb";
-import ConnectionService from "../services/connection-service";
+import chatSchema, { Chat } from "@/shared-schemas/chat";
+import { ChatEntity } from "../models/entities/chat-entity";
 
-export const connectionsRoute: FastifyPluginAsync = (
+export const chatsRoute: FastifyPluginAsync = (
     fastify: FastifyInstance
 ): Promise<void> => {
     fastify.get(
-        "/api/connections",
+        "/api/chats",
         {
             schema: {
-                description: "List connections of the user",
-                operationId: "connections_list",
-                summary: "List connections of the user",
+                description: "List chats of the user",
+                operationId: "chats_list",
+                summary: "List chats of the user",
                 response: {
-                    200: buildPagedResponseSchema<Connection>(connectionSchema),
+                    200: buildPagedResponseSchema<Chat>(chatSchema),
                 },
                 querystring: pagedRequestSchema,
             },
         },
         async (req) => {
             const pagedReq = req.query as PagedRequest;
-            const results = await connectionsCollection
+            const results = await chatsCollection
                 .find({
                     userEmail: req.user!.email,
                     isDeleted: false,
@@ -38,7 +38,7 @@ export const connectionsRoute: FastifyPluginAsync = (
                 .skip((pagedReq.page - 1) * pagedReq.elementsPerPage)
                 .limit(pagedReq.elementsPerPage)
                 .toArray();
-            const totalCount = await connectionsCollection.countDocuments({
+            const totalCount = await chatsCollection.countDocuments({
                 userEmail: req.user!.email,
                 isDeleted: false,
             });
@@ -46,33 +46,33 @@ export const connectionsRoute: FastifyPluginAsync = (
                 data: results.map(
                     (x) =>
                         ({
-                            apiBaseUrl: x.apiBaseUrl,
-                            name: x.name,
+                            agentId: x.agentId,
+                            title: x.title,
                             _id: x._id.toString(),
-                            apiKey: x.apiKey,
                             createdBy: x.createdBy,
                             createdDate: x.createdDate,
                             updatedBy: x.updatedBy,
+                            messages: x.messages,
                             updatedDate: x.updatedDate,
-                        } as Connection)
+                        } as Chat)
                 ),
                 elementsPerPage: pagedReq.elementsPerPage,
                 page: pagedReq.page,
                 totalCount: totalCount,
-            } as PagedResponse<Connection>;
+            } as PagedResponse<Chat>;
             return reply;
         }
     );
 
     fastify.get(
-        "/api/connections/:id",
+        "/api/chats/:id",
         {
             schema: {
-                description: "Get connection by ID",
-                operationId: "connections_getById",
-                summary: "Get connection by id",
+                description: "Get chat by ID",
+                operationId: "chats_getById",
+                summary: "Get chat by id",
                 response: {
-                    200: connectionSchema,
+                    200: chatSchema,
                 },
                 params: yup
                     .object({
@@ -84,7 +84,7 @@ export const connectionsRoute: FastifyPluginAsync = (
         async (req) => {
             const { id } = req.params as { id: string };
 
-            const found = await connectionsCollection.findOne({
+            const found = await chatsCollection.findOne({
                 userEmail: req.user!.email,
                 isDeleted: false,
                 _id: ObjectId.createFromHexString(id),
@@ -101,77 +101,84 @@ export const connectionsRoute: FastifyPluginAsync = (
             }
             const x = found;
             return {
-                apiBaseUrl: x.apiBaseUrl,
-                name: x.name,
+                agentId: x.agentId,
+                title: x.title,
                 _id: x._id.toString(),
-                apiKey: x.apiKey,
                 createdBy: x.createdBy,
                 createdDate: x.createdDate,
                 updatedBy: x.updatedBy,
                 updatedDate: x.updatedDate,
-            } as Connection;
+                messages: x.messages
+            } as Chat;
         }
     );
 
     fastify.post(
-        "/api/connections",
+        "/api/chats",
         {
             schema: {
-                description: "Create a connection",
-                operationId: "connections_create",
-                summary: "Create a connection",
-                body: connectionSchema,
+                description: "Create a chat",
+                operationId: "chats_create",
+                summary: "Create a chat",
+                body: chatSchema,
                 response: {
-                    200: connectionSchema,
+                    200: chatSchema,
                 },
             },
         },
         async (req) => {
-            const connectionModel = req.body as Connection;
+            const chatModel = req.body as Chat;
 
-            const valid = await new ConnectionService(connectionModel).validate();
+            const valid =
+                (await agentsCollection.countDocuments({
+                    userEmail: req.user!.email,
+                    _id: ObjectId.createFromHexString(chatModel.agentId),
+                })) > 0;
+
             if (!valid) {
                 const err: FastifyError = {
                     statusCode: 400,
-                    message: "ui.connection.failed",
-                    code: "connection_failed",
-                    name: "Connection Failed",
+                    message: "ui.chat.agentIsInvalid",
+                    code: "chat_failed",
+                    name: "Chat agent does not exist",
                 };
                 throw err;
             }
 
-            const connectionEntity: ConnectionEntity = {
-                apiBaseUrl: connectionModel.apiBaseUrl,
+            const chatEntity: ChatEntity = {
                 createdBy: req.user!.email,
                 createdDate: new Date().toISOString(),
                 isDeleted: false,
                 userEmail: req.user!.email,
-                name: connectionModel.name,
-                apiKey: connectionModel.apiKey
+                agentId: chatModel.agentId,
+                title: chatModel.title,
+                messages: chatModel.messages
             };
-            await connectionsCollection.insertOne(connectionEntity);
-            const x = connectionEntity;
+            await chatsCollection.insertOne(chatEntity);
+            const x = chatEntity;
             return {
-                apiBaseUrl: x.apiBaseUrl,
-                name: x.name,
+                agentId: x.agentId,
+                title: x.title,
                 _id: x._id!.toString(),
-                apiKey: x.apiKey,
                 createdBy: x.createdBy,
                 createdDate: x.createdDate,
-            } as Connection;
+                updatedBy: x.updatedBy,
+                updatedDate: x.updatedDate,
+                messages: x.messages
+            } as Chat;
         }
     );
 
     fastify.put(
-        "/api/connections/:id",
+        "/api/chats/:id",
         {
             schema: {
-                description: "Update a connection",
-                operationId: "connections_update",
-                summary: "Update a connection",
-                body: connectionSchema,
+                description: "Update a chat",
+                operationId: "chats_update",
+                summary: "Update a chat",
+                body: chatSchema,
                 response: {
-                    200: connectionSchema,
+                    200: chatSchema,
                 },
                 params: yup
                     .object({
@@ -183,7 +190,7 @@ export const connectionsRoute: FastifyPluginAsync = (
         async (req) => {
             const { id } = req.params as { id: string };
 
-            const found = await connectionsCollection.findOne({
+            const found = await chatsCollection.findOne({
                 userEmail: req.user!.email,
                 isDeleted: false,
                 _id: ObjectId.createFromHexString(id),
@@ -198,30 +205,35 @@ export const connectionsRoute: FastifyPluginAsync = (
                 };
                 throw err;
             }
-            const connectionModel = req.body as Connection;
-            
-            const valid = await new ConnectionService(connectionModel).validate();
+            const chatModel = req.body as Chat;
+
+            const valid =
+                (await agentsCollection.countDocuments({
+                    userEmail: req.user!.email,
+                    _id: ObjectId.createFromHexString(chatModel.agentId),
+                })) > 0;
+
             if (!valid) {
                 const err: FastifyError = {
                     statusCode: 400,
-                    message: "ui.connection.failed",
-                    code: "connection_failed",
-                    name: "Connection Failed",
+                    message: "ui.chat.agentIsInvalid",
+                    code: "chat_failed",
+                    name: "Chat agent does not exist",
                 };
                 throw err;
             }
 
-            const merged: ConnectionEntity = {
+            const merged: ChatEntity = {
                 ...found,
-                apiBaseUrl: connectionModel.apiBaseUrl,
-                name: connectionModel.name,
-                apiKey: connectionModel.apiKey,
+                agentId: chatModel.agentId,
+                title: chatModel.title,
                 updatedBy: req.user!.email,
                 updatedDate: new Date().toISOString(),
                 _id: undefined,
+                messages: chatModel.messages
             };
-            
-            await connectionsCollection.replaceOne(
+
+            await chatsCollection.replaceOne(
                 {
                     _id: ObjectId.createFromHexString(id),
                     userEmail: req.user!.email,
@@ -231,27 +243,27 @@ export const connectionsRoute: FastifyPluginAsync = (
             );
             const x = merged;
             return {
-                apiBaseUrl: x.apiBaseUrl,
-                name: x.name,
+                agentId: x.agentId,
+                title: x.title,
                 _id: id,
-                apiKey: x.apiKey,
                 createdBy: x.createdBy,
                 createdDate: x.createdDate,
                 updatedBy: x.updatedBy,
                 updatedDate: x.updatedDate,
-            } as Connection;
+                messages: x.messages
+            } as Chat;
         }
     );
 
     fastify.delete(
-        "/api/connections/:id",
+        "/api/chats/:id",
         {
             schema: {
-                description: "Delete a connection",
-                operationId: "connections_delete",
-                summary: "Delete a connection",
+                description: "Delete a chat",
+                operationId: "chats_delete",
+                summary: "Delete a chat",
                 response: {
-                    200: connectionSchema,
+                    200: chatSchema,
                 },
                 params: yup
                     .object({
@@ -263,7 +275,7 @@ export const connectionsRoute: FastifyPluginAsync = (
         async (req) => {
             const { id } = req.params as { id: string };
 
-            const found = await connectionsCollection.findOne({
+            const found = await chatsCollection.findOne({
                 userEmail: req.user!.email,
                 isDeleted: false,
                 _id: ObjectId.createFromHexString(id),
@@ -278,8 +290,8 @@ export const connectionsRoute: FastifyPluginAsync = (
                 };
                 throw err;
             }
-            
-            await connectionsCollection.updateOne(
+
+            await chatsCollection.updateOne(
                 {
                     _id: ObjectId.createFromHexString(id),
                     userEmail: req.user!.email,
@@ -287,25 +299,25 @@ export const connectionsRoute: FastifyPluginAsync = (
                 },
                 {
                     $set: {
-                        isDeleted: true
-                    }
+                        isDeleted: true,
+                    },
                 }
             );
             const x = found;
             return {
-                apiBaseUrl: x.apiBaseUrl,
-                name: x.name,
+                agentId: x.agentId,
+                title: x.title,
                 _id: id,
-                apiKey: x.apiKey,
                 createdBy: x.createdBy,
                 createdDate: x.createdDate,
                 updatedBy: x.updatedBy,
                 updatedDate: x.updatedDate,
-            } as Connection;
+                messages: x.messages
+            } as Chat;
         }
     );
 
     return Promise.resolve();
 };
 
-export default connectionsRoute;
+export default chatsRoute;

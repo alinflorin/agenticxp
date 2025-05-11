@@ -1,8 +1,7 @@
 import yup from "yup";
-import baseEntityModelSchema from "./base-entity-model";
 
-export const messageSchema = baseEntityModelSchema
-    .shape({
+export const messageSchema = yup
+    .object({
         source: yup
             .string()
             .required("ui.message.sourceIsRequired")
@@ -11,22 +10,26 @@ export const messageSchema = baseEntityModelSchema
                 "ui.message.sourceIsInvalid"
             )
             .label("ui.message.source"),
-        chatId: yup
-            .string()
-            .required("ui.message.chatIsRequired")
-            .matches(/^[a-f\d]{24}$/i, "ui.message.chatIsInvalid")
-            .label("ui.message.chat"),
         content: yup
             .string()
             .required("ui.message.contentIsRequired")
             .label("ui.message.content"),
+        sendDate: yup
+            .string()
+            .required("ui.message.sendDateIsRequired")
+            .matches(
+                /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})?$/,
+                "ui.message.invalidSendDate"
+            )
+            .label("ui.message.sendDate"),
     })
+    .required()
     .jsonSchema((s) => ({
         ...s,
         default: {
-            chatId: "chat-id",
             content: "Hi!",
             source: "human",
+            sendDate: new Date().toISOString()
         } as Message,
     }));
 

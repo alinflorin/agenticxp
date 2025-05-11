@@ -20,7 +20,8 @@
             "connectionIsInvalid": "Invalid connection",
             "modelIsRequired": "Model is required",
             "systemPromptIsRequired": "System prompt is required",
-            "streamingIsRequired": "Streaming value is required"
+            "streamingIsRequired": "Streaming value is required",
+            "invalidConnection": "Invalid connection"
         },
         "baseEntityModel": {
             "createdDate": "Created Date",
@@ -34,7 +35,8 @@
             "agent": "Agent",
             "titleIsRequired": "Chat title is required",
             "agentIsRequired": "Agent is required",
-            "agentIsInvalid": "Invalid agent"
+            "agentIsInvalid": "Invalid agent",
+            "messagesAreRequired": "Messages are required"
         },
         "connection": {
             "name": "Name",
@@ -61,13 +63,13 @@
         },
         "message": {
             "source": "Source",
-            "chat": "Chat",
             "content": "Content",
             "sourceIsRequired": "Message source is required",
             "sourceIsInvalid": "Invalid message source",
-            "chatIsRequired": "Chat is required",
-            "chatIsInvalid": "Invalid chat",
-            "contentIsRequired": "Message content is required"
+            "contentIsRequired": "Message content is required",
+            "sendDate": "Sent date",
+            "sendDateIsRequired": "Sent date is required",
+            "invalidSendDate": "Sent date is invalid"
         },
         "modelParams": {
             "topP": "Top P",

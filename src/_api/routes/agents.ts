@@ -1,36 +1,33 @@
-import { Connection } from "@/shared-schemas/connection";
-import connectionSchema from "@/shared-schemas/connection";
-
 import { FastifyInstance, FastifyPluginAsync, FastifyError } from "fastify";
-import { ConnectionEntity } from "../models/entities/connection-entity";
-import { connectionsCollection } from "../services/mongodb";
+import { agentsCollection, connectionsCollection } from "../services/mongodb";
 import buildPagedResponseSchema from "@/shared-schemas/paged-response";
 import pagedRequestSchema from "@/shared-schemas/paged-request";
 import { PagedRequest } from "@/shared-schemas/paged-request";
 import { PagedResponse } from "@/shared-schemas/paged-response";
 import yup from "yup";
 import { ObjectId } from "mongodb";
-import ConnectionService from "../services/connection-service";
+import agentSchema, { Agent } from "@/shared-schemas/agent";
+import { AgentEntity } from "../models/entities/agent-entity";
 
-export const connectionsRoute: FastifyPluginAsync = (
+export const agentsRoute: FastifyPluginAsync = (
     fastify: FastifyInstance
 ): Promise<void> => {
     fastify.get(
-        "/api/connections",
+        "/api/agents",
         {
             schema: {
-                description: "List connections of the user",
-                operationId: "connections_list",
-                summary: "List connections of the user",
+                description: "List agents of the user",
+                operationId: "agents_list",
+                summary: "List agents of the user",
                 response: {
-                    200: buildPagedResponseSchema<Connection>(connectionSchema),
+                    200: buildPagedResponseSchema<Agent>(agentSchema),
                 },
                 querystring: pagedRequestSchema,
             },
         },
         async (req) => {
             const pagedReq = req.query as PagedRequest;
-            const results = await connectionsCollection
+            const results = await agentsCollection
                 .find({
                     userEmail: req.user!.email,
                     isDeleted: false,
@@ -38,7 +35,7 @@ export const connectionsRoute: FastifyPluginAsync = (
                 .skip((pagedReq.page - 1) * pagedReq.elementsPerPage)
                 .limit(pagedReq.elementsPerPage)
                 .toArray();
-            const totalCount = await connectionsCollection.countDocuments({
+            const totalCount = await agentsCollection.countDocuments({
                 userEmail: req.user!.email,
                 isDeleted: false,
             });
@@ -46,33 +43,37 @@ export const connectionsRoute: FastifyPluginAsync = (
                 data: results.map(
                     (x) =>
                         ({
-                            apiBaseUrl: x.apiBaseUrl,
+                            connectionId: x.connectionId,
+                            model: x.model,
+                            streaming: x.streaming,
+                            systemPrompt: x.systemPrompt,
+                            params: x.params,
+                            tools: x.tools,
                             name: x.name,
                             _id: x._id.toString(),
-                            apiKey: x.apiKey,
                             createdBy: x.createdBy,
                             createdDate: x.createdDate,
                             updatedBy: x.updatedBy,
                             updatedDate: x.updatedDate,
-                        } as Connection)
+                        } as Agent)
                 ),
                 elementsPerPage: pagedReq.elementsPerPage,
                 page: pagedReq.page,
                 totalCount: totalCount,
-            } as PagedResponse<Connection>;
+            } as PagedResponse<Agent>;
             return reply;
         }
     );
 
     fastify.get(
-        "/api/connections/:id",
+        "/api/agents/:id",
         {
             schema: {
-                description: "Get connection by ID",
-                operationId: "connections_getById",
-                summary: "Get connection by id",
+                description: "Get agent by ID",
+                operationId: "agents_getById",
+                summary: "Get agent by id",
                 response: {
-                    200: connectionSchema,
+                    200: agentSchema,
                 },
                 params: yup
                     .object({
@@ -84,7 +85,7 @@ export const connectionsRoute: FastifyPluginAsync = (
         async (req) => {
             const { id } = req.params as { id: string };
 
-            const found = await connectionsCollection.findOne({
+            const found = await agentsCollection.findOne({
                 userEmail: req.user!.email,
                 isDeleted: false,
                 _id: ObjectId.createFromHexString(id),
@@ -101,77 +102,96 @@ export const connectionsRoute: FastifyPluginAsync = (
             }
             const x = found;
             return {
-                apiBaseUrl: x.apiBaseUrl,
+                connectionId: x.connectionId,
+                model: x.model,
+                streaming: x.streaming,
+                systemPrompt: x.systemPrompt,
+                params: x.params,
+                tools: x.tools,
                 name: x.name,
                 _id: x._id.toString(),
-                apiKey: x.apiKey,
                 createdBy: x.createdBy,
                 createdDate: x.createdDate,
                 updatedBy: x.updatedBy,
                 updatedDate: x.updatedDate,
-            } as Connection;
+            } as Agent;
         }
     );
 
     fastify.post(
-        "/api/connections",
+        "/api/agents",
         {
             schema: {
-                description: "Create a connection",
-                operationId: "connections_create",
-                summary: "Create a connection",
-                body: connectionSchema,
+                description: "Create an agent",
+                operationId: "agents_create",
+                summary: "Create an agent",
+                body: agentSchema,
                 response: {
-                    200: connectionSchema,
+                    200: agentSchema,
                 },
             },
         },
         async (req) => {
-            const connectionModel = req.body as Connection;
+            const agentModel = req.body as Agent;
 
-            const valid = await new ConnectionService(connectionModel).validate();
+            const valid =
+                (await connectionsCollection.countDocuments({
+                    userEmail: req.user!.email,
+                    _id: ObjectId.createFromHexString(agentModel.connectionId),
+                })) > 0;
+
             if (!valid) {
                 const err: FastifyError = {
                     statusCode: 400,
-                    message: "ui.connection.failed",
-                    code: "connection_failed",
-                    name: "Connection Failed",
+                    message: "ui.agent.invalidConnection",
+                    code: "agent_failed",
+                    name: "Agent connection does not exist",
                 };
                 throw err;
             }
 
-            const connectionEntity: ConnectionEntity = {
-                apiBaseUrl: connectionModel.apiBaseUrl,
+            const agentEntity: AgentEntity = {
                 createdBy: req.user!.email,
                 createdDate: new Date().toISOString(),
                 isDeleted: false,
                 userEmail: req.user!.email,
-                name: connectionModel.name,
-                apiKey: connectionModel.apiKey
+                name: agentModel.name,
+                connectionId: agentModel.connectionId,
+                model: agentModel.model,
+                streaming: agentModel.streaming,
+                systemPrompt: agentModel.systemPrompt,
+                params: agentModel.params,
+                tools: agentModel.tools,
             };
-            await connectionsCollection.insertOne(connectionEntity);
-            const x = connectionEntity;
+            await agentsCollection.insertOne(agentEntity);
+            const x = agentEntity;
             return {
-                apiBaseUrl: x.apiBaseUrl,
+                connectionId: x.connectionId,
+                model: x.model,
+                streaming: x.streaming,
+                systemPrompt: x.systemPrompt,
+                params: x.params,
+                tools: x.tools,
                 name: x.name,
                 _id: x._id!.toString(),
-                apiKey: x.apiKey,
                 createdBy: x.createdBy,
                 createdDate: x.createdDate,
-            } as Connection;
+                updatedBy: x.updatedBy,
+                updatedDate: x.updatedDate,
+            } as Agent;
         }
     );
 
     fastify.put(
-        "/api/connections/:id",
+        "/api/agents/:id",
         {
             schema: {
-                description: "Update a connection",
-                operationId: "connections_update",
-                summary: "Update a connection",
-                body: connectionSchema,
+                description: "Update an agent",
+                operationId: "agents_update",
+                summary: "Update an agent",
+                body: agentSchema,
                 response: {
-                    200: connectionSchema,
+                    200: agentSchema,
                 },
                 params: yup
                     .object({
@@ -183,7 +203,7 @@ export const connectionsRoute: FastifyPluginAsync = (
         async (req) => {
             const { id } = req.params as { id: string };
 
-            const found = await connectionsCollection.findOne({
+            const found = await agentsCollection.findOne({
                 userEmail: req.user!.email,
                 isDeleted: false,
                 _id: ObjectId.createFromHexString(id),
@@ -198,30 +218,39 @@ export const connectionsRoute: FastifyPluginAsync = (
                 };
                 throw err;
             }
-            const connectionModel = req.body as Connection;
-            
-            const valid = await new ConnectionService(connectionModel).validate();
+            const agentModel = req.body as Agent;
+
+            const valid =
+                (await connectionsCollection.countDocuments({
+                    userEmail: req.user!.email,
+                    _id: ObjectId.createFromHexString(agentModel.connectionId),
+                })) > 0;
+
             if (!valid) {
                 const err: FastifyError = {
                     statusCode: 400,
-                    message: "ui.connection.failed",
-                    code: "connection_failed",
-                    name: "Connection Failed",
+                    message: "ui.agent.invalidConnection",
+                    code: "agent_failed",
+                    name: "Agent connection does not exist",
                 };
                 throw err;
             }
 
-            const merged: ConnectionEntity = {
+            const merged: AgentEntity = {
                 ...found,
-                apiBaseUrl: connectionModel.apiBaseUrl,
-                name: connectionModel.name,
-                apiKey: connectionModel.apiKey,
+                name: agentModel.name,
+                connectionId: agentModel.connectionId,
+                model: agentModel.model,
+                streaming: agentModel.streaming,
+                systemPrompt: agentModel.systemPrompt,
+                params: agentModel.params,
+                tools: agentModel.tools,
                 updatedBy: req.user!.email,
                 updatedDate: new Date().toISOString(),
                 _id: undefined,
             };
-            
-            await connectionsCollection.replaceOne(
+
+            await agentsCollection.replaceOne(
                 {
                     _id: ObjectId.createFromHexString(id),
                     userEmail: req.user!.email,
@@ -231,27 +260,31 @@ export const connectionsRoute: FastifyPluginAsync = (
             );
             const x = merged;
             return {
-                apiBaseUrl: x.apiBaseUrl,
+                connectionId: x.connectionId,
+                model: x.model,
+                streaming: x.streaming,
+                systemPrompt: x.systemPrompt,
+                params: x.params,
+                tools: x.tools,
                 name: x.name,
                 _id: id,
-                apiKey: x.apiKey,
                 createdBy: x.createdBy,
                 createdDate: x.createdDate,
                 updatedBy: x.updatedBy,
                 updatedDate: x.updatedDate,
-            } as Connection;
+            } as Agent;
         }
     );
 
     fastify.delete(
-        "/api/connections/:id",
+        "/api/agents/:id",
         {
             schema: {
-                description: "Delete a connection",
-                operationId: "connections_delete",
-                summary: "Delete a connection",
+                description: "Delete an agent",
+                operationId: "agents_delete",
+                summary: "Delete an agent",
                 response: {
-                    200: connectionSchema,
+                    200: agentSchema,
                 },
                 params: yup
                     .object({
@@ -263,7 +296,7 @@ export const connectionsRoute: FastifyPluginAsync = (
         async (req) => {
             const { id } = req.params as { id: string };
 
-            const found = await connectionsCollection.findOne({
+            const found = await agentsCollection.findOne({
                 userEmail: req.user!.email,
                 isDeleted: false,
                 _id: ObjectId.createFromHexString(id),
@@ -278,8 +311,8 @@ export const connectionsRoute: FastifyPluginAsync = (
                 };
                 throw err;
             }
-            
-            await connectionsCollection.updateOne(
+
+            await agentsCollection.updateOne(
                 {
                     _id: ObjectId.createFromHexString(id),
                     userEmail: req.user!.email,
@@ -287,25 +320,29 @@ export const connectionsRoute: FastifyPluginAsync = (
                 },
                 {
                     $set: {
-                        isDeleted: true
-                    }
+                        isDeleted: true,
+                    },
                 }
             );
             const x = found;
             return {
-                apiBaseUrl: x.apiBaseUrl,
+                connectionId: x.connectionId,
+                model: x.model,
+                streaming: x.streaming,
+                systemPrompt: x.systemPrompt,
+                params: x.params,
+                tools: x.tools,
                 name: x.name,
                 _id: id,
-                apiKey: x.apiKey,
                 createdBy: x.createdBy,
                 createdDate: x.createdDate,
                 updatedBy: x.updatedBy,
                 updatedDate: x.updatedDate,
-            } as Connection;
+            } as Agent;
         }
     );
 
     return Promise.resolve();
 };
 
-export default connectionsRoute;
+export default agentsRoute;
