@@ -17,7 +17,8 @@ export default defineConfig({
       "agenticxp.127.0.0.1.nip.io",
       "agenticxp-stg.internal.huna2.com",
       "localhost",
-      "127.0.0.1"
+      "127.0.0.1",
+      "agenticxp"
     ],
     cors: true,
     proxy: {

@@ -27,6 +27,7 @@ import mcpServersRoute from "./routes/mcp-servers";
 import toolsRoute from "./routes/tools";
 import agentsRoute from "./routes/agents";
 import chatsRoute from "./routes/chats";
+import opaRoute from "./routes/opa";
 
 const isDev = process.argv[process.argv.length - 1].endsWith(".ts");
 console.log("Is Dev: ", isDev);
@@ -136,6 +137,7 @@ console.log("Is Dev: ", isDev);
         await fastify.register(toolsRoute);
         await fastify.register(agentsRoute);
         await fastify.register(chatsRoute);
+        await fastify.register(opaRoute);
         await fastify.register(spaRoute);
 
         const start = async () => {

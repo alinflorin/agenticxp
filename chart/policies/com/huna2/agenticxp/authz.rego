@@ -34,13 +34,14 @@ user := u if {
 	input.headers.authorization
 	raw_token := substring(input.headers.authorization, 7, -1)
 	startswith(raw_token, "sk-")
-	u := http.send({
+	reply := http.send({
 		"url": sprintf("http://localhost:3000/api/opa/get-user-by-api-key?key=%s", [raw_token]),
 		"cache": false,
 		"method": "GET",
 		"force_cache": false,
 		"headers": {"Authorization": sprintf("Bearer %s", [data.opaSecret])},
-	}).body
+	})
+	u := reply.body
 	u.sub
 	u.email
 }
