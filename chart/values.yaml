@@ -5,6 +5,7 @@
 env: local
 admins: ""
 opa:
+  secret: ""
   image:
     tag: "1.3.0-static"
     pullPolicy: IfNotPresent

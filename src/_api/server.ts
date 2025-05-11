@@ -19,7 +19,10 @@ import {
     createSerializerCompiler,
 } from "fastify-type-provider-yup";
 import { ValidationError } from "yup";
-import { extractErrorResponseFromError, extractErrorResponseFromValidationError } from "./helpers/errors-helper";
+import {
+    extractErrorResponseFromError,
+    extractErrorResponseFromValidationError,
+} from "./helpers/errors-helper";
 import mcpServersRoute from "./routes/mcp-servers";
 import toolsRoute from "./routes/tools";
 import agentsRoute from "./routes/agents";
@@ -33,7 +36,7 @@ console.log("Is Dev: ", isDev);
         const fastify = Fastify({
             logger: {
                 level: "info",
-            }
+            },
         }).withTypeProvider<YupTypeProvider>();
 
         fastify.setErrorHandler((error, _, reply) => {
@@ -44,7 +47,8 @@ console.log("Is Dev: ", isDev);
             // check if we have a validation error
             if (error.validationContext) {
                 const validationError = (<unknown>error) as ValidationError;
-                response = extractErrorResponseFromValidationError(validationError);
+                response =
+                    extractErrorResponseFromValidationError(validationError);
             } else {
                 response = extractErrorResponseFromError(error);
             }
@@ -52,10 +56,16 @@ console.log("Is Dev: ", isDev);
         });
 
         fastify.setValidatorCompiler(
-            createValidatorCompiler({ ...defaultYupValidatorCompilerOptions, stripUnknown: false })
+            createValidatorCompiler({
+                ...defaultYupValidatorCompilerOptions,
+                stripUnknown: false,
+            })
         );
         fastify.setSerializerCompiler(
-            createSerializerCompiler({ ...defaultYupValidatorCompilerOptions, stripUnknown: false })
+            createSerializerCompiler({
+                ...defaultYupValidatorCompilerOptions,
+                stripUnknown: false,
+            })
         );
 
         await fastify.register(swagger, {
@@ -72,13 +82,18 @@ console.log("Is Dev: ", isDev);
                                 process.env.OIDC_ISSUER +
                                 "/.well-known/openid-configuration",
                         },
+                        ApiKeyAuth: {
+                            type: "apiKey",
+                            name: "Authorization",
+                            in: "header",
+                        },
                     },
                 },
-                security: [{ OpenID: [] }],
+                security: [{ OpenID: [] }, { ApiKeyAuth: [] }],
             },
             transform: createJsonSchemaTransformer({
                 resolveOptions: {},
-                skipList: []
+                skipList: [],
             }),
         });
 
@@ -86,11 +101,14 @@ console.log("Is Dev: ", isDev);
             routePrefix: "/swagger",
             baseDir: isDev ? undefined : path.resolve("./dist/server/swagger"),
             logo: {
-                type: 'image/png',
-                content: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=', 'base64'),
-                href: '/swagger',
-                target: '_self'
-              },
+                type: "image/png",
+                content: Buffer.from(
+                    "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=",
+                    "base64"
+                ),
+                href: "/swagger",
+                target: "_self",
+            },
             uiConfig: {
                 persistAuthorization: true,
                 deepLinking: false,

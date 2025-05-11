@@ -4,7 +4,7 @@ export const userProfileSchema = yup
     .object({
         is_admin: yup
             .boolean()
-            .required("ui.tool.mcpServerIsRequired")
+            .required("ui.userProfile.isAdminIsRequired")
             .label("ui.userProfile.isAdmin"),
     })
     .required()

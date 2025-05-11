@@ -12,6 +12,7 @@ default user := null
 user := u if {
 	input.headers.authorization
 	raw_token := substring(input.headers.authorization, 7, -1)
+	not startswith(raw_token, "sk-")
 	decoded_token := io.jwt.decode(raw_token)
 	kid := decoded_token[0].kid
 	jwks := http.send({
@@ -27,6 +28,21 @@ user := u if {
 	now := time.now_ns() / 1000000000
 	now < exp
 	u := decoded_token[1]
+}
+
+user := u if {
+	input.headers.authorization
+	raw_token := substring(input.headers.authorization, 7, -1)
+	startswith(raw_token, "sk-")
+	u := http.send({
+		"url": sprintf("http://localhost:3000/api/opa/get-user-by-api-key?key=%s", [raw_token]),
+		"cache": false,
+		"method": "GET",
+		"force_cache": false,
+		"headers": {"Authorization": data.opaSecret},
+	}).body
+	u.sub
+	u.email
 }
 
 default is_admin := false

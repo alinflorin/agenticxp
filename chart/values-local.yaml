@@ -1,3 +1,5 @@
+opa:
+  secret: "${OPA_SECRET}"
 admins: '${APP_ADMINS}'
 image:
   pullPolicy: Always

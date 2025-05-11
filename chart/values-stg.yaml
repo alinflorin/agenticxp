@@ -1,5 +1,7 @@
 admins: '${APP_ADMINS}'
 env: stg
+opa:
+  secret: "${OPA_SECRET}"
 ingress:
   enabled: true
   annotations:

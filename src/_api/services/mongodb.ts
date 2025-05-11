@@ -3,6 +3,7 @@ import { ConnectionEntity } from "../models/entities/connection-entity";
 import { McpServerEntity } from "../models/entities/mcp-server-entity";
 import { AgentEntity } from "../models/entities/agent-entity";
 import { ChatEntity } from "../models/entities/chat-entity";
+import { ApiKeyEntity } from "../models/entities/api-key-entity";
 
 const mongoClient = new MongoClient(
     `mongodb://${process.env.MONGODB_HOST}:${process.env.MONGODB_PORT}`,
@@ -22,5 +23,6 @@ export const connectionsCollection = db.collection<ConnectionEntity>("connection
 export const mcpServersCollection = db.collection<McpServerEntity>("mcpServers");
 export const agentsCollection = db.collection<AgentEntity>("agents");
 export const chatsCollection = db.collection<ChatEntity>("chats");
+export const apiKeysCollection = db.collection<ApiKeyEntity>("apiKeys");
 
 export default db;

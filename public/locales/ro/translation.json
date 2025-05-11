@@ -1,5 +1,9 @@
 {
     "ui": {
+        "apiKey": {
+            "key": "Cheie",
+            "keyIsRequired": "Cheia este obligatorie"
+        },
         "header": {
             "logout": "Ieșire",
             "login": "Autentificare",
@@ -102,7 +106,17 @@
             "requiredIsRequired": "Trebuie specificat dacă este obligatoriu"
         },
         "userProfile": {
-            "isAdmin": "Este administrator"
+            "isAdmin": "Este administrator",
+            "isAdminIsRequired": "Este administrator este obligatoriu"
+        },
+        "user": {
+            "emailIsRequired": "Email-ul este obligatoriu",
+            "emailIsInvalid": "Email-ul este invalid",
+            "emailVerifiedIsRequired": "Email verificat este obligatoriu",
+            "subIsRequired": "Sub este obligatoriu",
+            "email": "Email",
+            "emailVerified": "Email verificat",
+            "sub": "Sub"
         },
         "pagedResponse": {
             "data": "Date",

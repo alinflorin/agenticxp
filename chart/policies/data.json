@@ -2,5 +2,6 @@
     "idp": {
         "issuerInternalUrl": "https://agenticxp-dex:5556"
     },
-    "adminEmails": ["test@test.com"]
+    "adminEmails": ["test@test.com"],
+    "opaSecret": "test"
 }

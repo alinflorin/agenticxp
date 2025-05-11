@@ -26,6 +26,13 @@ export default function opaMiddleware(fastify: FastifyInstance) {
             if (!request.url.toLowerCase().startsWith("/api")) {
                 return;
             }
+            if (request.url.toLowerCase().startsWith("/api/opa")) {
+                if (request.headers.authorization !== 'Bearer ' + process.env.OPA_SECRET) {
+                    reply.code(403).send({ message: "Forbidden by static policy" });
+                }
+                return;
+            }
+            
             const opaInput: OpaInput = {
                 input: {
                     method: request.method,
@@ -46,7 +53,7 @@ export default function opaMiddleware(fastify: FastifyInstance) {
                 );
 
                 if (!response.data?.result?.allow) {
-                    reply.code(403).send({ message: "Forbidden by policy" });
+                    reply.code(403).send({ message: "Forbidden by OPA policy" });
                     return;
                 }
 

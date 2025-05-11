@@ -1,5 +1,9 @@
 {
     "ui": {
+        "apiKey": {
+            "key": "Key",
+            "keyIsRequired": "Key is required"
+        },
         "header": {
             "logout": "Logout",
             "login": "Login",
@@ -98,7 +102,17 @@
             "requiredIsRequired": "Required flag must be set"
         },
         "userProfile": {
-            "isAdmin": "Is admin"
+            "isAdmin": "Is admin",
+            "isAdminIsRequired": "Is admin is required"
+        },
+        "user": {
+            "emailIsRequired": "Email is required",
+            "emailIsInvalid": "Email is invalid",
+            "emailVerifiedIsRequired": "Email verified is required",
+            "subIsRequired": "Sub is required",
+            "email": "Email",
+            "emailVerified": "Email verified",
+            "sub": "Sub"
         },
         "pagedResponse": {
             "data": "Data",
