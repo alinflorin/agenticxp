@@ -1,4 +1,5 @@
 import { ApiKey } from "@/shared-schemas/api-key";
+import { GenerateApiKeyRequest } from "@/shared-schemas/generate-api-key-request";
 import { UserProfile } from "@/shared-schemas/user-profile";
 import axios from "axios";
 
@@ -11,7 +12,7 @@ export const userProfileService = {
         return (await axios.get<ApiKey[]>("/api/user-profile/api-keys")).data;
     },
 
-    generateApiKey: async (model?: {expirationTs?: number}) => {
+    generateApiKey: async (model: GenerateApiKeyRequest) => {
         return (await axios.post<ApiKey>("/api/user-profile/generate-api-key", model))
             .data;
     },

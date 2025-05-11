@@ -7,6 +7,7 @@ import { apiKeysCollection } from "../services/mongodb";
 import { v4 } from "uuid";
 import { ApiKeyEntity } from "../models/entities/api-key-entity";
 import { ObjectId } from "mongodb";
+import generateApiKeyRequestSchema, { GenerateApiKeyRequest } from "@/shared-schemas/generate-api-key-request";
 
 export const userProfileRoute: FastifyPluginAsync = (
     fastify: FastifyInstance
@@ -70,16 +71,14 @@ export const userProfileRoute: FastifyPluginAsync = (
                 description: "Generate a new api key for the user",
                 operationId: "userprofile_generateApiKey",
                 summary: "Generate a new api key for the user",
-                body: yup.object({
-                    expirationTs: yup.number().optional()
-                }).optional(),
+                body: generateApiKeyRequestSchema,
                 response: {
                     200: apiKeySchema,
                 },
             },
         },
         async (req) => {
-            const model = req.body as {expirationTs?: number};
+            const model = req.body as GenerateApiKeyRequest;
             const newKey = "sk-" + v4().toString() + "-" + req.user!.sub;
             const entity: ApiKeyEntity = {
                 createdBy: req.user!.email,
@@ -108,7 +107,7 @@ export const userProfileRoute: FastifyPluginAsync = (
         {
             schema: {
                 description: "Revoke an api key for the user",
-                operationId: "userprofile_generateApiKey",
+                operationId: "userprofile_revokeApiKey",
                 summary: "Revoke an api key for the user",
                 params: yup.object({ id: yup.string().required() }).required(),
                 response: {
