@@ -39,7 +39,7 @@ user := u if {
 		"cache": false,
 		"method": "GET",
 		"force_cache": false,
-		"headers": {"Authorization": data.opaSecret},
+		"headers": {"Authorization": sprintf("Bearer %s", [data.opaSecret])},
 	}).body
 	u.sub
 	u.email
