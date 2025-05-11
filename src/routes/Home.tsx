@@ -1,14 +1,14 @@
 import useToaster from "@/hooks/useToaster"
+import toolsService from "@/services/tools.service";
 import { Button } from "@chakra-ui/react";
-import axios from "axios";
 import { useCallback } from "react";
 
 export default function Home() {
     const showToast = useToaster();
 
     const testBe = useCallback(async () => {
-        const reply = await axios.get('/api/hello');
-        alert(reply.data);
+        const reply = await toolsService.get();
+        console.log(reply);
     }, []);
 
     return <div>Home<br />
