@@ -1,4 +1,4 @@
-import userSchema, { User } from "@/shared-schemas/user";
+import getUserByKeyResponseSchema, { GetUserByKey } from "@/shared-schemas/get-user-by-key-response";
 import { FastifyError, FastifyInstance, FastifyPluginAsync } from "fastify";
 import yup from "yup";
 import { apiKeysCollection } from "../services/mongodb";
@@ -19,7 +19,7 @@ export const opaRoute: FastifyPluginAsync = (
                     })
                     .required(),
                 response: {
-                    200: userSchema,
+                    200: getUserByKeyResponseSchema,
                 },
             },
         },
@@ -44,7 +44,8 @@ export const opaRoute: FastifyPluginAsync = (
                 email: found.userEmail,
                 sub: model.key.split("-")[model.key.split("-").length - 1],
                 email_verified: true,
-            } as User;
+                expirationTs: found.expirationTs
+            } as GetUserByKey;
         }
     );
 

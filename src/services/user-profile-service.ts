@@ -11,8 +11,8 @@ export const userProfileService = {
         return (await axios.get<ApiKey[]>("/api/user-profile/api-keys")).data;
     },
 
-    generateApiKey: async () => {
-        return (await axios.post<ApiKey>("/api/user-profile/generate-api-key"))
+    generateApiKey: async (model?: {expirationTs?: number}) => {
+        return (await axios.post<ApiKey>("/api/user-profile/generate-api-key", model))
             .data;
     },
 

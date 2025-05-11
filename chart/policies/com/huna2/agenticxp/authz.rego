@@ -41,9 +41,24 @@ user := u if {
 		"force_cache": false,
 		"headers": {"Authorization": sprintf("Bearer %s", [data.opaSecret])},
 	})
+	reply.status_code >= 200
+	reply.status_code < 300
 	u := reply.body
+
+	check_api_key_exp(u.expirationTs)
+
 	u.sub
 	u.email
+}
+
+check_api_key_exp(u) := e if {
+	not u.expirationTs
+	e := true
+}
+
+check_api_key_exp(u) := e if {
+	u.expirationTs > time.now_ns() / 1000000
+	e := true
 }
 
 default is_admin := false

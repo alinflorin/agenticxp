@@ -109,7 +109,7 @@
             "isAdmin": "Este administrator",
             "isAdminIsRequired": "Este administrator este obligatoriu"
         },
-        "user": {
+        "getUserByKeyResponse": {
             "emailIsRequired": "Email-ul este obligatoriu",
             "emailIsInvalid": "Email-ul este invalid",
             "emailVerifiedIsRequired": "Email verificat este obligatoriu",

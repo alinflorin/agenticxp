@@ -57,6 +57,7 @@ export const userProfileRoute: FastifyPluginAsync = (
                         createdDate: x.createdDate,
                         updatedBy: x.updatedBy,
                         updatedDate: x.updatedDate,
+                        expirationTs: x.expirationTs
                     } as ApiKey)
             );
         }
@@ -69,12 +70,16 @@ export const userProfileRoute: FastifyPluginAsync = (
                 description: "Generate a new api key for the user",
                 operationId: "userprofile_generateApiKey",
                 summary: "Generate a new api key for the user",
+                body: yup.object({
+                    expirationTs: yup.number().optional()
+                }).optional(),
                 response: {
                     200: apiKeySchema,
                 },
             },
         },
         async (req) => {
+            const model = req.body as {expirationTs?: number};
             const newKey = "sk-" + v4().toString() + "-" + req.user!.sub;
             const entity: ApiKeyEntity = {
                 createdBy: req.user!.email,
@@ -82,6 +87,7 @@ export const userProfileRoute: FastifyPluginAsync = (
                 isDeleted: false,
                 userEmail: req.user!.email,
                 key: newKey,
+                expirationTs: model.expirationTs
             };
             await apiKeysCollection.insertOne(entity);
             const x = entity;
@@ -92,6 +98,7 @@ export const userProfileRoute: FastifyPluginAsync = (
                 createdDate: x.createdDate,
                 updatedBy: x.updatedBy,
                 updatedDate: x.updatedDate,
+                expirationTs: x.expirationTs
             } as ApiKey;
         }
     );
@@ -147,6 +154,7 @@ export const userProfileRoute: FastifyPluginAsync = (
                 createdDate: x.createdDate,
                 updatedBy: x.updatedBy,
                 updatedDate: x.updatedDate,
+                expirationTs: x.expirationTs
             } as ApiKey;
         }
     );

@@ -105,7 +105,7 @@
             "isAdmin": "Is admin",
             "isAdminIsRequired": "Is admin is required"
         },
-        "user": {
+        "getUserByKeyResponse": {
             "emailIsRequired": "Email is required",
             "emailIsInvalid": "Email is invalid",
             "emailVerifiedIsRequired": "Email verified is required",
