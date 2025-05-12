@@ -23,7 +23,33 @@
             "connectionIsInvalid": "Invalid connection",
             "modelIsRequired": "Model is required",
             "systemPromptIsRequired": "System prompt is required",
-            "invalidConnection": "Invalid connection"
+            "invalidConnection": "Invalid connection",
+            "modelParams": {
+                "topP": "Top P",
+                "topK": "Top K",
+                "temperature": "Temperature",
+                "timeout": "Timeout (seconds)"
+            },
+            "tool": {
+                "mcpServer": "MCP Server",
+                "name": "Tool Name",
+                "description": "Tool Description",
+                "parameters": "Tool Parameters",
+                "mcpServerIsRequired": "MCP server is required",
+                "mcpServerIsInvalid": "Invalid MCP server",
+                "nameIsRequired": "Tool name is required",
+                "toolParameter": {
+                    "name": "Parameter Name",
+                    "type": "Type",
+                    "description": "Description",
+                    "required": "Required",
+                    "defaultValue": "Default Value",
+                    "nameIsRequired": "Parameter name is required",
+                    "typeIsRequired": "Parameter type is required",
+                    "typeIsInvalid": "Invalid parameter type",
+                    "requiredIsRequired": "Required flag must be set"
+                }
+            }
         },
         "baseEntityModel": {
             "createdDate": "Created Date",
@@ -40,7 +66,16 @@
             "agentIsInvalid": "Invalid agent",
             "messagesAreRequired": "Messages are required",
             "reference": "Reference",
-            "referenceIsRequired": "Reference is required"
+            "message": {
+                "source": "Source",
+                "content": "Content",
+                "sourceIsRequired": "Message source is required",
+                "sourceIsInvalid": "Invalid message source",
+                "contentIsRequired": "Message content is required",
+                "sendDate": "Sent date",
+                "sendDateIsRequired": "Sent date is required",
+                "invalidSendDate": "Sent date is invalid"
+            }
         },
         "connection": {
             "name": "Name",
@@ -65,42 +100,7 @@
             "args": "Arguments",
             "name": "Name"
         },
-        "message": {
-            "source": "Source",
-            "content": "Content",
-            "sourceIsRequired": "Message source is required",
-            "sourceIsInvalid": "Invalid message source",
-            "contentIsRequired": "Message content is required",
-            "sendDate": "Sent date",
-            "sendDateIsRequired": "Sent date is required",
-            "invalidSendDate": "Sent date is invalid"
-        },
-        "modelParams": {
-            "topP": "Top P",
-            "topK": "Top K",
-            "temperature": "Temperature",
-            "timeout": "Timeout (seconds)"
-        },
-        "tool": {
-            "mcpServer": "MCP Server",
-            "name": "Tool Name",
-            "description": "Tool Description",
-            "parameters": "Tool Parameters",
-            "mcpServerIsRequired": "MCP server is required",
-            "mcpServerIsInvalid": "Invalid MCP server",
-            "nameIsRequired": "Tool name is required"
-        },
-        "toolParameter": {
-            "name": "Parameter Name",
-            "type": "Type",
-            "description": "Description",
-            "required": "Required",
-            "defaultValue": "Default Value",
-            "nameIsRequired": "Parameter name is required",
-            "typeIsRequired": "Parameter type is required",
-            "typeIsInvalid": "Invalid parameter type",
-            "requiredIsRequired": "Required flag must be set"
-        },
+
         "userProfile": {
             "isAdmin": "Is admin",
             "isAdminIsRequired": "Is admin is required"

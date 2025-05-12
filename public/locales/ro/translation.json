@@ -27,7 +27,33 @@
             "connectionIsInvalid": "Conexiune invalidă",
             "modelIsRequired": "Modelul este obligatoriu",
             "systemPromptIsRequired": "Promptul de sistem este obligatoriu",
-            "invalidConnection": "Conexiune invalidă"
+            "invalidConnection": "Conexiune invalidă",
+            "modelParams": {
+                "topP": "Top P",
+                "topK": "Top K",
+                "temperature": "Temperatură",
+                "timeout": "Timp de expirare (secunde)"
+            },
+            "tool": {
+                "mcpServer": "Server MCP",
+                "name": "Nume unealtă",
+                "description": "Descriere unealtă",
+                "parameters": "Parametri unealtă",
+                "mcpServerIsRequired": "Serverul MCP este obligatoriu",
+                "mcpServerIsInvalid": "Server MCP invalid",
+                "nameIsRequired": "Numele uneltei este obligatoriu",
+                "toolParameter": {
+                    "name": "Nume parametru",
+                    "type": "Tip",
+                    "description": "Descriere",
+                    "required": "Obligatoriu",
+                    "defaultValue": "Valoare implicită",
+                    "nameIsRequired": "Numele parametrului este obligatoriu",
+                    "typeIsRequired": "Tipul parametrului este obligatoriu",
+                    "typeIsInvalid": "Tip de parametru invalid",
+                    "requiredIsRequired": "Trebuie specificat dacă este obligatoriu"
+                }
+            }
         },
         "baseEntityModel": {
             "createdDate": "Data creării",
@@ -44,7 +70,16 @@
             "agentIsInvalid": "Agent invalid",
             "messagesAreRequired": "Mesajele sunt obligatorii",
             "reference": "Referință",
-            "referenceIsRequired": "Referința este obligatorie"
+            "message": {
+                "source": "Sursă",
+                "content": "Conținut",
+                "sourceIsRequired": "Sursa mesajului este obligatorie",
+                "sourceIsInvalid": "Sursa mesajului este invalidă",
+                "contentIsRequired": "Conținutul mesajului este obligatoriu",
+                "sendDate": "Data trimiterii",
+                "sendDateIsRequired": "Data trimiterii este obligatorie",
+                "invalidSendDate": "Data trimiterii este invalidă"
+            }
         },
         "connection": {
             "name": "Nume",
@@ -69,42 +104,7 @@
             "args": "Argumente",
             "name": "Nume"
         },
-        "message": {
-            "source": "Sursă",
-            "content": "Conținut",
-            "sourceIsRequired": "Sursa mesajului este obligatorie",
-            "sourceIsInvalid": "Sursa mesajului este invalidă",
-            "contentIsRequired": "Conținutul mesajului este obligatoriu",
-            "sendDate": "Data trimiterii",
-            "sendDateIsRequired": "Data trimiterii este obligatorie",
-            "invalidSendDate": "Data trimiterii este invalidă"
-        },
-        "modelParams": {
-            "topP": "Top P",
-            "topK": "Top K",
-            "temperature": "Temperatură",
-            "timeout": "Timp de expirare (secunde)"
-        },
-        "tool": {
-            "mcpServer": "Server MCP",
-            "name": "Nume unealtă",
-            "description": "Descriere unealtă",
-            "parameters": "Parametri unealtă",
-            "mcpServerIsRequired": "Serverul MCP este obligatoriu",
-            "mcpServerIsInvalid": "Server MCP invalid",
-            "nameIsRequired": "Numele uneltei este obligatoriu"
-        },
-        "toolParameter": {
-            "name": "Nume parametru",
-            "type": "Tip",
-            "description": "Descriere",
-            "required": "Obligatoriu",
-            "defaultValue": "Valoare implicită",
-            "nameIsRequired": "Numele parametrului este obligatoriu",
-            "typeIsRequired": "Tipul parametrului este obligatoriu",
-            "typeIsInvalid": "Tip de parametru invalid",
-            "requiredIsRequired": "Trebuie specificat dacă este obligatoriu"
-        },
+
         "userProfile": {
             "isAdmin": "Este administrator",
             "isAdminIsRequired": "Este administrator este obligatoriu"

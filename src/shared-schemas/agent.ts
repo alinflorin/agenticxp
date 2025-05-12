@@ -1,7 +1,5 @@
 import yup from "yup";
 import baseEntityModelSchema from "./base-entity-model";
-import modelParamsValidator, { modelParamsSchema } from "./model-params";
-import toolSchema from "./tool";
 
 export const agentSchema = baseEntityModelSchema
     .shape({
@@ -22,8 +20,97 @@ export const agentSchema = baseEntityModelSchema
             .string()
             .required("ui.agent.systemPromptIsRequired")
             .label("ui.agent.systemPrompt"),
-        params: modelParamsValidator.optional().label("ui.agent.params"),
-        tools: yup.array(toolSchema).optional().label("ui.agent.tools"),
+        params: yup
+            .object({
+                topP: yup.number().optional().label("ui.agent.modelParams.topP"),
+                topK: yup.number().optional().label("ui.agent.modelParams.topK"),
+                temperature: yup
+                    .number()
+                    .optional()
+                    .label("ui.agent.modelParams.temperature"),
+                timeout: yup
+                    .number()
+                    .optional()
+                    .label("ui.agent.modelParams.timeout"),
+            })
+            .optional()
+            .label("ui.agent.params"),
+        tools: yup
+            .array(
+                yup
+                    .object({
+                        mcpServerId: yup
+                            .string()
+                            .required("ui.agent.tool.mcpServerIsRequired")
+                            .matches(
+                                /^[a-f\d]{24}$/i,
+                                "ui.agent.tool.mcpServerIsInvalid"
+                            )
+                            .label("ui.agent.tool.mcpServer"),
+                        name: yup
+                            .string()
+                            .required("ui.agent.tool.nameIsRequired")
+                            .label("ui.agent.tool.name"),
+                        description: yup
+                            .string()
+                            .optional()
+                            .label("ui.agent.tool.description"),
+                        parameters: yup
+                            .array(
+                                yup
+                                    .object({
+                                        name: yup
+                                            .string()
+                                            .required(
+                                                "ui.agent.tool.toolParameter.nameIsRequired"
+                                            )
+                                            .label("ui.agent.tool.toolParameter.name"),
+                                        type: yup
+                                            .string()
+                                            .required(
+                                                "ui.agent.tool.toolParameter.typeIsRequired"
+                                            )
+                                            .oneOf(
+                                                [
+                                                    "string",
+                                                    "integer",
+                                                    "float",
+                                                    "number",
+                                                    "boolean",
+                                                    "json",
+                                                    "array",
+                                                ],
+                                                "ui.agent.tool.toolParameter.typeIsInvalid"
+                                            )
+                                            .label("ui.agent.tool.toolParameter.type"),
+                                        description: yup
+                                            .string()
+                                            .optional()
+                                            .label(
+                                                "ui.agent.tool.toolParameter.description"
+                                            ),
+                                        required: yup
+                                            .boolean()
+                                            .required(
+                                                "ui.agent.tool.toolParameter.requiredIsRequired"
+                                            )
+                                            .label("ui.agent.tool.toolParameter.required"),
+                                        defaultValue: yup
+                                            .mixed()
+                                            .optional()
+                                            .label(
+                                                "ui.agent.tool.toolParameter.defaultValue"
+                                            ),
+                                    })
+                                    .required()
+                            )
+                            .optional()
+                            .label("ui.agent.tool.parameters"),
+                    })
+                    .required()
+            )
+            .optional()
+            .label("ui.agent.tools"),
     })
     .jsonSchema((s) => ({
         ...s,
@@ -33,8 +120,27 @@ export const agentSchema = baseEntityModelSchema
             name: "My Agent",
             streaming: true,
             systemPrompt: "You are a...",
-            tools: [toolSchema.spec.meta!.jsonSchema.default],
-            params: modelParamsSchema.spec.meta!.jsonSchema.default,
+            tools: [
+                {
+                    mcpServerId: "mcp-server-id",
+                    name: "get_weather",
+                    description: "Can be used to get the weather",
+                    parameters: [
+                        {
+                            name: "cityName",
+                            required: true,
+                            type: "string",
+                            description: "The city name",
+                        },
+                    ],
+                },
+            ],
+            params: {
+                temperature: 1,
+                timeout: 120000,
+                topK: 0.4,
+                topP: 0.95,
+            },
         } as Agent,
     }));
 
