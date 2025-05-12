@@ -9,6 +9,5 @@ export interface AgentEntity extends BaseEntity {
     model: string;
     systemPrompt: string;
     params?: ModelParams;
-    streaming: boolean;
     tools?: Tool[];
 }

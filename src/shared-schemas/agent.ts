@@ -23,10 +23,6 @@ export const agentSchema = baseEntityModelSchema
             .required("ui.agent.systemPromptIsRequired")
             .label("ui.agent.systemPrompt"),
         params: modelParamsValidator.optional().label("ui.agent.params"),
-        streaming: yup
-            .boolean()
-            .required("ui.agent.streamingIsRequired")
-            .label("ui.agent.streaming"),
         tools: yup.array(toolSchema).optional().label("ui.agent.tools"),
     })
     .jsonSchema((s) => ({

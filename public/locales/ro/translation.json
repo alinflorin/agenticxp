@@ -21,14 +21,12 @@
             "model": "Model",
             "systemPrompt": "Prompt de sistem",
             "params": "Parametri",
-            "streaming": "Streaming",
             "tools": "Unelte",
             "nameIsRequired": "Numele agentului este obligatoriu",
             "connectionIsRequired": "Conexiunea este obligatorie",
             "connectionIsInvalid": "Conexiune invalidă",
             "modelIsRequired": "Modelul este obligatoriu",
             "systemPromptIsRequired": "Promptul de sistem este obligatoriu",
-            "streamingIsRequired": "Valoarea pentru streaming este obligatorie",
             "invalidConnection": "Conexiune invalidă"
         },
         "baseEntityModel": {

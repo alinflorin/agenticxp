@@ -17,14 +17,12 @@
             "model": "Model",
             "systemPrompt": "System Prompt",
             "params": "Parameters",
-            "streaming": "Streaming",
             "tools": "Tools",
             "nameIsRequired": "Agent name is required",
             "connectionIsRequired": "Connection is required",
             "connectionIsInvalid": "Invalid connection",
             "modelIsRequired": "Model is required",
             "systemPromptIsRequired": "System prompt is required",
-            "streamingIsRequired": "Streaming value is required",
             "invalidConnection": "Invalid connection"
         },
         "baseEntityModel": {

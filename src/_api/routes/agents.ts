@@ -45,7 +45,6 @@ export const agentsRoute: FastifyPluginAsync = (
                         ({
                             connectionId: x.connectionId,
                             model: x.model,
-                            streaming: x.streaming,
                             systemPrompt: x.systemPrompt,
                             params: x.params,
                             tools: x.tools,
@@ -104,7 +103,6 @@ export const agentsRoute: FastifyPluginAsync = (
             return {
                 connectionId: x.connectionId,
                 model: x.model,
-                streaming: x.streaming,
                 systemPrompt: x.systemPrompt,
                 params: x.params,
                 tools: x.tools,
@@ -158,7 +156,6 @@ export const agentsRoute: FastifyPluginAsync = (
                 name: agentModel.name,
                 connectionId: agentModel.connectionId,
                 model: agentModel.model,
-                streaming: agentModel.streaming,
                 systemPrompt: agentModel.systemPrompt,
                 params: agentModel.params,
                 tools: agentModel.tools,
@@ -168,7 +165,6 @@ export const agentsRoute: FastifyPluginAsync = (
             return {
                 connectionId: x.connectionId,
                 model: x.model,
-                streaming: x.streaming,
                 systemPrompt: x.systemPrompt,
                 params: x.params,
                 tools: x.tools,
@@ -241,7 +237,6 @@ export const agentsRoute: FastifyPluginAsync = (
                 name: agentModel.name,
                 connectionId: agentModel.connectionId,
                 model: agentModel.model,
-                streaming: agentModel.streaming,
                 systemPrompt: agentModel.systemPrompt,
                 params: agentModel.params,
                 tools: agentModel.tools,
@@ -262,7 +257,6 @@ export const agentsRoute: FastifyPluginAsync = (
             return {
                 connectionId: x.connectionId,
                 model: x.model,
-                streaming: x.streaming,
                 systemPrompt: x.systemPrompt,
                 params: x.params,
                 tools: x.tools,
@@ -328,7 +322,6 @@ export const agentsRoute: FastifyPluginAsync = (
             return {
                 connectionId: x.connectionId,
                 model: x.model,
-                streaming: x.streaming,
                 systemPrompt: x.systemPrompt,
                 params: x.params,
                 tools: x.tools,
