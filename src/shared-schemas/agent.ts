@@ -1,6 +1,62 @@
 import yup from "yup";
 import baseEntityModelSchema from "./base-entity-model";
 
+const toolParameterSchema = yup
+    .object({
+        name: yup
+            .string()
+            .required("ui.agent.tool.toolParameter.nameIsRequired")
+            .label("ui.agent.tool.toolParameter.name"),
+        type: yup
+            .string()
+            .required("ui.agent.tool.toolParameter.typeIsRequired")
+            .oneOf(
+                [
+                    "string",
+                    "integer",
+                    "float",
+                    "number",
+                    "boolean",
+                    "json",
+                    "array",
+                ],
+                "ui.agent.tool.toolParameter.typeIsInvalid"
+            )
+            .label("ui.agent.tool.toolParameter.type"),
+        description: yup
+            .string()
+            .optional()
+            .label("ui.agent.tool.toolParameter.description"),
+        required: yup
+            .boolean()
+            .required("ui.agent.tool.toolParameter.requiredIsRequired")
+            .label("ui.agent.tool.toolParameter.required"),
+        defaultValue: yup
+            .mixed()
+            .optional()
+            .label("ui.agent.tool.toolParameter.defaultValue"),
+    })
+    .required();
+
+const toolSchema = yup
+    .object({
+        mcpServerId: yup
+            .string()
+            .required("ui.agent.tool.mcpServerIsRequired")
+            .matches(/^[a-f\d]{24}$/i, "ui.agent.tool.mcpServerIsInvalid")
+            .label("ui.agent.tool.mcpServer"),
+        name: yup
+            .string()
+            .required("ui.agent.tool.nameIsRequired")
+            .label("ui.agent.tool.name"),
+        description: yup.string().optional().label("ui.agent.tool.description"),
+        parameters: yup
+            .array(toolParameterSchema)
+            .optional()
+            .label("ui.agent.tool.parameters"),
+    })
+    .required();
+
 export const agentSchema = baseEntityModelSchema
     .shape({
         name: yup
@@ -22,8 +78,14 @@ export const agentSchema = baseEntityModelSchema
             .label("ui.agent.systemPrompt"),
         params: yup
             .object({
-                topP: yup.number().optional().label("ui.agent.modelParams.topP"),
-                topK: yup.number().optional().label("ui.agent.modelParams.topK"),
+                topP: yup
+                    .number()
+                    .optional()
+                    .label("ui.agent.modelParams.topP"),
+                topK: yup
+                    .number()
+                    .optional()
+                    .label("ui.agent.modelParams.topK"),
                 temperature: yup
                     .number()
                     .optional()
@@ -35,82 +97,7 @@ export const agentSchema = baseEntityModelSchema
             })
             .optional()
             .label("ui.agent.params"),
-        tools: yup
-            .array(
-                yup
-                    .object({
-                        mcpServerId: yup
-                            .string()
-                            .required("ui.agent.tool.mcpServerIsRequired")
-                            .matches(
-                                /^[a-f\d]{24}$/i,
-                                "ui.agent.tool.mcpServerIsInvalid"
-                            )
-                            .label("ui.agent.tool.mcpServer"),
-                        name: yup
-                            .string()
-                            .required("ui.agent.tool.nameIsRequired")
-                            .label("ui.agent.tool.name"),
-                        description: yup
-                            .string()
-                            .optional()
-                            .label("ui.agent.tool.description"),
-                        parameters: yup
-                            .array(
-                                yup
-                                    .object({
-                                        name: yup
-                                            .string()
-                                            .required(
-                                                "ui.agent.tool.toolParameter.nameIsRequired"
-                                            )
-                                            .label("ui.agent.tool.toolParameter.name"),
-                                        type: yup
-                                            .string()
-                                            .required(
-                                                "ui.agent.tool.toolParameter.typeIsRequired"
-                                            )
-                                            .oneOf(
-                                                [
-                                                    "string",
-                                                    "integer",
-                                                    "float",
-                                                    "number",
-                                                    "boolean",
-                                                    "json",
-                                                    "array",
-                                                ],
-                                                "ui.agent.tool.toolParameter.typeIsInvalid"
-                                            )
-                                            .label("ui.agent.tool.toolParameter.type"),
-                                        description: yup
-                                            .string()
-                                            .optional()
-                                            .label(
-                                                "ui.agent.tool.toolParameter.description"
-                                            ),
-                                        required: yup
-                                            .boolean()
-                                            .required(
-                                                "ui.agent.tool.toolParameter.requiredIsRequired"
-                                            )
-                                            .label("ui.agent.tool.toolParameter.required"),
-                                        defaultValue: yup
-                                            .mixed()
-                                            .optional()
-                                            .label(
-                                                "ui.agent.tool.toolParameter.defaultValue"
-                                            ),
-                                    })
-                                    .required()
-                            )
-                            .optional()
-                            .label("ui.agent.tool.parameters"),
-                    })
-                    .required()
-            )
-            .optional()
-            .label("ui.agent.tools"),
+        tools: yup.array(toolSchema).optional().label("ui.agent.tools"),
     })
     .jsonSchema((s) => ({
         ...s,
@@ -146,3 +133,5 @@ export const agentSchema = baseEntityModelSchema
 
 export default agentSchema;
 export type Agent = yup.InferType<typeof agentSchema>;
+export type Tool = yup.InferType<typeof toolSchema>;
+export type ToolParameter = yup.InferType<typeof toolParameterSchema>;

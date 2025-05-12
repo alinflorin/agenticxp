@@ -1,9 +1,11 @@
+import toolSchema, { Tool, ToolParameter } from "@/shared-schemas/agent";
 import { FastifyInstance, FastifyPluginAsync } from "fastify";
+import yup from "yup";
 import { mcpServersCollection } from "../services/mongodb";
 import { McpServer } from "@/shared-schemas/mcp-server";
 import { McpRunner } from "../services/mcp-runner";
 
-async function ensureMcpServerAndGetTools(model: McpServer) {
+async function ensureMcpServerAndGetTools(model: McpServer): Promise<Tool[]> {
     const svc = await McpRunner.getInstance().ensureService(model);
     if (!svc) {
         throw new Error("MCP Server " + model._id + " could not be started!");
@@ -21,8 +23,8 @@ async function ensureMcpServerAndGetTools(model: McpServer) {
             type: (x.inputSchema.properties! as any)[k].type || "string",
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             description: (x.inputSchema.properties! as any)[k].description || undefined
-        })) : undefined
-    }));
+        } as ToolParameter)) : undefined
+    } as Tool));
 }
 
 export const toolsRoute: FastifyPluginAsync = (
@@ -34,7 +36,10 @@ export const toolsRoute: FastifyPluginAsync = (
             schema: {
                 description: "Get all available tools",
                 operationId: "tools_get",
-                summary: "Get all available tools"
+                summary: "Get all available tools",
+                response: {
+                    200: yup.array(toolSchema).required(),
+                },
             },
         },
         async (req, res) => {
